@@ -15,9 +15,9 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Sources/bible-pack` | The macOS CLI. |
 | `Tests` | Swift Testing suites for both targets. |
 | `Tests/Goldens` | Parsed chapters from the real sources, compared on every test run. |
-| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS. |
+| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS, and `lock-word-sources.sh`, which first locked the word and lexicon file sets. |
 | `editions` | One metadata file per edition, `<id>.json`: its names, language, script, versification, license, attribution, and locked source. |
-| `sources.lock.json` | The locked publisher sources. |
+| `sources.lock.json` | The locked sources: publisher zips and file sets. |
 | `FORMAT.md` | The format specification, versioned. |
 
 ## Commands
@@ -33,9 +33,10 @@ swift run bible-pack --help
 | Command | Does |
 |---|---|
 | `sources show` | Prints the lock. |
-| `sources lock [id ...]` | Downloads each source, computes its hashes and revision, and rewrites the lock. `--add <id>:<format>:<url>` adds a source. |
+| `sources lock [id ...]` | Downloads each source, computes its hashes and revision, and rewrites the lock. A file set is rebuilt into `.sources/<id>.zip`. `--add <id>:<format>:<url>` adds a publisher zip, `usfm` or `usfx`. |
+| `sources add-files <id> --repo <tree-url> --license <text> --attribution <text> <raw-url> ...` | Adds a file set: plain files at one GitHub commit. `--repo` is `https://github.com/<owner>/<repo>/tree/<sha>`, and each raw URL must be `https://raw.githubusercontent.com/<owner>/<repo>/<sha>/<path>` at that commit. Writes `.sources/<id>.zip` and prints the archive name to upload. |
 | `sources verify [id ...]` | Downloads each source and compares it to the lock. Exits 1 on any change. |
-| `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the publisher second. Exits 1 on a hash mismatch. |
+| `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the upstream second. A file set's upstream is its files, rebuilt into the zip. Exits 1 on a hash mismatch. |
 
 `bible-pack canon` builds and checks the canon package.
 
@@ -82,11 +83,21 @@ git diff Tests/Goldens
 
 Publishers serve only the latest revision at an unversioned URL. The lock pins each adopted zip by SHA-256, records the publisher's revision date and a hash of the scripture inside the zip, and names an archived copy of exactly those bytes under the `source-archive` GitHub release. A zip whose bytes change but whose scripture hash does not was only re-zipped.
 
+Word and lexicon sources are plain files in Git repositories. The lock pins each set of them to a commit, by each file's SHA-256 and a hash over the whole set, and `bible-pack` packs them into a deterministic `<id>.zip` that the release archives too. [FORMAT.md](FORMAT.md#sources-lock) defines both kinds of entry.
+
 | Id | Source | Format |
 |---|---|---|
 | `bsb` | Berean Standard Bible, from bereanbible.com | USFM 3 |
 | `wlc` | Westminster Leningrad Codex, from eBible | USFX |
 | `tcgnt` | Text-Critical Greek New Testament, from eBible | USFX |
+| `tahot` | STEPBible TAHOT, the tagged Hebrew OT, in 4 files | files, CC BY 4.0 |
+| `tagnt` | STEPBible TAGNT, the tagged Greek NT, in 2 files | files, CC BY 4.0 |
+| `tbesg` | STEPBible TBESG, the brief Greek lexicon | files, CC BY 4.0 |
+| `tbesh` | STEPBible TBESH, the brief Hebrew lexicon | files, CC BY 4.0 |
+| `byztxt` | Robinson-Pierpont Byzantine Textform 2018, 27 CSV books with Strong's numbers and parsing | files, public domain |
+| `strongs` | Strong's Greek and Hebrew dictionaries in XML, from Open Scriptures | files, public domain |
+
+To archive a new zip or file set, upload it under the name at the end of its `archive` URL: `gh release upload source-archive <dir>/<archive name> --repo tuxr/bible-data`.
 
 ## Versification
 

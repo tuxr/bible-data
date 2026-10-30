@@ -646,6 +646,48 @@ CREATE INDEX mappings_by_source ON mappings (source, target, book, source_chapte
 CREATE INDEX mappings_by_target ON mappings (source, target, book, target_chapter, target_verse);
 ```
 
+## Sources lock
+
+`sources.lock.json` pins every input a package is built from. It is JSON with sorted keys, two-space indents, and a trailing newline: `{"sources": {<id>: <entry>}, "version": 1}`. An id is lowercase letters and digits. Every entry has these fields.
+
+| Field | Holds |
+|---|---|
+| `format` | `usfm` or `usfx` for a publisher zip, `files` for a file set. |
+| `file` | The zip's name in the sources directory. One plain `.zip` name: letters, digits, `.`, `_`, and `-`. |
+| `url` | Where the source comes from. |
+| `revision` | The upstream's date, `YYYY-MM-DD`. |
+| `sha256` | What the lock pins. |
+| `bytes` | The source's size. |
+| `archive` | The archived copy, `<file stem>-<revision>-<first 8 hex of sha256>.zip` under the `source-archive` release of `tuxr/bible-data`. |
+
+### Publisher zips
+
+A `usfm` or `usfx` entry pins a zip the publisher serves at an unversioned URL. `file` is the URL's last path component. `sha256` and `bytes` are the zip's. `revision` is the newest entry's modification date in UTC. `scriptureSha256` hashes only the scripture: the one `*_usfx.xml` entry, or for USFM each `.usfm` entry's path, a newline, then its bytes, in path order. A zip whose `sha256` changes and whose `scriptureSha256` does not was only re-zipped.
+
+### File sets
+
+A `files` entry pins plain files at one GitHub commit. Upstream serves no zip, so `bible-pack` builds one.
+
+| Field | Holds |
+|---|---|
+| `url` | The commit, `https://github.com/<owner>/<repo>/tree/<sha>`. |
+| `revision` | The commit's committer date. |
+| `files` | One object per file, sorted by `name` in UTF-8 byte order: `name`, `url` (the raw file at that commit), `sha256`, and `bytes`. |
+| `sha256` | The set hash: over the files in name order, each file's `name`, a newline, then its bytes. The same rule as the USFM scripture hash, so renaming a file changes it. |
+| `bytes` | The total of the files' sizes. |
+| `file` | `<id>.zip`. |
+| `archiveSha256` | The SHA-256 of `<id>.zip`. |
+| `license` | The license, such as `CC BY 4.0` or `Public domain`. |
+| `attribution` | The credit a package built from the files must show, quoting the files' own header where they have one. |
+
+A file set entry has no `scriptureSha256`, because the set hash already covers only the files. A file's `name` is its URL's last path component, percent-decoded, with spaces as underscores. It must be one plain name of letters, digits, `.`, `_`, and `-`.
+
+`<id>.zip` holds each file under its `name`, stored without compression. Its entries are in name order, and each carries the revision at 00:00:00 UTC in both the DOS fields and the extended timestamp field. The zip's bytes are therefore a function of the files and the revision. `sources fetch` takes the archived zip if its SHA-256 is `archiveSha256` and its files hash to `sha256`. Otherwise it downloads each file, checks each `sha256`, and rebuilds the zip, which must hash to `archiveSha256`.
+
+### Licenses of the word sources
+
+The WLC edition's USFX carries OSHB lemma and morphology on every word. The OSHB README at `github.com/openscriptures/morphhb` commit `3d15126` licenses that data under CC BY 4.0 and asks that the credit go to the Open Scriptures Hebrew Bible Project. The WLC text itself is in the public domain. eBible's `copr.htm` inside `hboWLC_usfx.zip` still prints CC BY-SA 3.0. A package that ships the WLC's lemma or morphology credits the Open Scriptures Hebrew Bible Project under CC BY 4.0.
+
 ## Compatibility
 
 A reader supports a set of format versions. It opens a package only if `meta.format_version` is in that set.
@@ -668,3 +710,4 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 - `meta.absent_verses` lists the scheme verses an edition does not print.
 - Parsing rules for USFM 3 and USFX sources, and the note caller rule for labels.
 - `verses.text_search`, the `verses_search` view as the search index's content, the `SearchText` folding rules, the `meta.absent_verses` key, edition metadata files, and the `.xz` download.
+- The sources lock, with file set entries for word and lexicon sources.

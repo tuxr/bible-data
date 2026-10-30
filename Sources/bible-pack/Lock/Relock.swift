@@ -4,9 +4,31 @@ import Foundation
 typealias Download = @Sendable (URL) async throws -> Data
 
 struct SourceRequest: Equatable {
+    enum Spec: Equatable {
+        case zip(SourceFormat, URL)
+        case files(FileSetSpec)
+    }
+
     var id: String
-    var format: SourceFormat
-    var url: URL
+    var spec: Spec
+}
+
+extension LockedSource {
+    /// What relocking this entry downloads: the same zip URL, or the same members at the same commit.
+    func spec() throws -> SourceRequest.Spec {
+        switch kind {
+        case .zip(let format, _):
+            return .zip(format, url)
+        case .files(let set):
+            guard let commit = GitHubCommit(treeURL: url) else { throw FileSetError.notACommitURL(url) }
+            return .files(FileSetSpec(
+                commit: commit,
+                members: set.files.map { FileSetSpec.Member(name: $0.name, url: $0.url) },
+                license: set.license,
+                attribution: set.attribution
+            ))
+        }
+    }
 }
 
 enum LockChange: Equatable {
@@ -29,8 +51,15 @@ struct RelockResult {
         case .unchanged:
             status = "unchanged"
         case .changed(let old):
-            let scripture = old.scriptureSha256 == source.scriptureSha256 ? ", scripture identical" : ""
-            status = "changed from \(old.revision) (\(old.sha256.prefix(8)))\(scripture)"
+            var detail = ""
+            if case .zip(_, let was) = old.kind, case .zip(_, let now) = source.kind, was == now {
+                detail = ", scripture identical"
+            }
+            if case .files(let was) = old.kind, case .files(let now) = source.kind {
+                let changed = Set(was.files).symmetricDifference(now.files).map(\.name)
+                detail = ", files changed: " + Set(changed).sorted().joined(separator: ", ")
+            }
+            status = "changed from \(old.revision) (\(old.sha256.prefix(8)))\(detail)"
         }
         return "\(source.revision)  \(source.sha256.prefix(8))  \(status)"
     }
@@ -50,7 +79,8 @@ enum SelectionError: Error, Equatable, CustomStringConvertible {
                 : "unknown source \(id); locked sources are \(known.joined(separator: ", "))"
         case .alreadyLocked(let id): "\(id) is already locked; relock it with `bible-pack sources lock \(id)`"
         case .duplicate(let id): "\(id) is named more than once"
-        case .nothingLocked: "no sources are locked; add one with `bible-pack sources lock --add <id>:<format>:<url>`"
+        case .nothingLocked:
+            "no sources are locked; add one with `bible-pack sources lock --add <id>:<format>:<url>` or `bible-pack sources add-files`"
         }
     }
 }
@@ -61,7 +91,7 @@ extension SourcesLock {
         let named = ids.isEmpty && additions.isEmpty ? sources.keys.sorted() : ids
         let existing = try named.map { id in
             guard let source = sources[id] else { throw SelectionError.unknownSource(id, known: sources.keys.sorted()) }
-            return SourceRequest(id: id, format: source.format, url: source.url)
+            return SourceRequest(id: id, spec: try source.spec())
         }
         for addition in additions where sources[addition.id] != nil {
             throw SelectionError.alreadyLocked(addition.id)
@@ -86,8 +116,15 @@ extension SourcesLock {
     func relock(_ requests: [SourceRequest], download: Download) async throws -> [RelockResult] {
         var results: [RelockResult] = []
         for request in requests {
-            let bytes = try await download(request.url)
-            let source = try LockedSource.make(format: request.format, url: request.url, zipBytes: bytes)
+            let source: LockedSource
+            let bytes: Data
+            switch request.spec {
+            case .zip(let format, let url):
+                bytes = try await download(url)
+                source = try LockedSource.make(format: format, url: url, zipBytes: bytes)
+            case .files(let spec):
+                (source, bytes) = try await LockedSource.make(id: request.id, files: spec, download: download)
+            }
             let change: LockChange
             if let old = sources[request.id] {
                 change = old == source ? .unchanged : .changed(from: old)

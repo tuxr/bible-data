@@ -37,6 +37,7 @@ enum EditionError: Error, Equatable, CustomStringConvertible {
     case notLocked(String)
     case missing(file: String, id: String)
     case hashMismatch(file: String, id: String)
+    case notAZip(id: String)
 
     var description: String {
         switch self {
@@ -44,6 +45,7 @@ enum EditionError: Error, Equatable, CustomStringConvertible {
         case .missing(let file, let id): "\(file) is not in the sources directory; run `bible-pack sources fetch \(id)`"
         case .hashMismatch(let file, let id):
             "\(file) does not match its locked sha256; run `bible-pack sources fetch \(id)`"
+        case .notAZip(let id): "\(id) is locked as a file set, not a publisher zip"
         }
     }
 }
@@ -54,10 +56,11 @@ enum EditionSource {
     case usfx(Data)
 
     static func load(_ source: LockedSource, id: String, cache: SourceCache) throws -> EditionSource {
+        guard case .zip(let format, _) = source.kind else { throw EditionError.notAZip(id: id) }
         guard let bytes = cache.contents(of: source.file) else { throw EditionError.missing(file: source.file, id: id) }
         guard sha256Hex(bytes) == source.sha256 else { throw EditionError.hashMismatch(file: source.file, id: id) }
         let zip = try ZipArchive(bytes)
-        switch source.format {
+        switch format {
         case .usfm:
             let entries = zip.entries.filter { $0.path.hasSuffix(".usfm") }
             guard !entries.isEmpty else { throw ScriptureError.noUSFM(file: source.file) }

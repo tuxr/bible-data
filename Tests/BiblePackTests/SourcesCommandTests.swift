@@ -43,7 +43,7 @@ private func serving(_ files: [URL: Data]) -> Download {
 
     @Test func selectionRejectsUnknownAndAlreadyLockedIds() throws {
         let lock = SourcesLock(sources: ["tcgnt": try LockedSource.make(format: .usfx, url: upstream, zipBytes: tcgnt("t", on: "2026-09-24"))])
-        let duplicate = SourceRequest(id: "tcgnt", format: .usfx, url: upstream)
+        let duplicate = SourceRequest(id: "tcgnt", spec: .zip(.usfx, upstream))
 
         #expect(throws: SelectionError.unknownSource("kjv", known: ["tcgnt"])) { try lock.requests(ids: ["kjv"], additions: []) }
         #expect(throws: SelectionError.alreadyLocked("tcgnt")) { try lock.requests(ids: [], additions: [duplicate]) }
@@ -52,7 +52,7 @@ private func serving(_ files: [URL: Data]) -> Download {
 
     @Test func additionParsesURLsContainingColons() throws {
         let request = try SourceRequest.parseAddition("bsb:usfm:https://bereanbible.com:443/bsb_usfm.zip")
-        #expect(request == SourceRequest(id: "bsb", format: .usfm, url: URL(string: "https://bereanbible.com:443/bsb_usfm.zip")!))
+        #expect(request == SourceRequest(id: "bsb", spec: .zip(.usfm, URL(string: "https://bereanbible.com:443/bsb_usfm.zip")!)))
         #expect(throws: (any Error).self) { try SourceRequest.parseAddition("bsb:osis:https://bereanbible.com/bsb_usfm.zip") }
         #expect(throws: (any Error).self) { try SourceRequest.parseAddition("BSB:usfm:https://bereanbible.com/bsb_usfm.zip") }
         #expect(throws: (any Error).self) { try SourceRequest.parseAddition("bsb:usfm:https://bereanbible.com/download") }

@@ -65,14 +65,13 @@ private func hex(_ data: Data) -> String {
 
         let sha = hex(bytes)
         #expect(source == LockedSource(
-            format: .usfx,
             file: "hboWLC_usfx.zip",
             url: url,
             revision: "2026-08-08",
             sha256: sha,
             bytes: bytes.count,
-            scriptureSha256: hex(usfx),
-            archive: URL(string: "https://github.com/tuxr/bible-data/releases/download/source-archive/hboWLC_usfx-2026-08-08-\(sha.prefix(8)).zip")!
+            archive: URL(string: "https://github.com/tuxr/bible-data/releases/download/source-archive/hboWLC_usfx-2026-08-08-\(sha.prefix(8)).zip")!,
+            kind: .zip(.usfx, scriptureSha256: hex(usfx))
         ))
     }
 }

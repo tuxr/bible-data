@@ -4,14 +4,13 @@ import Testing
 
 @Suite struct SourcesLockTests {
     private let bsb = LockedSource(
-        format: .usfm,
         file: "bsb_usfm.zip",
         url: URL(string: "https://bereanbible.com/bsb_usfm.zip")!,
         revision: "2026-10-02",
         sha256: "f0c56438eb89c98e8f62c5c00461e25cc35b098ad5b179bc350cede759ee5f87",
         bytes: 1_598_038,
-        scriptureSha256: "0bf20107f064fcb96c1a01dda6c1c39f6f6de06cd8ceaef39f6ff9af52aa216e",
-        archive: URL(string: "https://github.com/tuxr/bible-data/releases/download/source-archive/bsb_usfm-2026-10-02-f0c56438.zip")!
+        archive: URL(string: "https://github.com/tuxr/bible-data/releases/download/source-archive/bsb_usfm-2026-10-02-f0c56438.zip")!,
+        kind: .zip(.usfm, scriptureSha256: "0bf20107f064fcb96c1a01dda6c1c39f6f6de06cd8ceaef39f6ff9af52aa216e")
     )
 
     @Test func writesSortedKeysTwoSpaceIndentAndTrailingNewline() {
@@ -38,7 +37,7 @@ import Testing
 
     @Test func roundTripIsByteIdentical() throws {
         var wlc = bsb
-        wlc.format = .usfx
+        wlc.kind = .zip(.usfx, scriptureSha256: "cb4b589cb8b49fb1e8f7932c1f31f3d3470c5717b7e63107a0f30d714a80de1d")
         wlc.file = "hboWLC_usfx.zip"
         wlc.url = URL(string: "https://ebible.org/Scriptures/hboWLC_usfx.zip")!
         let lock = SourcesLock(sources: ["wlc": wlc, "bsb": bsb])
