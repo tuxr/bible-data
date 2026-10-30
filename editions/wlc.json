@@ -1,0 +1,13 @@
+{
+  "id": "wlc",
+  "name": "כתבי הקודש",
+  "abbreviation": "WLC",
+  "language": "hbo",
+  "script": "Hebr",
+  "direction": "rtl",
+  "versification": "heb",
+  "license": "Public domain",
+  "attribution": "Westminster Leningrad Codex. The text of the WLC is in the public domain. Distributed by eBible.org.",
+  "publisher": "eBible.org",
+  "source": "wlc"
+}

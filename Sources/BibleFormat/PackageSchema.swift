@@ -13,6 +13,7 @@ public enum PackageSchema {
         case builtAt = "built_at"
         case builderVersion = "builder_version"
         case sourceLock = "source_lock"
+        case absentVerses = "absent_verses"
     }
 
     /// Every chapter and verse number is below this, so the parts of a verse row id never overlap.
@@ -94,28 +95,33 @@ public enum PackageSchema {
           chapter INTEGER NOT NULL CHECK (chapter BETWEEN 1 AND 999),
           verse INTEGER NOT NULL CHECK (verse BETWEEN 1 AND 999),
           text_plain TEXT NOT NULL,
+          text_search TEXT,
           UNIQUE (book, chapter, verse),
-          CHECK (id % 1000 = verse AND id / 1000 % 1000 = chapter)
+          CHECK (id % 1000 = verse AND id / 1000 % 1000 = chapter),
+          CHECK (text_search IS NULL OR text_search <> text_plain)
         );
 
+        CREATE VIEW verses_search AS
+        SELECT id, coalesce(text_search, text_plain) AS text_search FROM verses;
+
         CREATE VIRTUAL TABLE verses_fts USING fts5 (
-          text_plain,
-          content = 'verses',
+          text_search,
+          content = 'verses_search',
           content_rowid = 'id',
           tokenize = 'unicode61 remove_diacritics 2'
         );
 
         CREATE TRIGGER verses_fts_insert AFTER INSERT ON verses BEGIN
-          INSERT INTO verses_fts (rowid, text_plain) VALUES (new.id, new.text_plain);
+          INSERT INTO verses_fts (rowid, text_search) VALUES (new.id, coalesce(new.text_search, new.text_plain));
         END;
 
         CREATE TRIGGER verses_fts_delete AFTER DELETE ON verses BEGIN
-          INSERT INTO verses_fts (verses_fts, rowid, text_plain) VALUES ('delete', old.id, old.text_plain);
+          INSERT INTO verses_fts (verses_fts, rowid, text_search) VALUES ('delete', old.id, coalesce(old.text_search, old.text_plain));
         END;
 
         CREATE TRIGGER verses_fts_update AFTER UPDATE ON verses BEGIN
-          INSERT INTO verses_fts (verses_fts, rowid, text_plain) VALUES ('delete', old.id, old.text_plain);
-          INSERT INTO verses_fts (rowid, text_plain) VALUES (new.id, new.text_plain);
+          INSERT INTO verses_fts (verses_fts, rowid, text_search) VALUES ('delete', old.id, coalesce(old.text_search, old.text_plain));
+          INSERT INTO verses_fts (rowid, text_search) VALUES (new.id, coalesce(new.text_search, new.text_plain));
         END;
 
         CREATE TABLE notes (
@@ -143,6 +149,30 @@ public enum NoteTargets {
 
     public static func decode(_ column: String) throws -> [VerseRange] {
         try JSONDecoder().decode([VerseRange].self, from: Data(column.utf8))
+    }
+}
+
+/// The `meta.absent_verses` value: a JSON array of `BOOK C:V` strings in canonical order, such as
+/// `["LUK 17:36"]`. Validation allows exactly these verses of the scheme to have no row.
+public enum AbsentVerses {
+    public static func encode(_ refs: [VerseRef]) -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.withoutEscapingSlashes]
+        return String(decoding: try! encoder.encode(refs.sorted().map(\.description)), as: UTF8.self)
+    }
+
+    /// Nil when the value is not a JSON array of `BOOK C:V` strings with defined books.
+    public static func decode(_ value: String) -> [VerseRef]? {
+        guard let strings = try? JSONDecoder().decode([String].self, from: Data(value.utf8)) else { return nil }
+        var refs: [VerseRef] = []
+        for string in strings {
+            let parts = string.split(separator: " ")
+            guard parts.count == 2, let book = Book(rawValue: String(parts[0])) else { return nil }
+            let numbers = parts[1].split(separator: ":")
+            guard numbers.count == 2, let chapter = Int(numbers[0]), let verse = Int(numbers[1]) else { return nil }
+            refs.append(VerseRef(book, chapter, verse))
+        }
+        return refs
     }
 }
 
