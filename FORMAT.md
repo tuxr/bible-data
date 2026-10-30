@@ -896,6 +896,8 @@ A words or lexicon package's `attribution` lists the credit of exactly the sourc
 
 A `usfm` or `usfx` entry pins a zip the publisher serves at an unversioned URL. `file` is the URL's last path component. `sha256` and `bytes` are the zip's. `revision` is the newest entry's modification date in UTC. `scriptureSha256` hashes only the scripture: the one `*_usfx.xml` entry, or for USFM each `.usfm` entry's path, a newline, then its bytes, in path order. A zip whose `sha256` changes and whose `scriptureSha256` does not was only re-zipped.
 
+A text change always ships under a new package version. When a publisher revises a source, the relocked entry gets a new `revision`, `sha256`, and `archive`. The next release builds new packages from it, and every published package keeps its bytes. A zip whose `scriptureSha256` is unchanged gets a new entry too, but its packages hold the same text.
+
 ### File sets
 
 A `files` entry pins plain files at one GitHub commit. Upstream serves no zip, so `bible-pack` builds one.

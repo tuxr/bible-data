@@ -31,6 +31,13 @@ struct Edition: Sendable {
         guard let source = lock.sources[id] else { throw EditionError.notLocked(id) }
         return try EditionSource.load(source, id: id, cache: cache).parse(self)
     }
+
+    /// Parses any zip in the layout of the edition's locked source, such as a revision the lock does not pin.
+    func parse(zip bytes: Data, lock: SourcesLock, name: String) throws -> ParsedEdition {
+        guard let source = lock.sources[id] else { throw EditionError.notLocked(id) }
+        guard case .zip(let format, _) = source.kind else { throw EditionError.notAZip(id: id) }
+        return try EditionSource.read(bytes, format: format, file: name).parse(self)
+    }
 }
 
 enum EditionError: Error, Equatable, CustomStringConvertible {
@@ -59,16 +66,20 @@ enum EditionSource {
         guard case .zip(let format, _) = source.kind else { throw EditionError.notAZip(id: id) }
         guard let bytes = cache.contents(of: source.file) else { throw EditionError.missing(file: source.file, id: id) }
         guard sha256Hex(bytes) == source.sha256 else { throw EditionError.hashMismatch(file: source.file, id: id) }
+        return try read(bytes, format: format, file: source.file)
+    }
+
+    static func read(_ bytes: Data, format: SourceFormat, file: String) throws -> EditionSource {
         let zip = try ZipArchive(bytes)
         switch format {
         case .usfm:
             let entries = zip.entries.filter { $0.path.hasSuffix(".usfm") }
-            guard !entries.isEmpty else { throw ScriptureError.noUSFM(file: source.file) }
+            guard !entries.isEmpty else { throw ScriptureError.noUSFM(file: file) }
             return .usfm(files: try entries.map { ($0.path, try zip.contents(of: $0)) })
         case .usfx:
             let matches = zip.entries.filter { $0.path.hasSuffix("_usfx.xml") }
-            guard let entry = matches.first else { throw ScriptureError.noUSFX(file: source.file) }
-            guard matches.count == 1 else { throw ScriptureError.multipleUSFX(file: source.file, paths: matches.map(\.path)) }
+            guard let entry = matches.first else { throw ScriptureError.noUSFX(file: file) }
+            guard matches.count == 1 else { throw ScriptureError.multipleUSFX(file: file, paths: matches.map(\.path)) }
             return .usfx(try zip.contents(of: entry))
         }
     }

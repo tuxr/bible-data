@@ -15,7 +15,7 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Sources/bible-pack` | The macOS CLI. |
 | `Tests` | Swift Testing suites for both targets. |
 | `Tests/Goldens` | Parsed chapters from the real sources, compared on every test run. |
-| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS; `lock-word-sources.sh`, which locks the word and lexicon file sets and skips any already in the lock; `release-build.sh`, which builds and checks a release; and `publish-r2.sh`, which uploads one. |
+| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS; `lock-word-sources.sh`, which locks the word and lexicon file sets and skips any already in the lock; `release-build.sh`, which builds and checks a release; `publish-r2.sh`, which uploads one; and `source-watch.sh`, which the weekly source watch runs. |
 | `manifest/policy.json` | The oldest app version that opens each package kind at each format version, which `manifest build` copies into the manifest. |
 | `docs/hosting.md` | The runbook for the R2 bucket, its credentials, and the route the app downloads from. |
 | `editions` | One metadata file per edition, `<id>.json`: its names, language, script, versification, license, attribution, and locked source. |
@@ -37,7 +37,8 @@ swift run bible-pack --help
 | `sources show` | Prints the lock. |
 | `sources lock [id ...]` | Downloads each source, computes its hashes and revision, and rewrites the lock. A file set is rebuilt into `.sources/<id>.zip`. `--add <id>:<format>:<url>` adds a publisher zip, `usfm` or `usfx`. |
 | `sources add-files <id> --repo <tree-url> --license <text> --attribution <text> [--not-redistributable] <raw-url> ...` | Adds a file set: plain files at one GitHub commit. `--repo` is `https://github.com/<owner>/<repo>/tree/<sha>`, and each raw URL must be `https://raw.githubusercontent.com/<owner>/<repo>/<sha>/<path>` at that commit. Writes `.sources/<id>.zip` and prints the archive name to upload. `--not-redistributable` locks no archive, for files whose license asks not to be redistributed. |
-| `sources verify [id ...]` | Downloads each source and compares it to the lock. Exits 1 on any change. |
+| `sources verify [id ...]` | Downloads each source and compares it to the lock. Exits 2 on any change and 1 on an error. |
+| `sources diff <id> [--from <zip>] [--to <zip>] [--format text\|markdown\|json] [--limit 200]` | Parses two revisions of an edition's zip and prints every verse, note, book name, and verse count that differs. `--from` defaults to the locked zip, and `--to` to the publisher's current zip, which it keeps as `.sources/archive/<archive name>`. Exits 0 when the scripture is identical, 2 when it differs, and 1 on an error. |
 | `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the upstream second. A file set's upstream is its files, rebuilt into the zip. A set with no archive is always rebuilt from its files. Exits 1 on a hash mismatch. |
 
 `bible-pack canon` builds and checks the canon package.
@@ -139,6 +140,45 @@ Word and lexicon sources are plain files in Git repositories. The lock pins each
 | `oshb` | Open Scriptures Hebrew Bible, the WLC's 39 books in OSIS with lemma and morphology on every word | files, CC BY 4.0 |
 
 To archive a new zip or file set, upload it under the name at the end of its `archive` URL: `gh release upload source-archive <dir>/<archive name> --repo tuxr/bible-data`.
+
+## Source watch
+
+`.github/workflows/source-watch.yml` runs `Tools/source-watch.sh` every Monday at 06:17 UTC, and on demand from its Run workflow button. The script runs `sources verify`. If every source matches the lock, it exits 0 and opens nothing. Otherwise it does these steps:
+
+1. Relocks only the changed sources with `sources lock <id> ...`. The new zip replaces the locked one in `.sources/`, and the old one moves to `.sources/archive/`.
+2. Runs `sources diff` from the old zip to the new one, as markdown for the pull request and as JSON.
+3. Rewrites the goldens with `UPDATE_GOLDENS=1 swift test --filter GoldenTests`, because the goldens track the locked text. Then it runs `swift test` and `Tools/release-build.sh`, which builds and validates every package against the new sources.
+4. Uploads each new zip to the `source-archive` release under the name its `archive` URL ends in. It never replaces an asset. An asset that already has that name must have the locked SHA-256, or the run fails.
+5. Uploads each JSON diff to the `source-watch` prerelease as `<id>-<old sha>-<new sha>.diff.json`, replacing any asset of that name, and links it from the pull request.
+6. Commits the lock and the goldens to `source-watch/<yyyy-mm-dd>`, force-pushes that branch, and opens or updates its pull request, titled `chore(sources): <ids> revised <dates>`. The body is the verify output, one diff per source, and the result of each check. When a check fails, the pull request is a draft and the run exits 1. An open watch pull request from an earlier day is closed as superseded.
+
+A second run on the same day rebuilds the same branch from `main` and updates the same pull request. `DRY_RUN=1 Tools/source-watch.sh` does the local work and prints each commit, push, upload, and pull request instead of making it. The local work relocks the sources and rewrites the goldens, so run it in a scratch copy of the repository.
+
+A pull request that `GITHUB_TOKEN` opens starts no CI run, and GitHub refuses it outright unless the repository allows Actions to create pull requests. Add a `SOURCE_WATCH_TOKEN` secret, a fine-grained token with contents and pull request write access to this repository, and the workflow pushes and opens the pull request with it, so CI runs on the branch. Without the secret, the workflow uses `GITHUB_TOKEN`. Then turn on **Allow GitHub Actions to create and approve pull requests** in the repository's Actions settings, and rely on the checks the watch itself ran.
+
+### Ship a revised source
+
+1. Open the watch pull request and read each diff. The summary table counts the changed verses of each kind in each book. Below it, each changed verse shows its old and new text with the changed words marked, and the code points of a one-word change.
+2. Decide whether the revision is a typo fix or a change of reading. If you do not want it, close the pull request. The next watch opens it again while the publisher serves that revision.
+3. Merge the pull request.
+4. Tag the merge with the next version, `vYYYY.MM` for the month's first release or `vYYYY.MM.n` after it, and push the tag: `git tag v2026.11 && git push origin v2026.11`.
+5. The release workflow checks out the tag, fetches the newly locked zips from `source-archive`, and builds, validates, and publishes every package at the new version. The packages of the earlier version stay published.
+
+### How `sources diff` classifies a verse
+
+The diff matches verses by chapter and verse label, a bridge such as `1-2` included. Each differing verse gets the first kind that applies:
+
+| Kind | Rule |
+|---|---|
+| `moved` | The new text of a verse is the old text of another verse in the same chapter, and that verse no longer has it. A moved verse is not also listed as added or removed. |
+| `added` | The verse is in the new revision only. |
+| `removed` | The verse is in the old revision only. |
+| `punctuation` | The plain texts are equal after each Unicode punctuation mark becomes a space and whitespace collapses. Case counts. In Greek, a word whose punctuation changed may also swap a final acute for a grave accent, or the reverse, because Greek writes a final acute as grave before another word. |
+| `pointing` | Hebrew or Greek only. The texts without punctuation are equal after `SearchText.normalize` removes the points, accents, and breathings, and every letter keeps its case. A change of vowel points, cantillation, accents, or breathings can change the meaning, so it is its own kind. |
+| `wording` | Any other change to the plain text. |
+| `markup` | The plain text is equal but the stream differs: a style, a block, a heading, a title, a speaker, a note caller, or a word tag. A heading or block before a verse counts as part of that verse. |
+
+Notes are compared within each verse. A note that shares at least half its words with an old note at the same verse is `changed`, and the others are `added` or `removed`. The diff also reports a changed book name, short name, chapter count, or verse count, and each verse that becomes absent or stops being absent. Markdown lists at most `--limit` verses of each kind and `--limit` notes. JSON lists every change. When the pull request body would pass 60,000 characters, the watch lowers the limit.
 
 ## Versification
 
