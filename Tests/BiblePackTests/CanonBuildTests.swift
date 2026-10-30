@@ -14,7 +14,7 @@ private func temporaryDirectory() throws -> URL {
 
 private func build(in directory: URL, name: String = "canon.sqlite") throws -> URL {
     let out = directory.appendingPathComponent(name)
-    var command = try CanonCommand.Build.parse(["--out", out.path, "--built-at", pinnedTime])
+    let command = try CanonCommand.Build.parse(["--out", out.path, "--built-at", pinnedTime])
     try command.run()
     return out
 }
@@ -69,7 +69,7 @@ private func scalar(_ database: SQLiteDatabase, _ sql: String, _ values: [SQLite
         let directory = try temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }
         let out = try build(in: directory)
-        var validate = try CanonCommand.Validate.parse([out.path])
+        let validate = try CanonCommand.Validate.parse([out.path])
         try validate.run()
 
         try SQLiteDatabase(path: out.path, mode: .readWrite)
