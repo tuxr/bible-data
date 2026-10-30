@@ -347,30 +347,44 @@ Every encoding meets two rules. Decoding an encoded chapter gives an equal `Chap
 
 ```json
 {"source": "heb", "target": "eng", "seededFrom": {},
- "entries": [{"book": "PSA", "kind": "superscriptionAsVerse1", "source": [3, 2], "target": [3, 1]},
-             {"book": "PSA", "kind": "superscriptionAsVerse1", "source": [3, 1]},
-             {"book": "NUM", "kind": "targetOnly", "target": [29, 40]}]}
+ "entries": [{"book": "PSA", "kind": "superscriptionAsVerse1", "source": [3, 1]},
+             {"book": "PSA", "kind": "renumbered", "source": [3, 2], "target": [3, 1]},
+             {"book": "ISA", "kind": "splitVerse", "source": [63, 19], "target": [63, 19]},
+             {"book": "ISA", "kind": "splitVerse", "source": [63, 19], "target": [64, 1]},
+             {"book": "NEH", "kind": "extraVerse", "target": [7, 68]}]}
 ```
 
 Each entry names a book, a kind, and one or both sides. A side is `[chapter, verse]` and names a verse that exists in that side's scheme. An entry with both sides is a **pair**. An entry with one side is **one-sided**.
 
-| Kind in the file | `MappingKind` | Sides | Meaning |
-|---|---|---|---|
-| `superscriptionAsVerse1` | `superscriptionAsVerse1` | Both, or source only | The source numbers a Psalm title as verse 1. |
-| `chapterBoundarySplit` | `chapterBoundarySplit` | Both | The schemes break chapters at different verses. |
-| `relocated` | `relocated` | Both | The schemes print the verse in different places. |
-| `splitVerse` | `splitVerse` | Both | One scheme splits a verse that the other keeps whole. |
-| `sourceOnly` | `extraVerse` | Source only | The verse exists only in the source scheme. |
-| `targetOnly` | `extraVerse` | Target only | The verse exists only in the target scheme. |
+The file spells each kind as its `MappingKind` raw value. Kinds are direction-neutral, so the reversed mapping keeps them.
+
+| Kind | Sides | Meaning |
+|---|---|---|
+| `renumbered` | Both | The verse has a different number in each scheme. Most come from a chapter that starts at a different verse, and the shift runs to the chapter's end. |
+| `superscriptionAsVerse1` | One | One scheme numbers a Psalm title as a verse, and the other leaves the title unnumbered. |
+| `splitVerse` | Both | One verse in one scheme holds the text of two or more verses in the other. Each piece is its own pair, and every pair has this kind. |
+| `relocated` | Both | The schemes print the same text in different places. |
+| `extraVerse` | One | Only one scheme has the verse, and it is not a Psalm title. |
+
+A loader rejects an entry whose sides do not match its kind, and a `renumbered` pair that keeps the same number.
 
 These files exist in format version 1.
 
-| File | Entries | Seeded from |
+| File | Entries | Source |
 |---|---|---|
-| `heb-eng.json` | 1404 | bible-api `data/versification-map.json` |
+| `heb-eng.json` | 2044 | TVTMS, `English KJV` and `Hebrew` columns |
 | `grc-eng.json` | 5 | Checked by hand against the TCGNT and KJV sources |
 
-`heb-eng.json` names the verses that cross a chapter boundary, such as Hebrew Exodus 7:26 to 7:29, which are English 8:1 to 8:4. It does not name the verses that shift within a chapter after them. Hebrew Exodus 8:1 is English 8:5, but it falls back to the same number. So 107 English verses are reached from two Hebrew verses, and 110 English verses are reached from none. A known-issue test in `MappingTests` tracks this until the seed is corrected.
+`heb-eng.json` is derived by `Tools/derive-heb-eng-mapping.py` from STEPBible's TVTMS (Translators Versification Traditions with Methodology for Standardisation), at [STEPBible/STEPBible-Data](https://github.com/STEPBible/STEPBible-Data) commit `be4191f0`. The licence asks users to get the file from STEPBible, so the repo does not include it. The tool takes the file path as an argument and checks it against the SHA-256 in `seededFrom`. Credit it as: "Versification data derived from TVTMS by STEPBible.org, Tyndale House Cambridge, CC BY 4.0". `Versification.attribution` holds this line for the app's About screen.
+
+The tool writes 1964 `renumbered`, 67 `superscriptionAsVerse1`, 12 `splitVerse`, and 1 `extraVerse` entries. Before it writes the file, it rebuilds the mapping from the entries and checks it against `heb.json` and `eng.json`:
+
+- Every `heb` verse maps to `eng` verses that exist, or has a one-sided entry.
+- Every `eng` Old Testament verse is reached by a `heb` verse, or has a one-sided entry.
+- An `eng` verse that two or more `heb` verses reach is the target of `splitVerse` pairs.
+- Per book, the one-sided and split entries account for the difference in verse totals: NUM, 1SA, 1KI, and 1CH +1, NEH and ISA -1, PSA +66.
+
+TVTMS's Greek column follows the critical text, not TCGNT's numbering, so `grc-eng.json` stays a hand seed. TVTMS agrees with it that Greek 3 John 1:14 and 1:15 are English 1:14.
 
 ### Resolving a verse
 
@@ -378,11 +392,11 @@ These files exist in format version 1.
 
 1. If the verse is not in the source scheme, the result is `nil`.
 2. If the target scheme does not contain the book, the result is `bookAbsent`.
-3. If pairs name the verse on this side, the result is `mapped`, with every counterpart in canonical order. A pair wins over a one-sided entry for the same verse.
+3. If pairs name the verse on this side, the result is `mapped`, with every counterpart in canonical order.
 4. If a one-sided entry names the verse on this side, the result is `absent`, with the entry's kind.
 5. Otherwise the result is `same`. The verse has the same chapter and verse number in both schemes.
 
-A verse can have more than one counterpart in either direction. English 3 John 1:14 maps to Greek 3 John 1:14 and 1:15. So `mapped` carries an array. All pairs for one verse share one kind, and a loader rejects a file where they do not.
+A verse can have more than one counterpart in either direction. English 3 John 1:14 maps to Greek 3 John 1:14 and 1:15. So `mapped` carries an array. On each side, a verse is named by pairs of one kind or by one one-sided entry. A loader rejects a file where pairs for one verse have different kinds, or where a verse has both pairs and a one-sided entry.
 
 `Versification.mapping(from:to:)` returns the mapping for two schemes. It reads `<from>-<to>.json`, or reverses `<to>-<from>.json`. A scheme maps to itself with every verse `same`. Two schemes with no file have no mapping, and the result is `nil`.
 
@@ -392,7 +406,7 @@ A verse can have more than one counterpart in either direction. English 3 John 1
 
 | Table | Rows |
 |---|---|
-| `meta` | `format_version`. The schema inserts it. |
+| `meta` | One per key. See below. |
 | `sections` | One per section group, with `position` from 1. `id` is the `Section` raw value, such as `wisdomAndPoetry`. |
 | `books` | One per defined book, all 86. |
 | `aliases` | One per name that finds a book. The names are the id, the name, the short name, and each alias. An alias is unique, ignoring ASCII case. |
@@ -403,6 +417,23 @@ A verse can have more than one counterpart in either direction. English 3 John 1
 Section groups, in order, are Law, History, Wisdom and Poetry, Major Prophets, Minor Prophets, Gospels and Acts, Paul's Letters, General Letters, Prophecy, and Apocrypha.
 
 A book's short name is its SBL Handbook of Style abbreviation, such as `Gen`, `1 Sam`, `Ps`, `Matt`, and `Phlm`.
+
+### Canon `meta`
+
+| Key | Value |
+|---|---|
+| `format_version` | `CanonSchema.version` as a decimal integer. The schema inserts it. |
+| `built_at` | The build time, ISO 8601 in UTC, such as `2026-10-29T00:00:00Z`. |
+| `builder_version` | The `bible-pack` version that wrote the file. |
+| `versification_attribution` | The STEPBible credit, `Versification.attribution`. The app shows it in About. |
+
+### Building and accepting
+
+`bible-pack canon build` writes the package. It applies `CanonSchema.ddl` to a fresh file with a 4096-byte page size, inserts every row in one transaction, runs `VACUUM`, and leaves the file in rollback journal mode, so the result is one self-contained file. It writes beside the destination and renames into place, so the destination is never a partial file.
+
+The build is deterministic. Rows go in a fixed order: sections in `Section` order, books in canonical order, aliases by book and then by `lookupNames` order, verse counts by scheme, book, and chapter, and mappings by file and then by entry order. Two builds from the same tables with the same `--built-at` are byte-identical.
+
+`bible-pack canon validate <path>` is the acceptance check. It opens the file read-only and runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`. It checks `meta`, then compares every table to the `Canon` and `Versification` types row by row. It checks that every verse count is from 1 to 999 and that each scheme's totals match `Versification.counts(for:)`. It exits 1 on the first failure and names the table and the first differing row. A canon package ships only if it passes.
 
 `CanonSchema.ddl` holds the schema. A test checks that this block matches it.
 
@@ -451,7 +482,7 @@ CREATE TABLE mappings (
   source TEXT NOT NULL REFERENCES schemes (id),
   target TEXT NOT NULL REFERENCES schemes (id),
   book TEXT NOT NULL REFERENCES books (id),
-  kind TEXT NOT NULL CHECK (kind IN ('superscriptionAsVerse1', 'chapterBoundarySplit', 'relocated', 'splitVerse', 'extraVerse')),
+  kind TEXT NOT NULL CHECK (kind IN ('renumbered', 'superscriptionAsVerse1', 'splitVerse', 'relocated', 'extraVerse')),
   source_chapter INTEGER,
   source_verse INTEGER,
   target_chapter INTEGER,

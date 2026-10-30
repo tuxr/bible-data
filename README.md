@@ -14,7 +14,7 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Sources/BibleFormat/Resources/versification` | Verse counts per scheme and the mappings between schemes. |
 | `Sources/bible-pack` | The macOS CLI. |
 | `Tests` | Swift Testing suites for both targets. |
-| `Tools` | Scripts that derived the versification data from the publisher zips and from bible-api. |
+| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS. |
 | `sources.lock.json` | The locked publisher sources. |
 | `FORMAT.md` | The format specification, versioned. |
 
@@ -35,6 +35,13 @@ swift run bible-pack --help
 | `sources verify [id ...]` | Downloads each source and compares it to the lock. Exits 1 on any change. |
 | `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the publisher second. Exits 1 on a hash mismatch. |
 
+`bible-pack canon` builds and checks the canon package.
+
+| Command | Does |
+|---|---|
+| `canon build [--out dist/canon.sqlite] [--built-at <iso8601>]` | Writes `canon.sqlite` from the `BibleFormat` tables and prints each table's row count, the file size, and its SHA-256. |
+| `canon validate <path>` | Checks a canon package against the `BibleFormat` tables. Exits 1 on the first failure. |
+
 `build`, `validate`, and `manifest` take their arguments and stop. Phase 0 steps 4 and 6 implement them.
 
 ## Sources
@@ -49,7 +56,7 @@ Publishers serve only the latest revision at an unversioned URL. The lock pins e
 
 ## Versification
 
-Three schemes exist in format version 1: `eng` (KJV tradition, the canonical scheme for anchors), `heb` (Masoretic), and `grc` (Greek New Testament). Verse counts were derived from the KJV, WLC, and TCGNT zips with `Tools/derive-versification.py`. The `heb` to `eng` mapping was seeded from bible-api's versification map and is known to be incomplete inside shifted chapters. Phase 0 step 2 completes it and proves every mapping round-trips.
+Three schemes exist in format version 1: `eng` (KJV tradition, the canonical scheme for anchors), `heb` (Masoretic), and `grc` (Greek New Testament). Verse counts were derived from the KJV, WLC, and TCGNT zips with `Tools/derive-versification.py`. The `heb` to `eng` mapping is derived from STEPBible's TVTMS (CC BY 4.0) with `Tools/derive-heb-eng-mapping.py`, and tests prove every mapping round-trips.
 
 ## License
 
