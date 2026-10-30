@@ -264,6 +264,7 @@ The stream follows these rules.
 - A `text` item comes after a `block` item. A heading, title, or speaker closes the current block, so text after one needs a new `block` item.
 - A block can start in the middle of a verse. A verse can start in the middle of a block.
 - Text before the first `verse` item belongs to no verse.
+- A `noteCaller` item that follows a heading, title, or speaker with no `block` item between belongs to that label. Label runs hold no callers, so a note inside a label sits right after it.
 
 | Block kind | Meaning |
 |---|---|
@@ -309,6 +310,77 @@ A `Run` holds `text`, a `style`, and an optional `word`.
 The Phase 0 step 4 benchmark picks the shipped encoding. No package is released before then.
 
 Every encoding meets two rules. Decoding an encoded chapter gives an equal `Chapter`. Encoding the same chapter twice gives the same bytes.
+
+## Parsing rules
+
+`bible-pack` parses USFM 3 and USFX sources into the chapter model. Both parsers read one marker table, so a USFM marker and the USFX element of the same name mean the same thing. These rules decide what a package holds.
+
+### Headings, titles, and speakers
+
+| Markers | Item |
+|---|---|
+| `ms`, `ms1` to `ms3`, `mr` | `heading` level 1 |
+| `s`, `s1`, `sr` | `heading` level 2 |
+| `s2` to `s4` | `heading` level 3 |
+| `d`, `qa` | `title` |
+| `sp` | `speaker` |
+
+A USFX `s` or `q` element with no level in its `style` takes its `level` attribute, and level 1 when it has none. The BSB uses `ms`, `s1`, and `s2`, so three levels keep every distinction it draws.
+
+A verse marker inside a title, as in the BSB's `\d \v 1 A Psalm of David.`, opens the verse when the title ends. The title is not verse text.
+
+### Plain text
+
+`PlainText.verses(of:)` derives `verses.text_plain`. The app uses the same function, so search, copy, and the reader agree.
+
+1. Join the `text` runs of each verse in stream order. Headings, titles, speakers, and note callers are not verse text.
+2. Put one space at each block boundary, except after a run that ends in an em dash. A poetry line that ends in an em dash runs on into the next with no space, as the BSB's own text prints it.
+3. Collapse each run of whitespace to one space.
+4. Remove a space before `.`, `,`, `;`, `:`, `!`, and `?`.
+5. Trim the result.
+
+Text before the first verse marker belongs to no verse. Note text follows rules 3 to 5.
+
+No step applies Unicode normalization, in plain text or anywhere else. NFC reorders Hebrew points and accents, so the text keeps the publisher's code points.
+
+### Notes
+
+- A note's `number` is its place in the chapter's reading order, from 1. Its caller in the stream has the same number.
+- A note's `verse` is the verse open where its caller sits, or 0 before verse 1. A note in a title before verse 1 is at 0.
+- The USFM caller `+` becomes a letter by note number: `a` to `z`, then `aa`. The caller `-` becomes an empty glyph. Any other caller is kept.
+- A footnote's text drops `fr` and `xo`, the reference its caller already implies. It keeps the words of `fq`, `fqa`, and `fk`, and the verse numbers of `fv`.
+- An `r` line of parallel passages becomes a `crossReference` note on the heading it follows, without its enclosing parentheses.
+- `targets` come from `\ref text|TARGET\ref*` and USFX `<ref tgt>`. A target is `BOOK C:V`, `BOOK C:V-V`, or `BOOK C:V-C:V`, or `BOOK V` and `BOOK V-V` in a one-chapter book. A target with no book id names a book outside the canon, such as 1 Enoch, and records nothing. Any other target that does not parse is dropped with a warning.
+
+### Verse numbers
+
+- A bridge such as `\v 1-2` is one `verse` item with `number` 1 and `through` 2.
+- A letter suffix is dropped. `\v 12a` opens verse 12, and a later `\v 12b` continues it with no new item.
+- A verse of the edition's scheme that the source does not print is **absent**. `ParsedBook.absentVerses` lists it, so validation can allow it. The BSB has 16 absent verses, such as Matthew 17:21, which it gives in a footnote. The TCGNT has 4: Luke 17:36, Acts 8:37, Acts 15:34, and Acts 24:7. The WLC has none.
+- A printed verse outside the scheme is a warning.
+
+### Words
+
+An edition is word-tagged when its source has `w` markers. In a tagged edition, every word gets a position in its verse, starting at 1, and a `WordTag`. A word the source leaves untagged, such as the WLC's `לָהֶ֖ם` between two `<w>` elements, keeps its position with no Strong's number. Spaces, punctuation such as maqaf, sof pasuq, paseq, and the Greek koronis, and the Masoretic paragraph letters `פ` and `ס` get no position.
+
+### Character styles
+
+In USFM, a paragraph marker ends every character style left open, as USFM 3 says. A style crosses verse markers and notes inside its paragraph. In USFX, the element nesting decides.
+
+### Edition repairs
+
+Some publisher files need repairs. Each edition names its own, and the generic parsers never apply them.
+
+| Edition | Repair |
+|---|---|
+| `bsb` | Rewrites three misused markers to their USFM 3 meaning. `\d` outside the Psalms becomes `\p`. Its one use is Zechariah 12:1, which is verse text. `\mr` becomes `\qd`. Its one use is Habakkuk 3:19's closing note. A `\qr` line of "Selah" or "Higgaion Selah" gets `\qs`. |
+| `bsb` | Removes bsb2usfm's typesetting artifacts from runs and notes: spaced em dashes, `[’’]`, brackets, a stray `vvv`, `...` before a number or a parenthesis, the typo `evenif`, spaces inside parentheses and quotes, and a missing space after punctuation. |
+| `wlc` | Restores 11 words whose markup eBible escaped into the text, such as Deuteronomy 6:4's `'l s="H8085"'`. Each becomes a tagged word again. The large, small, and suspended letter marks are dropped. |
+| `tcgnt` | Removes a stray `<ft>` around a footnote at John 8:10. |
+
+### Warnings
+
+A parse returns its warnings: unknown markers, unreadable targets, verses that start twice, and verses outside the scheme. Every locked edition parses with none.
 
 ## Versification
 
@@ -513,3 +585,4 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 ### Format version 1 (unreleased)
 
 - First definition: edition package schema, chapter model, JSON reference encoding, versification schemes `eng`, `heb`, and `grc`, and the canon package schema.
+- Parsing rules for USFM 3 and USFX sources, and the note caller rule for labels.

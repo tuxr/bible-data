@@ -14,6 +14,7 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Sources/BibleFormat/Resources/versification` | Verse counts per scheme and the mappings between schemes. |
 | `Sources/bible-pack` | The macOS CLI. |
 | `Tests` | Swift Testing suites for both targets. |
+| `Tests/Goldens` | Parsed chapters from the real sources, compared on every test run. |
 | `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS. |
 | `sources.lock.json` | The locked publisher sources. |
 | `FORMAT.md` | The format specification, versioned. |
@@ -42,7 +43,27 @@ swift run bible-pack --help
 | `canon build [--out dist/canon.sqlite] [--built-at <iso8601>]` | Writes `canon.sqlite` from the `BibleFormat` tables and prints each table's row count, the file size, and its SHA-256. |
 | `canon validate <path>` | Checks a canon package against the `BibleFormat` tables. Exits 1 on the first failure. |
 
+`bible-pack parse` reads an edition's locked zip from `.sources/` and shows what the parsers make of it.
+
+| Command | Does |
+|---|---|
+| `parse <edition>` | Prints the census: books, chapters, verses, absent verses, notes, words, and warnings. Exits 1 on any warning unless `--allow-warnings` is set. |
+| `parse <edition> --book PSA [--chapter 23]` | Prints a book or one chapter, one line per item. `--json` prints the items as `JSONChapterCodec` writes them, then the notes. `--plain` prints each verse's plain text. |
+
+The editions are `bsb`, `wlc`, and `tcgnt`. [FORMAT.md](FORMAT.md) lists the parsing rules.
+
 `build`, `validate`, and `manifest` take their arguments and stop. Phase 0 steps 4 and 6 implement them.
+
+## Tests
+
+`swift test` runs every suite. The golden and census suites need the publisher zips, so run `swift run bible-pack sources fetch` first. Without the zips, those suites are skipped.
+
+`Tests/Goldens/<edition>/<BOOK>-<chapter>.json` holds a chapter's items, notes, plain text, and word tags, one element per line. A golden test parses the chapter again and fails with the first differing line. After a parser change that is meant to change the output, rewrite the goldens and review the diff:
+
+```sh
+UPDATE_GOLDENS=1 swift test --filter GoldenTests
+git diff Tests/Goldens
+```
 
 ## Sources
 
