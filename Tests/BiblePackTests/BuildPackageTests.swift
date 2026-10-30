@@ -186,10 +186,12 @@ struct BuildPackageTests {
         #expect(throws: EditionMetadataError.self) { try EditionMetadata(jsonData: json(["script": "Cyrl"]), lock: lock) }
     }
 
-    @Test func buildRejectsBadOptions() {
+    @Test func buildRejectsBadOptions() throws {
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--version", "2026.13"]) }
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--built-at", "yesterday"]) }
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--encoding", "protobuf"]) }
-        #expect(PackageWriter.version(for: Date(timeIntervalSince1970: 1_793_232_000)) == "2026.10")
+        #expect(throws: (any Error).self) { try Build.parse(["bsb", "--version", "2026.10.01"]) }
+        #expect(try Build.parse(["bsb", "--version", "2026.10.1"]).output.stamp.packageVersion.description == "2026.10.1")
+        #expect(try Build.parse(["bsb", "--built-at", "2026-10-31T23:59:59Z"]).output.stamp.packageVersion.description == "2026.10")
     }
 }

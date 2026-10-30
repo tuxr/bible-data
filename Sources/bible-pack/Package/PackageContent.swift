@@ -16,6 +16,7 @@ struct PackageContent {
     let metadata: EditionMetadata
     let source: LockedSource
     let books: [ParsedBook]
+    let version: PackageVersion
     let builtAt: String
     let encoding: ChapterEncoding
 
@@ -27,6 +28,7 @@ struct PackageContent {
 
     var meta: PackageTable {
         let rows: [(PackageSchema.MetaKey, String)] = [
+            (.version, version.description),
             (.builtAt, builtAt),
             (.builderVersion, BiblePackVersion.current),
             (.sourceLock, Self.json(source)),

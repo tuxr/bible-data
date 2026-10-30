@@ -2,12 +2,9 @@ import ArgumentParser
 import BibleFormat
 import Foundation
 
-/// The options `build-words` and `build-lexicon` share with `build`.
-struct PackageOutputOptions: ParsableArguments {
-    @Option(help: "Directory the package is written to.")
-    var out = "dist/"
-
-    @Option(help: ArgumentHelp("The package version. Defaults to the year and month of --built-at, in UTC.", valueName: "yyyy.mm"))
+/// The version and build time every package takes, and where `build`, `build-words`, and `build-lexicon` write.
+struct PackageVersionOptions: ParsableArguments {
+    @Option(help: ArgumentHelp("The package version, yyyy.mm or yyyy.mm.n for a rebuild in the same month. Defaults to the year and month of --built-at, in UTC.", valueName: "version"))
     var version: String?
 
     @Option(help: ArgumentHelp("Pin meta.built_at, so two builds are byte-identical. Defaults to now.", valueName: "iso8601"))
@@ -17,15 +14,24 @@ struct PackageOutputOptions: ParsableArguments {
         if let builtAt, CanonPackage.parseBuiltAt(builtAt) == nil {
             throw ValidationError("--built-at takes an ISO 8601 UTC time such as 2026-10-29T00:00:00Z, got \(builtAt)")
         }
-        if let version, !PackageWriter.isValidVersion(version) {
-            throw ValidationError("--version takes yyyy.mm, such as 2026.10, got \(version)")
+        if let version, PackageVersion(version) == nil {
+            throw ValidationError("--version takes yyyy.mm or yyyy.mm.n, such as 2026.10 or 2026.10.1, got \(version)")
         }
     }
 
     var date: Date { builtAt.flatMap(CanonPackage.parseBuiltAt) ?? Date() }
+    var builtAtText: String { CanonPackage.formatBuiltAt(date) }
+    var packageVersion: PackageVersion { version.flatMap(PackageVersion.init) ?? PackageVersion(date: date) }
+}
+
+struct PackageOutputOptions: ParsableArguments {
+    @Option(help: "Directory the package is written to.")
+    var out = "dist/"
+
+    @OptionGroup var stamp: PackageVersionOptions
 
     func destination(_ name: (String) -> String) -> URL {
-        URL(fileURLWithPath: out, isDirectory: true).appendingPathComponent(name(version ?? PackageWriter.version(for: date)))
+        URL(fileURLWithPath: out, isDirectory: true).appendingPathComponent(name(stamp.packageVersion.description))
     }
 }
 
@@ -70,7 +76,7 @@ struct BuildWords: ParsableCommand {
             throw PackageError(description: shortfalls.joined(separator: "; ") + "; pass --allow-gaps to write it anyway")
         }
         let content = WordsContent(
-            edition: edition, tagged: tagged, lock: lock, builtAt: CanonPackage.formatBuiltAt(output.date), rows: built.rows
+            edition: edition, tagged: tagged, lock: lock, version: output.stamp.packageVersion, builtAt: output.stamp.builtAtText, rows: built.rows
         )
         let summary = try PackageWriter.build(
             ddl: WordsSchema.ddl, tables: content.tables(),

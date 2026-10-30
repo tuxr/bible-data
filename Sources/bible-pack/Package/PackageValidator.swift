@@ -106,8 +106,11 @@ enum PackageValidator {
             throw PackageValidationError(check: .edition, message: "edition row \(describe(edition)) names an unknown script, "
                 + "direction, versification, or chapter encoding, or a built_at that differs from meta")
         }
+        guard let version = meta[PackageSchema.MetaKey.version.rawValue].flatMap(PackageVersion.init) else {
+            throw PackageValidationError(check: .edition, message: "meta.version is \(meta["version"] ?? "missing"), expected yyyy.mm or yyyy.mm.n")
+        }
         let counts = try Versification.counts(for: scheme)
-        try check(.edition, "\(editionID), \(script.rawValue), \(scheme.rawValue), chapter encoding \(encoding)", failure: nil)
+        try check(.edition, "\(editionID) \(version), \(script.rawValue), \(scheme.rawValue), chapter encoding \(encoding)", failure: nil)
 
         let books = try bookRows(database)
         try check(.books, "\(books.count) books in canonical order", failure: booksFailure(books, counts: counts, canon: canon))
@@ -179,7 +182,7 @@ enum PackageValidator {
             } catch {
                 throw PackageValidationError(check: .againstSource, message: "\(error)")
             }
-            let content = input.content(builtAt: builtAt, encoding: encoding)
+            let content = input.content(version: version, builtAt: builtAt, encoding: encoding)
             try check(.againstSource, "\(decoded.count) chapters and every row match \(input.source.file)",
                       failure: try againstSourceFailure(database, content: content, decoded: decoded, meta: meta))
         }

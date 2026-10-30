@@ -52,7 +52,7 @@ struct BuildLexicon: ParsableCommand {
             }
         }
         let summary = try PackageWriter.build(
-            ddl: LexiconSchema.ddl, tables: build.tables(builtAt: CanonPackage.formatBuiltAt(output.date)),
+            ddl: LexiconSchema.ddl, tables: build.tables(version: output.stamp.packageVersion, builtAt: output.stamp.builtAtText),
             to: output.destination(language.fileName)
         )
         summary.lines.forEach { print($0) }

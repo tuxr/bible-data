@@ -182,13 +182,15 @@ extension FileSetFiles {
 /// Everything a words package holds. `build-words` inserts these tables.
 struct WordsContent {
     let edition: EditionInput
+    let version: PackageVersion
     let builtAt: String
     let sources: [String]
     let attribution: [String]
     let rows: [WordRow]
 
-    init(edition: EditionInput, tagged: TaggedEdition, lock: SourcesLock, builtAt: String, rows: [WordRow]) {
+    init(edition: EditionInput, tagged: TaggedEdition, lock: SourcesLock, version: PackageVersion, builtAt: String, rows: [WordRow]) {
         self.edition = edition
+        self.version = version
         self.builtAt = builtAt
         sources = [edition.edition.id] + tagged.wordSources
         attribution = [edition.metadata.attribution] + SourceCredits.lines(for: tagged.wordSources, lock: lock)
@@ -197,6 +199,7 @@ struct WordsContent {
 
     func tables() -> [PackageTable] {
         let meta: [(WordsSchema.MetaKey, String)] = [
+            (.version, version.description),
             (.builtAt, builtAt),
             (.builderVersion, BiblePackVersion.current),
             (.edition, edition.edition.id),

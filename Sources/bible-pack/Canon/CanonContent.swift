@@ -22,8 +22,9 @@ enum CanonContent {
     }
 
     /// The `meta` rows the builder adds. The schema inserts `format_version`.
-    static func meta(builtAt: String) -> [(key: String, value: String)] {
+    static func meta(version: PackageVersion, builtAt: String) -> [(key: String, value: String)] {
         [
+            (PackageSchema.MetaKey.version.rawValue, version.description),
             (PackageSchema.MetaKey.builtAt.rawValue, builtAt),
             (PackageSchema.MetaKey.builderVersion.rawValue, BiblePackVersion.current),
             ("versification_attribution", Versification.attribution),

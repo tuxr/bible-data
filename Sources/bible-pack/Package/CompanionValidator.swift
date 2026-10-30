@@ -48,6 +48,7 @@ enum CompanionValidator {
     private static func sharedMeta(_ meta: [String: String], kind: PackageKind) -> String? {
         if meta[PackageKind.metaKey] != kind.rawValue { return "kind is \(meta[PackageKind.metaKey] ?? "missing"), expected \(kind.rawValue)" }
         if meta["format_version"] != "\(PackageFormat.version)" { return "format_version is \(meta["format_version"] ?? "missing"), expected \(PackageFormat.version)" }
+        if meta["version"].flatMap(PackageVersion.init) == nil { return "version is \(meta["version"] ?? "missing"), expected yyyy.mm or yyyy.mm.n" }
         if meta["built_at"].flatMap(CanonPackage.parseBuiltAt) == nil { return "built_at is \(meta["built_at"] ?? "missing"), expected an ISO 8601 UTC time" }
         if meta["builder_version"]?.isEmpty != false { return "builder_version is missing" }
         for key in ["attribution", "sources"] where meta[key].flatMap(MetaStrings.decode).map({ $0.isEmpty || $0.contains("") }) != false {

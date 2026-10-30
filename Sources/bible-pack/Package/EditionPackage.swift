@@ -32,16 +32,14 @@ struct EditionInput {
         return EditionInput(edition: edition, metadata: metadata, source: source, books: parsed.books)
     }
 
-    func content(builtAt: String, encoding: ChapterEncoding) -> PackageContent {
-        PackageContent(metadata: metadata, source: source, books: books, builtAt: builtAt, encoding: encoding)
+    func content(version: PackageVersion, builtAt: String, encoding: ChapterEncoding) -> PackageContent {
+        PackageContent(metadata: metadata, source: source, books: books, version: version, builtAt: builtAt, encoding: encoding)
     }
 }
 
 enum EditionPackage {
     /// The encoding `build` writes when `--encoding` is not given.
     static let defaultEncoding = ChapterEncoding.binary
-
-    static func fileName(id: String, version: String) -> String { "\(id)-\(version).bible" }
 
     static func build(_ content: PackageContent, to destination: URL) throws -> PackageBuildSummary {
         try PackageWriter.build(ddl: PackageSchema.ddl, tables: try content.tables(), to: destination) { database in

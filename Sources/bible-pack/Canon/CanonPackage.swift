@@ -1,12 +1,6 @@
 import BibleFormat
 import Foundation
 
-struct CanonBuildSummary {
-    let rowCounts: [(table: String, rows: Int)]
-    let bytes: Int
-    let sha256: String
-}
-
 struct CanonPackageError: Error, CustomStringConvertible {
     /// The table the failure is about, or `database` for a whole-file check.
     let table: String
@@ -18,13 +12,13 @@ struct CanonPackageError: Error, CustomStringConvertible {
 enum CanonPackage {
     /// Writes beside `destination` and renames into place, so `destination` is never a partial file.
     /// A `.partial` file left by a crashed run is removed by the next run.
-    static func build(to destination: URL, builtAt: String) throws -> CanonBuildSummary {
+    static func build(to destination: URL, version: PackageVersion, builtAt: String) throws -> PackageBuildSummary {
         let tables = try CanonContent.tables()
         try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
         let partial = destination.deletingLastPathComponent().appendingPathComponent(destination.lastPathComponent + ".partial")
         removeDatabase(at: partial)
         do {
-            try write(tables, builtAt: builtAt, to: partial)
+            try write(tables, version: version, builtAt: builtAt, to: partial)
             guard rename(partial.path, destination.path) == 0 else {
                 throw CanonPackageError(table: "database", message: "cannot move into \(destination.path): \(String(cString: strerror(errno)))")
             }
@@ -33,12 +27,12 @@ enum CanonPackage {
             throw error
         }
 
+        let compressed = try PackageWriter.writeCompressed(beside: destination)
         let database = try SQLiteDatabase(path: destination.path, mode: .readOnly)
         let rowCounts = try (["meta"] + tables.map(\.name)).map { table in
             (table, try count(in: database, "SELECT count(*) FROM \(table)"))
         }
-        let bytes = try Data(contentsOf: destination)
-        return CanonBuildSummary(rowCounts: rowCounts, bytes: bytes.count, sha256: sha256Hex(bytes))
+        return PackageBuildSummary(rowCounts: rowCounts, package: try PackageFile(destination), compressed: compressed)
     }
 
     /// Reports each passing check to `pass` and throws on the first failure.
@@ -64,6 +58,9 @@ enum CanonPackage {
         let kind = metaValue(.kind)
         try check("meta kind canon", table: "meta", failure: kind == PackageKind.canon.rawValue
             ? nil : "kind is \(kind ?? "missing"), expected \(PackageKind.canon.rawValue)")
+        let version = metaValue(.version)
+        try check("meta version", table: "meta", failure: version.flatMap(PackageVersion.init) != nil
+            ? nil : "version is \(version ?? "missing"), expected yyyy.mm or yyyy.mm.n")
         let builtAt = metaValue(.builtAt)
         try check("meta built_at", table: "meta", failure: builtAt.flatMap(parseBuiltAt) != nil
             ? nil : "built_at is \(builtAt ?? "missing"), expected an ISO 8601 UTC time")
@@ -86,6 +83,12 @@ enum CanonPackage {
                       failure: (chapters, verses) == (counts.chapterCount, counts.verseCount)
                           ? nil : "\(scheme.rawValue) totals \(chapters) chapters and \(verses) verses, expected \(counts.chapterCount) and \(counts.verseCount)")
         }
+
+        switch PackageWriter.checkCompressed(beside: url, packageBytes: try Data(contentsOf: url)) {
+        case .absent: break
+        case .matches(let detail): try check(detail, table: "compressed", failure: nil)
+        case .fails(let failure): try check("", table: "compressed", failure: failure)
+        }
     }
 
     static func parseBuiltAt(_ text: String) -> Date? {
@@ -96,13 +99,13 @@ enum CanonPackage {
         date.formatted(Date.ISO8601FormatStyle())
     }
 
-    private static func write(_ tables: [CanonTable], builtAt: String, to url: URL) throws {
+    private static func write(_ tables: [CanonTable], version: PackageVersion, builtAt: String, to url: URL) throws {
         let database = try SQLiteDatabase(path: url.path, mode: .create)
         try database.pragma("page_size", "4096")
         try database.pragma("foreign_keys", "ON")
         try database.transaction {
             try database.exec(CanonSchema.ddl)
-            let meta = CanonTable(name: "meta", columns: ["key", "value"], rows: CanonContent.meta(builtAt: builtAt).map { [.text($0.key), .text($0.value)] })
+            let meta = CanonTable(name: "meta", columns: ["key", "value"], rows: CanonContent.meta(version: version, builtAt: builtAt).map { [.text($0.key), .text($0.value)] })
             for table in [meta] + tables {
                 let insert = try database.prepare(table.insertSQL)
                 for row in table.rows {
