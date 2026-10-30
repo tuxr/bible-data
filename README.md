@@ -34,9 +34,9 @@ swift run bible-pack --help
 |---|---|
 | `sources show` | Prints the lock. |
 | `sources lock [id ...]` | Downloads each source, computes its hashes and revision, and rewrites the lock. A file set is rebuilt into `.sources/<id>.zip`. `--add <id>:<format>:<url>` adds a publisher zip, `usfm` or `usfx`. |
-| `sources add-files <id> --repo <tree-url> --license <text> --attribution <text> <raw-url> ...` | Adds a file set: plain files at one GitHub commit. `--repo` is `https://github.com/<owner>/<repo>/tree/<sha>`, and each raw URL must be `https://raw.githubusercontent.com/<owner>/<repo>/<sha>/<path>` at that commit. Writes `.sources/<id>.zip` and prints the archive name to upload. |
+| `sources add-files <id> --repo <tree-url> --license <text> --attribution <text> [--not-redistributable] <raw-url> ...` | Adds a file set: plain files at one GitHub commit. `--repo` is `https://github.com/<owner>/<repo>/tree/<sha>`, and each raw URL must be `https://raw.githubusercontent.com/<owner>/<repo>/<sha>/<path>` at that commit. Writes `.sources/<id>.zip` and prints the archive name to upload. `--not-redistributable` locks no archive, for files whose license asks not to be redistributed. |
 | `sources verify [id ...]` | Downloads each source and compares it to the lock. Exits 1 on any change. |
-| `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the upstream second. A file set's upstream is its files, rebuilt into the zip. Exits 1 on a hash mismatch. |
+| `sources fetch [id ...]` | Puts the locked bytes in `.sources/`, from the archive first and the upstream second. A file set's upstream is its files, rebuilt into the zip. A set with no archive is always rebuilt from its files. Exits 1 on a hash mismatch. |
 
 `bible-pack canon` builds and checks the canon package.
 
@@ -66,11 +66,31 @@ swift run -c release bible-pack build bsb --out dist
 swift run -c release bible-pack validate dist/bsb-2026.10.bible --against-source
 ```
 
+`bible-pack build-words` and `bible-pack build-lexicon` make the word study packages, and `validate` checks them.
+
+| Command | Does |
+|---|---|
+| `build-words <wlc\|tcgnt> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--allow-gaps]` | Parses the edition, aligns its words with the edition's word sources, prints the coverage table, and writes `<id>-<version>.words` and its `.xz`. Refuses a gloss coverage under 95 percent, or a TCGNT morph coverage under 95 percent, unless `--allow-gaps`. |
+| `build-lexicon <greek\|hebrew> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--count-from <words file>] [--allow-gaps]` | Writes `lexicon-<language>-<version>.lexicon` and its `.xz`. With `--count-from`, fills `occurrences` and refuses the build when the words package uses an id the lexicon lacks, unless `--allow-gaps`. |
+| `validate <words file> [--against-source] [--lexicon <lexicon file>]` | Checks verse ids, positions, Strong's ids, and parts. `--lexicon` checks every Strong's id has an entry. `--against-source` parses the edition again and compares every surface and position. |
+| `validate <lexicon file> [--words <words file>]` | Checks ids, their order, and lemmas. `--words` checks every id that words package uses has an entry. |
+
+`validate` reads a file's `meta.kind` and runs that kind's checks, so it takes edition, words, lexicon, and canon packages alike.
+
+```sh
+swift run -c release bible-pack build-words tcgnt --out dist
+swift run -c release bible-pack build-lexicon greek --out dist --count-from dist/tcgnt-2026.10.words
+swift run -c release bible-pack validate dist/tcgnt-2026.10.words --against-source --lexicon dist/lexicon-greek-2026.10.lexicon
+swift run -c release bible-pack validate dist/lexicon-greek-2026.10.lexicon --words dist/tcgnt-2026.10.words
+```
+
+[FORMAT.md](FORMAT.md#words-package) gives the alignment rules, the coverage of each package, and what each word source's license lets a package ship.
+
 `manifest` takes its arguments and stops. Phase 0 step 6 implements it.
 
 ## Tests
 
-`swift test` runs every suite. The golden, census, and package build suites need the publisher zips, so run `swift run bible-pack sources fetch` first. Without the zips, those suites are skipped.
+`swift test` runs every suite. The golden, census, package build, and words build suites need the locked sources, so run `swift run bible-pack sources fetch` first. Without the zips, those suites are skipped.
 
 `Tests/Goldens/<edition>/<BOOK>-<chapter>.json` holds a chapter's items, notes, plain text, and word tags, one element per line. A golden test parses the chapter again and fails with the first differing line. After a parser change that is meant to change the output, rewrite the goldens and review the diff:
 
@@ -83,17 +103,17 @@ git diff Tests/Goldens
 
 Publishers serve only the latest revision at an unversioned URL. The lock pins each adopted zip by SHA-256, records the publisher's revision date and a hash of the scripture inside the zip, and names an archived copy of exactly those bytes under the `source-archive` GitHub release. A zip whose bytes change but whose scripture hash does not was only re-zipped.
 
-Word and lexicon sources are plain files in Git repositories. The lock pins each set of them to a commit, by each file's SHA-256 and a hash over the whole set, and `bible-pack` packs them into a deterministic `<id>.zip` that the release archives too. [FORMAT.md](FORMAT.md#sources-lock) defines both kinds of entry.
+Word and lexicon sources are plain files in Git repositories. The lock pins each set of them to a commit, by each file's SHA-256 and a hash over the whole set, and `bible-pack` packs them into a deterministic `<id>.zip`. The release archives that zip for `byztxt` and `strongs`. The four STEPBible sets ask not to be redistributed, so their entries say `"redistributable": false` and `sources fetch` rebuilds them from STEPBible's own files. [FORMAT.md](FORMAT.md#sources-lock) defines both kinds of entry.
 
 | Id | Source | Format |
 |---|---|---|
 | `bsb` | Berean Standard Bible, from bereanbible.com | USFM 3 |
 | `wlc` | Westminster Leningrad Codex, from eBible | USFX |
 | `tcgnt` | Text-Critical Greek New Testament, from eBible | USFX |
-| `tahot` | STEPBible TAHOT, the tagged Hebrew OT, in 4 files | files, CC BY 4.0 |
-| `tagnt` | STEPBible TAGNT, the tagged Greek NT, in 2 files | files, CC BY 4.0 |
-| `tbesg` | STEPBible TBESG, the brief Greek lexicon | files, CC BY 4.0 |
-| `tbesh` | STEPBible TBESH, the brief Hebrew lexicon | files, CC BY 4.0 |
+| `tahot` | STEPBible TAHOT, the tagged Hebrew OT, in 4 files | files, CC BY 4.0, not redistributed |
+| `tagnt` | STEPBible TAGNT, the tagged Greek NT, in 2 files | files, CC BY 4.0, not redistributed |
+| `tbesg` | STEPBible TBESG, the brief Greek lexicon | files, CC BY 4.0, not redistributed |
+| `tbesh` | STEPBible TBESH, the brief Hebrew lexicon | files, CC BY 4.0, not redistributed |
 | `byztxt` | Robinson-Pierpont Byzantine Textform 2018, 27 CSV books with Strong's numbers and parsing | files, public domain |
 | `strongs` | Strong's Greek and Hebrew dictionaries in XML, from Open Scriptures | files, public domain |
 

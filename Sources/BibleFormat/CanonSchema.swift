@@ -8,6 +8,7 @@ public enum CanonSchema {
         ) WITHOUT ROWID;
 
         INSERT INTO meta (key, value) VALUES ('format_version', '\(version)');
+        INSERT INTO meta (key, value) VALUES ('\(PackageKind.metaKey)', '\(PackageKind.canon.rawValue)');
 
         CREATE TABLE sections (
           id TEXT PRIMARY KEY NOT NULL,

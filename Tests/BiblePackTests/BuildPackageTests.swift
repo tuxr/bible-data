@@ -86,7 +86,7 @@ struct BuildPackageTests {
         let first = Built.bsbBinary
         let second = Built.bsbBinaryAgain
         #expect(try Data(contentsOf: first) == Data(contentsOf: second))
-        #expect(try Data(contentsOf: EditionPackage.compressedURL(for: first)) == Data(contentsOf: EditionPackage.compressedURL(for: second)))
+        #expect(try Data(contentsOf: PackageWriter.compressedURL(for: first)) == Data(contentsOf: PackageWriter.compressedURL(for: second)))
         let contents = try FileManager.default.contentsOfDirectory(atPath: first.deletingLastPathComponent().path).sorted()
         #expect(contents == ["bsb-2026.10.bible", "bsb-2026.10.bible.xz"])
         #expect(try validate(first) == PackageCheck.allCases.filter { $0 != .againstSource })
@@ -95,7 +95,7 @@ struct BuildPackageTests {
     /// The plan targets about 10 MB on disk and 3 MB to download for an English edition.
     @Test func bsbFitsTheSizeBudget() throws {
         let package = try Data(contentsOf: Built.bsbBinary)
-        let compressed = try Data(contentsOf: EditionPackage.compressedURL(for: Built.bsbBinary))
+        let compressed = try Data(contentsOf: PackageWriter.compressedURL(for: Built.bsbBinary))
         #expect(package.count < 15_000_000)
         #expect(compressed.count < 5_000_000)
         #expect(compressed.prefix(6) == Data([0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00]), "an xz stream")
@@ -190,6 +190,6 @@ struct BuildPackageTests {
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--version", "2026.13"]) }
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--built-at", "yesterday"]) }
         #expect(throws: (any Error).self) { try Build.parse(["bsb", "--encoding", "protobuf"]) }
-        #expect(EditionPackage.version(for: Date(timeIntervalSince1970: 1_793_232_000)) == "2026.10")
+        #expect(PackageWriter.version(for: Date(timeIntervalSince1970: 1_793_232_000)) == "2026.10")
     }
 }

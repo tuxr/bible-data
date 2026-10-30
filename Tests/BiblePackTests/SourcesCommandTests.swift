@@ -79,7 +79,7 @@ private func serving(_ files: [URL: Data]) -> Download {
         defer { try? FileManager.default.removeItem(at: directory) }
 
         let moved = tcgnt("<usfx>newer</usfx>", on: "2026-10-28")
-        #expect(try await cache.fetch(source, download: serving([source.archive: zip, upstream: moved])) == .fetched(from: .archive))
+        #expect(try await cache.fetch(source, download: serving([source.archive!: zip, upstream: moved])) == .fetched(from: .archive))
         #expect(cache.contents(of: source.file) == zip)
     }
 

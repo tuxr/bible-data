@@ -25,7 +25,8 @@ extension LockedSource {
                 commit: commit,
                 members: set.files.map { FileSetSpec.Member(name: $0.name, url: $0.url) },
                 license: set.license,
-                attribution: set.attribution
+                attribution: set.attribution,
+                redistributable: archive != nil
             ))
         }
     }

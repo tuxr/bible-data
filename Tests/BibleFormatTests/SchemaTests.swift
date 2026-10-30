@@ -121,6 +121,49 @@ import Testing
     }
 }
 
+@Suite struct CompanionSchemaTests {
+    @Test(arguments: [(WordsSchema.ddl, "words"), (LexiconSchema.ddl, "lexicon"), (PackageSchema.ddl, "edition"), (CanonSchema.ddl, "canon")])
+    func everySchemaNamesItsKind(_ ddl: String, _ kind: String) throws {
+        let database = try SQLiteDatabase()
+        try database.execute(ddl)
+        #expect(try database.rows("SELECT value FROM meta WHERE key = 'kind'") == [[Optional(kind)]])
+        #expect(try database.rows("SELECT value FROM meta WHERE key = 'format_version'") == [["1"]])
+    }
+
+    @Test func aWordIsKeyedByVerseAndPosition() throws {
+        let database = try SQLiteDatabase()
+        try database.execute(WordsSchema.ddl)
+        try database.execute("INSERT INTO words (verse_id, position, surface, strong) VALUES (1001001, 1, 'בְּרֵאשִׁ֖ית', 'H7225')")
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO words (verse_id, position, surface) VALUES (1001001, 1, 'x')") }
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO words (verse_id, position, surface) VALUES (1001001, 0, 'x')") }
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO words (verse_id, position) VALUES (1001001, 2)") }
+    }
+
+    @Test func anEntryNeedsALemma() throws {
+        let database = try SQLiteDatabase()
+        try database.execute(LexiconSchema.ddl)
+        try database.execute("INSERT INTO entries (strong, lemma, occurrences) VALUES ('G3056', 'λόγος', 330)")
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO entries (strong, lemma) VALUES ('G3057', '')") }
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO entries (strong, lemma, occurrences) VALUES ('G3058', 'x', -1)") }
+        #expect(throws: (any Error).self) { try database.execute("INSERT INTO entries (strong, lemma) VALUES ('G3056', 'λόγος')") }
+    }
+
+    @Test func partsRoundTripWithAbsentFieldsLeftOut() {
+        let parts = [WordPart(strong: "H9003", gloss: "in", surface: "בְּ"), WordPart(strong: "H7225", morph: "HNcfsa", gloss: "beginning")]
+        let encoded = WordParts.encode(parts)
+        #expect(encoded == #"[{"gloss":"in","strong":"H9003","surface":"בְּ"},{"gloss":"beginning","morph":"HNcfsa","strong":"H7225"}]"#)
+        #expect(WordParts.decode(encoded) == parts)
+        #expect(WordParts.decode("[]") == nil)
+        #expect(WordParts.decode("{}") == nil)
+    }
+
+    @Test func lexiconFilesAreNamedByLanguage() {
+        #expect(LexiconLanguage.greek.fileName(version: "2026.10") == "lexicon-greek-2026.10.lexicon")
+        #expect(LexiconLanguage(code: "hbo") == .hebrew)
+        #expect(WordsSchema.fileName(edition: "wlc", version: "2026.10") == "wlc-2026.10.words")
+    }
+}
+
 @Suite struct FormatDocumentTests {
     private func formatDocument() throws -> String {
         let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
@@ -134,5 +177,13 @@ import Testing
 
     @Test func quotesTheCanonSchemaVerbatim() throws {
         #expect(try formatDocument().contains(CanonSchema.ddl))
+    }
+
+    @Test func quotesTheWordsSchemaVerbatim() throws {
+        #expect(try formatDocument().contains(WordsSchema.ddl))
+    }
+
+    @Test func quotesTheLexiconSchemaVerbatim() throws {
+        #expect(try formatDocument().contains(LexiconSchema.ddl))
     }
 }

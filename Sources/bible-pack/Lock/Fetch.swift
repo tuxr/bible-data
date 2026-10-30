@@ -38,21 +38,21 @@ extension LockedSource {
     // Archive first because it holds exactly the locked bytes; the upstream only does until it moves.
     // A file set's upstream is its members, which are rebuilt into the zip the lock names.
     fileprivate func origins(_ download: @escaping Download) -> [(FetchOrigin, () async throws -> Data)] {
-        let archived: () async throws -> Data = {
+        let archived: [(FetchOrigin, () async throws -> Data)] = archive.map { archive in [(.archive, {
             let bytes = try await download(archive)
             guard sha256Hex(bytes) == zipSha256 else { throw HashMismatch(sha256: sha256Hex(bytes)) }
             if case .files = kind { try Self.checkFileSetArchive(bytes, sha256: sha256) }
             return bytes
-        }
+        })] } ?? []
         switch kind {
         case .zip:
-            return [(.archive, archived), (.url, {
+            return archived + [(.url, {
                 let bytes = try await download(url)
                 guard sha256Hex(bytes) == sha256 else { throw HashMismatch(sha256: sha256Hex(bytes)) }
                 return bytes
             })]
         case .files(let set):
-            return [(.archive, archived), (.members, { try await rebuildFileSet(set, download: download) })]
+            return archived + [(.members, { try await rebuildFileSet(set, download: download) })]
         }
     }
 }

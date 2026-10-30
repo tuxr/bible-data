@@ -63,10 +63,12 @@ public struct LockedSource: Sendable, Hashable {
     public var revision: String
     public var sha256: String
     public var bytes: Int
-    public var archive: URL
+    /// The archived copy under the `source-archive` release, or nil for a file set whose license asks that
+    /// it not be redistributed, which `sources fetch` rebuilds from its files instead.
+    public var archive: URL?
     public var kind: Kind
 
-    public init(file: String, url: URL, revision: String, sha256: String, bytes: Int, archive: URL, kind: Kind) {
+    public init(file: String, url: URL, revision: String, sha256: String, bytes: Int, archive: URL?, kind: Kind) {
         self.file = file
         self.url = url
         self.revision = revision
@@ -87,7 +89,7 @@ public struct LockedSource: Sendable, Hashable {
 
 extension LockedSource: Codable {
     private enum CodingKeys: String, CodingKey {
-        case format, file, url, revision, sha256, bytes, archive
+        case format, file, url, revision, sha256, bytes, archive, redistributable
         case scriptureSha256
         case files, archiveSha256, license, attribution
     }
@@ -108,13 +110,20 @@ extension LockedSource: Codable {
         } else {
             throw DecodingError.dataCorruptedError(forKey: .format, in: container, debugDescription: "unknown source format \(format)")
         }
+        // An entry names its archive or says it has none; never both, never neither.
+        let archive = try container.decodeIfPresent(URL.self, forKey: .archive)
+        let redistributable = try container.decodeIfPresent(Bool.self, forKey: .redistributable)
+        guard (archive != nil && redistributable == nil) || (archive == nil && redistributable == false) else {
+            throw DecodingError.dataCorruptedError(forKey: .archive, in: container,
+                                                   debugDescription: "an entry has an archive or \"redistributable\": false, not both")
+        }
         self.init(
             file: try container.decode(String.self, forKey: .file),
             url: try container.decode(URL.self, forKey: .url),
             revision: try container.decode(String.self, forKey: .revision),
             sha256: try container.decode(String.self, forKey: .sha256),
             bytes: try container.decode(Int.self, forKey: .bytes),
-            archive: try container.decode(URL.self, forKey: .archive),
+            archive: archive,
             kind: kind
         )
     }
@@ -127,7 +136,11 @@ extension LockedSource: Codable {
         try container.encode(revision, forKey: .revision)
         try container.encode(sha256, forKey: .sha256)
         try container.encode(bytes, forKey: .bytes)
-        try container.encode(archive, forKey: .archive)
+        if let archive {
+            try container.encode(archive, forKey: .archive)
+        } else {
+            try container.encode(false, forKey: .redistributable)
+        }
         switch kind {
         case .zip(_, let scriptureSha256):
             try container.encode(scriptureSha256, forKey: .scriptureSha256)
@@ -145,6 +158,7 @@ public enum SourcesLockError: Error, Equatable, CustomStringConvertible {
     case invalidFileName(String)
     case invalidMemberName(String)
     case unsortedFileSet(String)
+    case noArchive(String)
 
     public var description: String {
         switch self {
@@ -156,6 +170,8 @@ public enum SourcesLockError: Error, Equatable, CustomStringConvertible {
             "file set member name \(name) must be one plain file name with letters, digits, '.', '_', or '-'"
         case .unsortedFileSet(let id):
             "\(id): file set members must be sorted by name with no duplicates"
+        case .noArchive(let id):
+            "\(id): a publisher zip must name its archive; only a file set can be redistributable: false"
         }
     }
 }
@@ -173,6 +189,7 @@ extension LockedSource {
         switch kind {
         case .zip:
             guard url.lastPathComponent == file else { throw SourcesLockError.invalidFileName(file) }
+            guard archive != nil else { throw SourcesLockError.noArchive(id) }
         case .files(let set):
             guard file == "\(id).zip" else { throw SourcesLockError.invalidFileName(file) }
             if let bad = set.files.first(where: { !LockedFile.isValidName($0.name) }) {

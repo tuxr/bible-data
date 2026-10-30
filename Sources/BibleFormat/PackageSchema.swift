@@ -6,10 +6,22 @@ public enum PackageFormat {
     public static let minor = 0
 }
 
+/// The `meta.kind` value every package's schema inserts, so a reader knows what a file is before it reads
+/// any other table.
+public enum PackageKind: String, Sendable, Hashable, CaseIterable {
+    case edition
+    case words
+    case lexicon
+    case canon
+
+    public static let metaKey = "kind"
+}
+
 public enum PackageSchema {
     public enum MetaKey: String, CaseIterable, Sendable {
         case formatVersion = "format_version"
         case formatMinor = "format_minor"
+        case kind
         case builtAt = "built_at"
         case builderVersion = "builder_version"
         case sourceLock = "source_lock"
@@ -47,6 +59,7 @@ public enum PackageSchema {
 
         INSERT INTO meta (key, value) VALUES ('\(MetaKey.formatVersion.rawValue)', '\(PackageFormat.version)');
         INSERT INTO meta (key, value) VALUES ('\(MetaKey.formatMinor.rawValue)', '\(PackageFormat.minor)');
+        INSERT INTO meta (key, value) VALUES ('\(MetaKey.kind.rawValue)', '\(PackageKind.edition.rawValue)');
 
         CREATE TABLE edition (
           id TEXT PRIMARY KEY NOT NULL,
@@ -173,6 +186,19 @@ public enum AbsentVerses {
             refs.append(VerseRef(book, chapter, verse))
         }
         return refs
+    }
+}
+
+/// A `meta` value that holds a JSON array of strings, such as a words package's `attribution`.
+public enum MetaStrings {
+    public static func encode(_ strings: [String]) -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.withoutEscapingSlashes]
+        return String(decoding: try! encoder.encode(strings), as: UTF8.self)
+    }
+
+    public static func decode(_ value: String) -> [String]? {
+        try? JSONDecoder().decode([String].self, from: Data(value.utf8))
     }
 }
 

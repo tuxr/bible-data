@@ -51,6 +51,8 @@ struct FileSetSpec: Equatable {
     var members: [Member]
     var license: String
     var attribution: String
+    /// False when the files' license asks that they not be redistributed, so the lock names no archive.
+    var redistributable = true
 }
 
 enum FileSetError: Error, Equatable, CustomStringConvertible {
@@ -105,7 +107,7 @@ extension LockedSource {
             revision: revision,
             sha256: sha256,
             bytes: members.reduce(0) { $0 + $1.data.count },
-            archive: SourcesLock.archiveURL(file: file, revision: revision, sha256: sha256),
+            archive: spec.redistributable ? SourcesLock.archiveURL(file: file, revision: revision, sha256: sha256) : nil,
             kind: .files(FileSet(
                 files: members.map { LockedFile(name: $0.name, url: $0.url, sha256: sha256Hex($0.data), bytes: $0.data.count) },
                 archiveSha256: sha256Hex(zipBytes),

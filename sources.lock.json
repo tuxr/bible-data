@@ -213,7 +213,6 @@
       "url": "https://github.com/openscriptures/strongs/tree/0acd2f251c2d35ff8db2dece4e0593979d3ac223"
     },
     "tagnt": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/tagnt-2026-10-24-f9435cbb.zip",
       "archiveSha256": "c6dbe5f119d9f95cf2cf322ce49c487349d8a40c967a419f5d92b01c163ea317",
       "attribution": "TAGNT - Translators Amalgamated Greek NT - STEPBible.org CC BY 4.0. Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0).",
       "bytes": 30128964,
@@ -234,12 +233,12 @@
       ],
       "format": "files",
       "license": "CC BY 4.0",
+      "redistributable": false,
       "revision": "2026-10-24",
       "sha256": "f9435cbbfc7b135a653f6648b2fa675a45d7e976406b30de7dfc875bd4ee86dd",
       "url": "https://github.com/STEPBible/STEPBible-Data/tree/be4191f0082aeedddb0eff0c02c966292b2bd641"
     },
     "tahot": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/tahot-2026-10-24-6693ac10.zip",
       "archiveSha256": "c2a208fdc75aa60d9b1725dd838e97e2e2ba5ff0f6e6bccf5ac2376f279c5749",
       "attribution": "TAHOT - Translators Amalgamated Hebrew OT - STEPBible.org CC BY. Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0).",
       "bytes": 70208913,
@@ -272,12 +271,12 @@
       ],
       "format": "files",
       "license": "CC BY 4.0",
+      "redistributable": false,
       "revision": "2026-10-24",
       "sha256": "6693ac107aeafe29fd8d0e1bc944ff0301cfbcaa952e060d2ceb445395f16db1",
       "url": "https://github.com/STEPBible/STEPBible-Data/tree/be4191f0082aeedddb0eff0c02c966292b2bd641"
     },
     "tbesg": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/tbesg-2026-10-24-f12009d6.zip",
       "archiveSha256": "ed6e67566761ed1fd8375a53e0f7743281d8167bd4141f4de875d23ff5c90de4",
       "attribution": "TBESG - Translators Brief lexicon of Extended Strongs for Greek - STEPBible.org CC BY. Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0).",
       "bytes": 4736912,
@@ -292,12 +291,12 @@
       ],
       "format": "files",
       "license": "CC BY 4.0",
+      "redistributable": false,
       "revision": "2026-10-24",
       "sha256": "f12009d6c0a08fbe77afc214041d337121af5a15f84b64dd061abfe197d7ed59",
       "url": "https://github.com/STEPBible/STEPBible-Data/tree/be4191f0082aeedddb0eff0c02c966292b2bd641"
     },
     "tbesh": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/tbesh-2026-10-24-39bdcd78.zip",
       "archiveSha256": "85f88daf08c4c85bce1d9446baeb2c18055f4fb653bca47e88f90b5e730f6c8b",
       "attribution": "TBESH - Translators Brief lexicon of Extended Strongs for Hebrew - STEPBible.org CC BY. Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0).",
       "bytes": 3288045,
@@ -312,6 +311,7 @@
       ],
       "format": "files",
       "license": "CC BY 4.0",
+      "redistributable": false,
       "revision": "2026-10-24",
       "sha256": "39bdcd78ae3af3f59e3aab65cc5232b971bbe2b24efe5e60168b033f04f50c48",
       "url": "https://github.com/STEPBible/STEPBible-Data/tree/be4191f0082aeedddb0eff0c02c966292b2bd641"

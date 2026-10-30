@@ -60,7 +60,7 @@ private func locked() async throws -> (source: LockedSource, zipBytes: Data) {
         #expect(source.file == "step.zip")
         #expect(source.url.absoluteString == tree)
         #expect(source.revision == "2026-10-24")
-        #expect(source.archive.lastPathComponent == "step-2026-10-24-\(source.sha256.prefix(8)).zip")
+        #expect(source.archive?.lastPathComponent == "step-2026-10-24-\(source.sha256.prefix(8)).zip")
         guard case .files(let set) = source.kind else { Issue.record("expected a file set"); return }
         #expect(set.files == [
             LockedFile(name: tahotName, url: tahotURL, sha256: hex(upstream[tahotURL]!), bytes: upstream[tahotURL]!.count),
@@ -224,7 +224,7 @@ private func locked() async throws -> (source: LockedSource, zipBytes: Data) {
         let (source, zipBytes) = try await locked()
         defer { try? FileManager.default.removeItem(at: directory) }
 
-        #expect(try await cache.fetch(source, download: serving([source.archive: zipBytes])) == .fetched(from: .archive))
+        #expect(try await cache.fetch(source, download: serving([source.archive!: zipBytes])) == .fetched(from: .archive))
         #expect(cache.contents(of: "step.zip") == zipBytes)
     }
 
@@ -247,9 +247,66 @@ private func locked() async throws -> (source: LockedSource, zipBytes: Data) {
         defer { try? FileManager.default.removeItem(at: directory) }
         let other = try ZipWriter.write([("TBESH.txt", Data("x".utf8))], modified: utc("2026-10-24T00:00:00Z"))
 
-        let outcome = try await cache.fetch(source, download: serving([source.archive: other]))
+        let outcome = try await cache.fetch(source, download: serving([source.archive!: other]))
 
         guard case .failed(let problems) = outcome else { Issue.record("expected failure, got \(outcome)"); return }
         #expect(problems[0].hasPrefix("archive: sha256"))
+    }
+}
+
+@Suite struct NotRedistributableTests {
+    private let directory = FileManager.default.temporaryDirectory.appending(path: "bible-pack-tests-\(UUID().uuidString)")
+
+    private func lockedWithoutArchive() async throws -> (source: LockedSource, zipBytes: Data) {
+        let request = try SourceRequest.parseFiles(
+            id: "step", repo: tree, urls: [tbeshURL.absoluteString, tahotURL.absoluteString],
+            license: "CC BY 4.0", attribution: "STEPBible.org, Tyndale House Cambridge", redistributable: false
+        )
+        let empty = SourcesLock()
+        let results = try await empty.relock(empty.requests(ids: [], additions: [request]), download: serving(upstream))
+        return (results[0].source, results[0].zipBytes)
+    }
+
+    @Test func locksNoArchiveAndSaysSoInTheJSON() async throws {
+        let (source, _) = try await lockedWithoutArchive()
+        #expect(source.archive == nil)
+        let json = String(decoding: SourcesLock(sources: ["step": source]).jsonData(), as: UTF8.self)
+        #expect(json.contains(#""redistributable": false,"#))
+        #expect(!json.contains(#""archive":"#))
+        #expect(try SourcesLock(jsonData: Data(json.utf8)).sources["step"] == source)
+    }
+
+    @Test func relockingKeepsTheSetUnarchived() async throws {
+        let (source, _) = try await lockedWithoutArchive()
+        let lock = SourcesLock(sources: ["step": source])
+        let results = try await lock.relock(lock.requests(ids: ["step"], additions: []), download: serving(upstream))
+        #expect(results[0].change == .unchanged)
+        #expect(results[0].source.archive == nil)
+    }
+
+    @Test func fetchGoesStraightToTheMembers() async throws {
+        let (source, zipBytes) = try await lockedWithoutArchive()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let cache = SourceCache(directory: directory)
+        #expect(try await cache.fetch(source, download: serving(upstream)) == .fetched(from: .members))
+        #expect(cache.contents(of: "step.zip") == zipBytes)
+
+        try? FileManager.default.removeItem(at: directory)
+        guard case .failed(let problems) = try await cache.fetch(source, download: serving([:])) else {
+            Issue.record("expected a failure with no upstream")
+            return
+        }
+        #expect(problems.count == 1)
+        #expect(problems[0].hasPrefix("members:"))
+    }
+
+    @Test func theLockedSTEPBibleSetsAreNotRedistributable() throws {
+        let lock = try #require(RealSources.lock)
+        for id in ["tahot", "tagnt", "tbesg", "tbesh"] {
+            #expect(lock.sources[id]?.archive == nil, "\(id)")
+        }
+        for id in ["byztxt", "strongs", "bsb", "wlc", "tcgnt"] {
+            #expect(lock.sources[id]?.archive != nil, "\(id)")
+        }
     }
 }

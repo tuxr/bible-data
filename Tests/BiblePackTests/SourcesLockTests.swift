@@ -84,6 +84,15 @@ import Testing
         #expect(LockedSource.isValidFileName("eng-kjv_usfx.zip"))
     }
 
+    @Test func anEntryHasAnArchiveOrSaysItHasNone() {
+        let zip = #"{"bytes": 1, "file": "x.zip", "format": "usfx", "revision": "2026-01-01", "scriptureSha256": "00", "sha256": "00", "url": "https://a/x.zip""#
+        func lock(_ fields: String) -> Data { Data(#"{"sources": {"x": \#(zip)\#(fields)}}, "version": 1}"#.utf8) }
+        #expect(throws: (any Error).self) { try SourcesLock(jsonData: lock(#", "archive": "https://a/x.zip", "redistributable": false"#)) }
+        #expect(throws: (any Error).self) { try SourcesLock(jsonData: lock(#", "redistributable": true"#)) }
+        #expect(throws: (any Error).self) { try SourcesLock(jsonData: lock("")) }
+        #expect(throws: SourcesLockError.noArchive("x")) { try SourcesLock(jsonData: lock(#", "redistributable": false"#)) }
+    }
+
     @Test func archiveNameCarriesRevisionAndShaPrefix() {
         #expect(SourcesLock.archiveFileName(
             file: "engwebp_usfx.zip",

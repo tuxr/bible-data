@@ -51,7 +51,8 @@ struct SourcesCommand: AsyncParsableCommand {
             discussion: """
             Each member is stored under its URL's last path component, decoded, with spaces as underscores. \
             The revision is the commit's committer date. Upload <sources-dir>/<id>.zip to the source-archive \
-            release under the name at the end of the lock entry's archive URL.
+            release under the name at the end of the lock entry's archive URL, unless --not-redistributable \
+            says the license forbids it.
 
               bible-pack sources add-files strongs \\
                 --repo https://github.com/openscriptures/strongs/tree/<sha> \\
@@ -74,18 +75,23 @@ struct SourcesCommand: AsyncParsableCommand {
         @Option(help: "The attribution a package built from the files must show.")
         var attribution: String
 
+        @Flag(help: "The files' license asks that they not be redistributed: lock no archive, and fetch rebuilds from the files.")
+        var notRedistributable = false
+
         @Argument(help: ArgumentHelp("The files at that commit: https://raw.githubusercontent.com/<owner>/<repo>/<sha>/<path>.", valueName: "raw-url"))
         var urls: [String]
 
         func run() async throws {
-            let addition = try SourceRequest.parseFiles(id: id, repo: repo, urls: urls, license: license, attribution: attribution)
+            let addition = try SourceRequest.parseFiles(
+                id: id, repo: repo, urls: urls, license: license, attribution: attribution, redistributable: !notRedistributable
+            )
             let lock = try global.readLock()
             let results = try await lock.relock(lock.requests(ids: [], additions: [addition]), download: HTTP.download)
             for result in results {
                 try global.cache.store(result.zipBytes, as: result.source.file)
             }
             try LockFile.write(lock.applying(results), to: global.lockURL)
-            printLines(results.map { ($0.id, "\($0.line)  \($0.source.archive.lastPathComponent)") })
+            printLines(results.map { ($0.id, "\($0.line)  \($0.source.archive?.lastPathComponent ?? "not redistributable")") })
         }
     }
 
@@ -165,7 +171,9 @@ extension SourceRequest {
         return SourceRequest(id: id, spec: .zip(format, url))
     }
 
-    static func parseFiles(id: String, repo: String, urls: [String], license: String, attribution: String) throws -> SourceRequest {
+    static func parseFiles(
+        id: String, repo: String, urls: [String], license: String, attribution: String, redistributable: Bool = true
+    ) throws -> SourceRequest {
         try checkID(id)
         guard let repoURL = URL(string: repo), let commit = GitHubCommit(treeURL: repoURL) else {
             throw ValidationError("--repo \(repo) must be https://github.com/<owner>/<repo>/tree/<40-hex commit sha>")
@@ -183,7 +191,9 @@ extension SourceRequest {
             if members.contains(where: { $0.name == name }) { throw ValidationError("two files are both named \(name)") }
             members.append(FileSetSpec.Member(name: name, url: url))
         }
-        return SourceRequest(id: id, spec: .files(FileSetSpec(commit: commit, members: members, license: license, attribution: attribution)))
+        return SourceRequest(id: id, spec: .files(FileSetSpec(
+            commit: commit, members: members, license: license, attribution: attribution, redistributable: redistributable
+        )))
     }
 
     private static func checkID(_ id: String) throws {
@@ -197,7 +207,8 @@ func table(_ lock: SourcesLock) -> String {
     let header = ["id", "format", "revision", "bytes", "sha256", "archive"]
     let rows = lock.sources.keys.sorted().map { id in
         let source = lock.sources[id]!
-        return [id, source.formatName, source.revision, String(source.bytes), String(source.sha256.prefix(8)), source.archive.absoluteString]
+        return [id, source.formatName, source.revision, String(source.bytes), String(source.sha256.prefix(8)),
+                source.archive?.absoluteString ?? "none: not redistributable, rebuilt from its files"]
     }
     let all = [header] + rows
     let widths = header.indices.map { column in all.map { $0[column].count }.max()! }
