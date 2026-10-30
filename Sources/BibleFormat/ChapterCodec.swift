@@ -10,10 +10,12 @@ public protocol ChapterCodec: Sendable {
 public enum ChapterEncoding: UInt8, Codable, CaseIterable, Sendable {
     /// A test and benchmark baseline. Never written to a released package.
     case json = 0
+    case binary = 1
 
     public var codec: any ChapterCodec {
         switch self {
         case .json: JSONChapterCodec()
+        case .binary: BinaryChapterCodec()
         }
     }
 }

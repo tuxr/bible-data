@@ -1,0 +1,13 @@
+{
+  "id": "tcgnt",
+  "name": "Η Καινή Διαθήκη",
+  "abbreviation": "TCGNT",
+  "language": "grc",
+  "script": "Grek",
+  "direction": "ltr",
+  "versification": "grc",
+  "license": "Public domain",
+  "attribution": "Text-Critical Greek New Testament by Robert Adam Boyd, based on The New Testament in the Original Greek: Byzantine Textform 2018, compiled by Maurice A. Robinson and William G. Pierpont. Public Domain.",
+  "publisher": "eBible.org",
+  "source": "tcgnt"
+}

@@ -43,6 +43,24 @@ import Testing
         #expect(try database.rows(match, ["word"]) == [["GEN", "1", "1"]])
     }
 
+    @Test func searchReadsTheFoldedColumnWhereThereIsOne() throws {
+        let database = try package()
+        try database.execute("""
+            INSERT INTO books (id, canon_order, name, short_name, chapters) VALUES ('GEN', 1, 'בראשית', 'בראשית', 50);
+            INSERT INTO verses (id, book, chapter, verse, text_plain, text_search)
+              VALUES (1001001, 'GEN', 1, 1, 'בְּרֵאשִׁ֖ית בָּרָ֣א', 'בראשית ברא');
+            """)
+        let match = "SELECT rowid FROM verses_fts WHERE verses_fts MATCH ?"
+        #expect(try database.rows(match, ["בראשית"]) == [["1001001"]])
+        #expect(try database.rows(match, ["בְּרֵאשִׁ֖ית"]).isEmpty)
+        try database.execute("UPDATE verses SET text_search = NULL, text_plain = 'ברא' WHERE id = 1001001")
+        #expect(try database.rows(match, ["בראשית"]).isEmpty)
+        #expect(try database.rows(match, ["ברא"]) == [["1001001"]])
+        #expect(throws: (any Error).self) {
+            try database.execute("UPDATE verses SET text_search = text_plain WHERE id = 1001001")
+        }
+    }
+
     @Test func rejectsVerseRowsWhoseIdDisagrees() throws {
         let database = try package()
         #expect(throws: (any Error).self) {

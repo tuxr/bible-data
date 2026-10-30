@@ -1,0 +1,13 @@
+{
+  "id": "bsb",
+  "name": "Berean Standard Bible",
+  "abbreviation": "BSB",
+  "language": "en",
+  "script": "Latn",
+  "direction": "ltr",
+  "versification": "eng",
+  "license": "Public domain",
+  "attribution": "Berean Standard Bible, Public Domain, bereanbible.com",
+  "publisher": "Bible Hub",
+  "source": "bsb"
+}

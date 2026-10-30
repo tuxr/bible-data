@@ -16,6 +16,7 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Tests` | Swift Testing suites for both targets. |
 | `Tests/Goldens` | Parsed chapters from the real sources, compared on every test run. |
 | `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS. |
+| `editions` | One metadata file per edition, `<id>.json`: its names, language, script, versification, license, attribution, and locked source. |
 | `sources.lock.json` | The locked publisher sources. |
 | `FORMAT.md` | The format specification, versioned. |
 
@@ -52,11 +53,23 @@ swift run bible-pack --help
 
 The editions are `bsb`, `wlc`, and `tcgnt`. [FORMAT.md](FORMAT.md) lists the parsing rules.
 
-`build`, `validate`, and `manifest` take their arguments and stop. Phase 0 steps 4 and 6 implement them.
+`bible-pack build` and `bible-pack validate` make and check an edition package.
+
+| Command | Does |
+|---|---|
+| `build <edition> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--encoding json\|binary]` | Parses the edition, refusing any warning, and writes `<id>-<version>.bible` and its `.xz` download. Prints each table's row count and both files' sizes and SHA-256. The version defaults to the year and month of the build time, in UTC. |
+| `validate <package> [--against-source]` | Checks integrity, the canon, every chapter's decoding and text round trip, verse numbers against the scheme, search text, the search index, notes, and the `.xz`. `--against-source` also parses the edition again and compares every chapter and row. Exits 1 on the first failure and names the check. |
+
+```sh
+swift run -c release bible-pack build bsb --out dist
+swift run -c release bible-pack validate dist/bsb-2026.10.bible --against-source
+```
+
+`manifest` takes its arguments and stops. Phase 0 step 6 implements it.
 
 ## Tests
 
-`swift test` runs every suite. The golden and census suites need the publisher zips, so run `swift run bible-pack sources fetch` first. Without the zips, those suites are skipped.
+`swift test` runs every suite. The golden, census, and package build suites need the publisher zips, so run `swift run bible-pack sources fetch` first. Without the zips, those suites are skipped.
 
 `Tests/Goldens/<edition>/<BOOK>-<chapter>.json` holds a chapter's items, notes, plain text, and word tags, one element per line. A golden test parses the chapter again and fails with the first differing line. After a parser change that is meant to change the output, rewrite the goldens and review the diff:
 

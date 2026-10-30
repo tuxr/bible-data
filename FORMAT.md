@@ -26,6 +26,8 @@ An edition package is named `<id>-<yyyy.mm>.bible`.
 - `<id>` is the edition id, a lowercase short code such as `bsb`, `wlc`, or `tcgnt`.
 - `<yyyy.mm>` is the package version, the year and month of the build.
 
+The download is `<id>-<yyyy.mm>.bible.xz`, the package compressed with Apple's `COMPRESSION_LZMA`. That algorithm writes an xz stream with no integrity check field, which `xz -t` accepts. The app decompresses it with the same framework and accepts the result only if its SHA-256 matches the manifest.
+
 The canon package is named `canon.sqlite`.
 
 ## Edition package
@@ -38,8 +40,8 @@ The canon package is named `canon.sqlite`.
 | `edition` | Exactly one | What the edition is, where it came from, and how it is encoded. |
 | `books` | One per book present | The books as this edition names them. |
 | `chapters` | One per chapter | The encoded chapter content. |
-| `verses` | One per verse | Plain text for search results, copy, and anchoring. |
-| `verses_fts` | One per verse | The FTS5 search index over `verses.text_plain`. |
+| `verses` | One per verse | Plain text for search results, copy, and anchoring, and the folded text search indexes. |
+| `verses_fts` | One per verse | The FTS5 search index over the folded text. |
 | `notes` | One per note | Footnotes, cross-references, and translator notes. |
 
 ### `meta`
@@ -52,7 +54,8 @@ The canon package is named `canon.sqlite`.
 | `format_minor` | The additive revision within the format version. The schema inserts it. |
 | `built_at` | The build time, ISO 8601 in UTC. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
-| `source_lock` | The `sources.lock.json` entry for the edition's source, as JSON. |
+| `source_lock` | The `sources.lock.json` entry for the edition's source, as JSON with sorted keys. |
+| `absent_verses` | The verses of the edition's scheme that the edition does not print, as a JSON array of `BOOK C:V` strings in canonical order, such as `["LUK 17:36","ACT 8:37"]`. `[]` when there are none. `AbsentVerses.decode` reads it. |
 
 ### `edition`
 
@@ -104,9 +107,14 @@ The canon's order column is named `canon_order` because `order` is a reserved wo
 | `book` | The USFM book id. |
 | `chapter` | The chapter number, 1 to 999. |
 | `verse` | The verse number, 1 to 999. |
-| `text_plain` | The verse text with no markup, notes, or verse numbers. |
+| `text_plain` | The verse text with no markup, notes, or verse numbers. The app shows and copies it. |
+| `text_search` | `text_plain` folded for search by `SearchText`, or `NULL` when folding leaves it unchanged. See Search. |
 
 Book, chapter, and verse use the edition's own versification.
+
+A verse bridge such as 1-2 is one row, at its first verse. A verse that `meta.absent_verses` lists has no row.
+
+`text_search` is `NULL` for every Latin-script verse, so an English edition does not store its text twice. A `CHECK` constraint rejects a `text_search` equal to `text_plain`, so each verse has one way to be stored.
 
 ### `notes`
 
@@ -140,11 +148,19 @@ A verse's row id is `canon_order × 1,000,000 + chapter × 1,000 + verse`. Genes
 
 ### Search
 
-`verses_fts` is an FTS5 table with external content. It indexes `verses.text_plain` and stores no second copy of the text. Its rowid is the verse row id, so results arrive in canonical order.
+`verses_fts` is an FTS5 table with external content. Its content is the `verses_search` view, which gives each verse's `text_search`, or its `text_plain` where `text_search` is `NULL`. The index stores no second copy of the text. Its rowid is the verse row id, so results arrive in canonical order.
 
 - The tokenizer is `unicode61 remove_diacritics 2`. It folds case and Latin diacritics, so `created` finds `créated`.
+- The tokenizer does not fold Hebrew points or polytonic Greek accents and breathings, so `SearchText` folds them first. With the folded column, the query `בראשית` finds `בְּרֵאשִׁית` and `αρχη` finds `ἀρχῇ`.
 - Three triggers keep the index in step with `verses` on insert, delete, and update.
-- The tokenizer does not fold Hebrew points or polytonic Greek accents and breathings. In SQLite 3.54, the query `בראשית` does not find `בְּרֵאשִׁית`, and `αρχη` does not find `ἀρχῇ`.
+
+`SearchText.normalize(_:script:)` folds by `edition.script`. The app folds a query with `SearchText.normalizeQuery`, which applies the same rule.
+
+| Script | Rule |
+|---|---|
+| `Latn` | Unchanged. The tokenizer folds case and diacritics. |
+| `Hebr` | Remove the points and cantillation marks, U+0591 to U+05BD, U+05BF, U+05C1, U+05C2, U+05C4, U+05C5, and U+05C7. Maqaf U+05BE, paseq U+05C0, sof pasuq U+05C3, and nun hafukha U+05C6 stay. They are punctuation, so the tokenizer splits on them. |
+| `Grek` | Decompose to NFD, remove every combining mark, lowercase, then fold final sigma `ς` and lunate sigma `ϲ` to `σ`. Lowercasing comes first because a Greek-locale lowercase turns a word-final `Σ` into `ς`. `λόγος` becomes `λογοσ`. |
 
 ### Schema
 
@@ -206,28 +222,33 @@ CREATE TABLE verses (
   chapter INTEGER NOT NULL CHECK (chapter BETWEEN 1 AND 999),
   verse INTEGER NOT NULL CHECK (verse BETWEEN 1 AND 999),
   text_plain TEXT NOT NULL,
+  text_search TEXT,
   UNIQUE (book, chapter, verse),
-  CHECK (id % 1000 = verse AND id / 1000 % 1000 = chapter)
+  CHECK (id % 1000 = verse AND id / 1000 % 1000 = chapter),
+  CHECK (text_search IS NULL OR text_search <> text_plain)
 );
 
+CREATE VIEW verses_search AS
+SELECT id, coalesce(text_search, text_plain) AS text_search FROM verses;
+
 CREATE VIRTUAL TABLE verses_fts USING fts5 (
-  text_plain,
-  content = 'verses',
+  text_search,
+  content = 'verses_search',
   content_rowid = 'id',
   tokenize = 'unicode61 remove_diacritics 2'
 );
 
 CREATE TRIGGER verses_fts_insert AFTER INSERT ON verses BEGIN
-  INSERT INTO verses_fts (rowid, text_plain) VALUES (new.id, new.text_plain);
+  INSERT INTO verses_fts (rowid, text_search) VALUES (new.id, coalesce(new.text_search, new.text_plain));
 END;
 
 CREATE TRIGGER verses_fts_delete AFTER DELETE ON verses BEGIN
-  INSERT INTO verses_fts (verses_fts, rowid, text_plain) VALUES ('delete', old.id, old.text_plain);
+  INSERT INTO verses_fts (verses_fts, rowid, text_search) VALUES ('delete', old.id, coalesce(old.text_search, old.text_plain));
 END;
 
 CREATE TRIGGER verses_fts_update AFTER UPDATE ON verses BEGIN
-  INSERT INTO verses_fts (verses_fts, rowid, text_plain) VALUES ('delete', old.id, old.text_plain);
-  INSERT INTO verses_fts (rowid, text_plain) VALUES (new.id, new.text_plain);
+  INSERT INTO verses_fts (verses_fts, rowid, text_search) VALUES ('delete', old.id, coalesce(old.text_search, old.text_plain));
+  INSERT INTO verses_fts (rowid, text_search) VALUES (new.id, coalesce(new.text_search, new.text_plain));
 END;
 
 CREATE TABLE notes (
@@ -242,6 +263,29 @@ CREATE TABLE notes (
   PRIMARY KEY (book, chapter, number)
 );
 ```
+
+### Edition metadata
+
+`editions/<id>.json` says what an edition is. `EditionMetadata` decodes it. Its fields are the `edition` columns `id`, `name`, `abbreviation`, `language`, `script`, `direction`, `versification`, `license`, `attribution`, and `publisher`, and `source`, the edition's key in `sources.lock.json`. A file is refused when its source is not in the lock, its `script` or `versification` is unknown, or its `direction` disagrees with its script. `bible-pack` also refuses a file whose `versification` differs from the scheme the edition parses in.
+
+### Building and validating a package
+
+`bible-pack build <id>` writes the package. It parses the edition from its locked source and refuses a parse with warnings. It applies `PackageSchema.ddl` to a fresh file with a 4096-byte page size and inserts every row in one transaction: `meta`, `edition`, books in canonical order, chapters and verses in stream order, and notes by chapter and number. It then runs the FTS5 `optimize` command and `VACUUM`, and leaves the file in rollback journal mode. It writes the package and its `.xz` beside their destinations and renames each into place, so neither name is ever a partial file. Two builds from the same source with the same `--built-at` and `--encoding` are byte-identical, and so are their `.xz` files.
+
+`bible-pack validate <path>` is the acceptance check. It opens the package read-only and runs these checks in order. It exits 1 on the first failure and names the check.
+
+1. `PRAGMA integrity_check` and `PRAGMA foreign_key_check`.
+2. `meta.format_version` and `edition.format_version` equal `PackageFormat.version`.
+3. `edition` has one row, with a known script, a direction that matches it, a known versification, a known chapter encoding, and the `meta.built_at` time.
+4. Every book is defined, its `canon_order` is the canon's, and its chapter count is the scheme's. `edition.canon` lists the books.
+5. `chapters` has every chapter of every book present, and every blob decodes with the named encoding.
+6. Each chapter's `PlainText.verses` equals its `verses` rows, and the verses it prints are the scheme's minus `meta.absent_verses`.
+7. Every verse row id follows the formula, and every `text_search` is what `SearchText` gives for its `text_plain`.
+8. The FTS5 `integrity-check` command passes on an in-memory copy, since SQLite runs it as a write. A sample query by script finds its verse: `beginning` finds GEN 1:1 in Latin, `בראשית` finds GEN 1:1 in Hebrew, and `αρχη` finds JHN 1:1 in Greek.
+9. Every note caller in every chapter has a `notes` row with the same number, kind, and caller, and every note has a caller.
+10. The `.xz` beside the package, when present, decompresses to bytes with the package's SHA-256.
+
+`--against-source` parses the edition again from `.sources/` and compares every chapter's decoded items, and every `meta`, `edition`, `books`, `verses`, and `notes` row, to the parse. A package ships only if it passes with `--against-source`.
 
 ## Chapter content
 
@@ -305,11 +349,45 @@ A `Run` holds `text`, a `style`, and an optional `word`.
 | Id | Encoding | Use |
 |---|---|---|
 | 0 | `json` | Reference only. Swift's synthesized `Codable` output for `[ChapterItem]`, with sorted keys. Tests and the benchmark use it. No released package uses it. |
-| 1 to 255 | Reserved | For the shipped encoding. |
+| 1 | `binary` | A tagged item stream, below. `BinaryChapterCodec`. |
+| 2 to 255 | Reserved | For later encodings. |
 
-The Phase 0 step 4 benchmark picks the shipped encoding. No package is released before then.
+The Phase 0 step 4 benchmark, `docs/benchmarks/chapter-codec-2026-10-30.md`, compares the encodings. No package is released before step 4 lands.
 
 Every encoding meets two rules. Decoding an encoded chapter gives an equal `Chapter`. Encoding the same chapter twice gives the same bytes.
+
+#### Encoding 1, `binary`
+
+A blob is a varint item count, then that many items, then nothing. Every integer is an unsigned LEB128 varint: 7 bits per byte, low bits first, the high bit set on every byte but the last, at most 10 bytes. A string is a varint byte length, then that many bytes of UTF-8. A run is its text as a string, then its `style` raw value as a varint, then its `word` as a varint, 0 for nil.
+
+Each item starts with one tag byte. The high nibble is the item kind and the low nibble its variant.
+
+| Tag | Item | Then |
+|---|---|---|
+| `0x10` to `0x15` | `block`: `paragraph`, `flush`, `indented`, `rightAligned`, `centered`, `blankLine` | Nothing. |
+| `0x19` to `0x1B` | `block(poetry(level:))`, level 1 to 3 in the low two bits | Nothing. |
+| `0x1D` to `0x1F` | `block(list(level:))`, level 1 to 3 in the low two bits | Nothing. |
+| `0x21` to `0x23` | `heading(level:)`, level in the low nibble | A varint run count, then the runs. |
+| `0x30` | `title` | A varint run count, then the runs. |
+| `0x40` | `speaker` | A varint run count, then the runs. |
+| `0x50` | `verse` | `number`, then `through`, 0 for nil. |
+| `0x60` | `text` | One run. |
+| `0x70` to `0x72` | `noteCaller`: `footnote`, `crossReference`, `translatorNote` | `number`, then `glyph` as a string. |
+
+Every other tag value is reserved, so a new item kind or block kind takes a free value with a format version bump. The blob has no string table. Its strings are inline, in stream order.
+
+A decoder rejects a blob that ends early, holds bytes after its last item, has a reserved tag, has a level of 0 or above 3 (`0x18`, `0x1C`, `0x20`, `0x24` to `0x2F`), holds invalid UTF-8, has a varint longer than 10 bytes or a value too large for its field (a `style` above 65535), or has a bridge whose `through` is not greater than its `number`. It never traps on bad bytes. An encoder rejects a negative number, a `word` of 0, and a `through` of 0, because 0 means nil.
+
+The first five items of BSB Genesis 1, encoded as a chapter of their own, are 85 bytes. `BinaryChapterCodecTests` pins them. The real chapter has 109 items, so its blob starts with `6D`.
+
+```
+05                                  5 items
+22 01 0C 54 68 65 ... 6F 6E 00 00   heading level 2, 1 run: 12 bytes "The Creation", style 0, word nil
+71 01 01 61                         noteCaller crossReference, number 1, glyph 1 byte "a"
+10                                  block paragraph
+50 01 00                            verse 1, through nil
+60 37 49 6E 20 ... 2E 00 00         text: 55 bytes "In the beginning ... earth.", style 0, word nil
+```
 
 ## Parsing rules
 
@@ -584,5 +662,9 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 
 ### Format version 1 (unreleased)
 
-- First definition: edition package schema, chapter model, JSON reference encoding, versification schemes `eng`, `heb`, and `grc`, and the canon package schema.
+- First definition: edition package schema, chapter model, versification schemes `eng`, `heb`, and `grc`, and the canon package schema.
+- Chapter encoding 1 (`binary`) is the shipped encoding, chosen on 2026-10-30 by the benchmark in `docs/benchmarks/chapter-codec-2026-10-30.md`. Encoding 0 (`json`) stays as the reference.
+- `verses.text_search` holds folded search text where it differs from `text_plain`, and `verses_fts` indexes the `verses_search` view.
+- `meta.absent_verses` lists the scheme verses an edition does not print.
 - Parsing rules for USFM 3 and USFX sources, and the note caller rule for labels.
+- `verses.text_search`, the `verses_search` view as the search index's content, the `SearchText` folding rules, the `meta.absent_verses` key, edition metadata files, and the `.xz` download.
