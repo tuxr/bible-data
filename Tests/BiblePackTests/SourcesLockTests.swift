@@ -70,6 +70,15 @@ import Testing
         }
     }
 
+    @Test func rejectsFileThatDiffersFromTheURLName() {
+        let json = """
+        {"sources": {"x": {"archive": "https://a/x.zip", "bytes": 1, "file": "x.zip", "format": "usfx", "revision": "2026-01-01", "scriptureSha256": "00", "sha256": "00", "url": "https://a/other.zip"}}, "version": 1}
+        """
+        #expect(throws: SourcesLockError.invalidFileName("x.zip")) {
+            try SourcesLock(jsonData: Data(json.utf8))
+        }
+    }
+
     @Test func acceptsPlainZipNames() {
         #expect(LockedSource.isValidFileName("hboWLC_usfx.zip"))
         #expect(LockedSource.isValidFileName("eng-kjv_usfx.zip"))

@@ -6,7 +6,10 @@ import Foundation
 struct SourceCache {
     let directory: URL
 
-    func path(of file: String) -> URL { directory.appending(path: file) }
+    func path(of file: String) -> URL {
+        precondition(LockedSource.isValidFileName(file), "cache file names are validated when the lock is read")
+        return directory.appending(path: file)
+    }
 
     func contents(of file: String) -> Data? {
         try? Data(contentsOf: path(of: file))

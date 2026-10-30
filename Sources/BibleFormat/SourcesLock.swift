@@ -75,8 +75,8 @@ public struct SourcesLock: Codable, Sendable, Hashable {
         guard lock.version == Self.currentVersion else {
             throw SourcesLockError.unsupportedVersion(lock.version)
         }
-        if let bad = lock.sources.values.map(\.file).first(where: { !LockedSource.isValidFileName($0) }) {
-            throw SourcesLockError.invalidFileName(bad)
+        if let bad = lock.sources.values.first(where: { !LockedSource.isValidFileName($0.file) || $0.url.lastPathComponent != $0.file }) {
+            throw SourcesLockError.invalidFileName(bad.file)
         }
         self = lock
     }
