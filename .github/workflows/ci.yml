@@ -31,3 +31,4 @@ jobs:
           swift run bible-pack --help
           swift run bible-pack sources --help
           swift run bible-pack sources show
+          swift run bible-pack canon build --out .build/canon.sqlite && swift run bible-pack canon validate .build/canon.sqlite
