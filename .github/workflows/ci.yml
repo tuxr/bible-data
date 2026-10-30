@@ -37,3 +37,9 @@ jobs:
           swift run bible-pack parse bsb
           swift run bible-pack parse wlc
           swift run bible-pack parse tcgnt
+      - name: Package smoke
+        run: |
+          for edition in bsb wlc tcgnt; do
+            swift run -c release bible-pack build "$edition" --out .build/dist --version 2026.10
+            swift run -c release bible-pack validate ".build/dist/$edition-2026.10.bible" --against-source
+          done

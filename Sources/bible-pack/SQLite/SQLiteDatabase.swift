@@ -5,6 +5,7 @@ enum SQLiteValue: Hashable, Sendable, Comparable, CustomStringConvertible {
     case null
     case integer(Int64)
     case text(String)
+    case blob(Data)
 
     static func integer(_ value: Int) -> SQLiteValue { .integer(Int64(value)) }
 
@@ -15,6 +16,7 @@ enum SQLiteValue: Hashable, Sendable, Comparable, CustomStringConvertible {
         case .null: "NULL"
         case .integer(let value): String(value)
         case .text(let value): "'\(value)'"
+        case .blob(let value): "<\(value.count) bytes>"
         }
     }
 
@@ -22,6 +24,7 @@ enum SQLiteValue: Hashable, Sendable, Comparable, CustomStringConvertible {
         switch (lhs, rhs) {
         case let (.integer(left), .integer(right)): left < right
         case let (.text(left), .text(right)): left.utf8.lexicographicallyPrecedes(right.utf8)
+        case let (.blob(left), .blob(right)): left.lexicographicallyPrecedes(right)
         default: lhs.rank < rhs.rank
         }
     }
@@ -31,6 +34,7 @@ enum SQLiteValue: Hashable, Sendable, Comparable, CustomStringConvertible {
         case .null: 0
         case .integer: 1
         case .text: 2
+        case .blob: 3
         }
     }
 }
@@ -71,6 +75,20 @@ final class SQLiteDatabase {
         sqlite3_close_v2(handle)
     }
 
+    /// A writable in-memory database holding a copy of `bytes`, for checks that SQLite runs as writes, such as
+    /// FTS5's `integrity-check`, on a file that must stay untouched.
+    static func inMemoryCopy(of bytes: Data) throws -> SQLiteDatabase {
+        let database = try SQLiteDatabase(path: ":memory:", mode: .create)
+        guard let buffer = sqlite3_malloc64(UInt64(bytes.count)) else { throw SQLiteError(description: "out of memory") }
+        bytes.copyBytes(to: buffer.assumingMemoryBound(to: UInt8.self), count: bytes.count)
+        let flags = UInt32(SQLITE_DESERIALIZE_FREEONCLOSE | SQLITE_DESERIALIZE_RESIZEABLE)
+        let size = sqlite3_int64(bytes.count)
+        guard sqlite3_deserialize(database.handle, "main", buffer.assumingMemoryBound(to: UInt8.self), size, size, flags) == SQLITE_OK else {
+            throw SQLiteError(description: "cannot load a copy: \(database.lastError)")
+        }
+        return database
+    }
+
     func exec(_ sql: String) throws {
         var message: UnsafeMutablePointer<CChar>?
         guard sqlite3_exec(handle, sql, nil, nil, &message) == SQLITE_OK else {
@@ -101,6 +119,20 @@ final class SQLiteDatabase {
             rows.append(statement.row())
         }
         return rows
+    }
+
+    /// Inserts every row with one prepared statement.
+    func insert(into table: String, columns: [String], rows: some Sequence<[SQLiteValue]>) throws {
+        let placeholders = columns.map { _ in "?" }.joined(separator: ", ")
+        let statement = try prepare("INSERT INTO \(table) (\(columns.joined(separator: ", "))) VALUES (\(placeholders))")
+        for row in rows {
+            do {
+                try statement.bind(row)
+                while try statement.step() {}
+            } catch {
+                throw SQLiteError(description: "\(table): cannot insert (\(row.map(\.description).joined(separator: ", "))): \(error)")
+            }
+        }
     }
 
     func pragma(_ name: String) throws -> [[SQLiteValue]] {
@@ -149,6 +181,9 @@ final class Statement {
             case .null: sqlite3_bind_null(statement, index)
             case .integer(let integer): sqlite3_bind_int64(statement, index, integer)
             case .text(let text): sqlite3_bind_text(statement, index, text, -1, Self.transient)
+            // An empty blob has no base address, and binding a nil pointer would store NULL.
+            case .blob(let data) where data.isEmpty: sqlite3_bind_zeroblob(statement, index, 0)
+            case .blob(let data): data.withUnsafeBytes { sqlite3_bind_blob(statement, index, $0.baseAddress, Int32($0.count), Self.transient) }
             }
             guard status == SQLITE_OK else { throw SQLiteError(description: database.lastError) }
         }
@@ -168,6 +203,8 @@ final class Statement {
             switch sqlite3_column_type(statement, column) {
             case SQLITE_NULL: .null
             case SQLITE_INTEGER: .integer(sqlite3_column_int64(statement, column))
+            case SQLITE_BLOB:
+                .blob(sqlite3_column_blob(statement, column).map { Data(bytes: $0, count: Int(sqlite3_column_bytes(statement, column))) } ?? Data())
             default: .text(String(cString: sqlite3_column_text(statement, column)))
             }
         }
