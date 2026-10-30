@@ -36,8 +36,8 @@ struct BuildWords: ParsableCommand {
         discussion: "Aligns the edition's words, at the parser's positions, with the edition's word sources and prints the coverage."
     )
 
-    /// Gloss for every edition and TCGNT morphology must cover this share of words, unless --allow-gaps.
-    static let coverageFloor = 0.95
+    /// Gloss must cover this share of words, and morph the edition's own floor, unless --allow-gaps.
+    static let glossFloor = 0.95
 
     @OptionGroup var global: GlobalOptions
     @OptionGroup var output: PackageOutputOptions
@@ -65,7 +65,7 @@ struct BuildWords: ParsableCommand {
         )
         let built = try tagged.build(edition, lock: lock, cache: global.cache)
         built.coverage.lines.forEach { print($0) }
-        let shortfalls = built.coverage.shortfalls(floor: Self.coverageFloor, requireMorph: tagged.requiresMorph)
+        let shortfalls = built.coverage.shortfalls(gloss: Self.glossFloor, morph: tagged.morphFloor)
         if !shortfalls.isEmpty, !allowGaps {
             throw PackageError(description: shortfalls.joined(separator: "; ") + "; pass --allow-gaps to write it anyway")
         }

@@ -15,7 +15,7 @@ The plan this repo serves lives in `tuxr/bible-ios` under `docs/`. Phase 0 there
 | `Sources/bible-pack` | The macOS CLI. |
 | `Tests` | Swift Testing suites for both targets. |
 | `Tests/Goldens` | Parsed chapters from the real sources, compared on every test run. |
-| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS, and `lock-word-sources.sh`, which first locked the word and lexicon file sets. |
+| `Tools` | Scripts that derive the verse counts from the publisher zips and the mappings from STEPBible's TVTMS, and `lock-word-sources.sh`, which locks the word and lexicon file sets and skips any already in the lock. |
 | `editions` | One metadata file per edition, `<id>.json`: its names, language, script, versification, license, attribution, and locked source. |
 | `sources.lock.json` | The locked sources: publisher zips and file sets. |
 | `FORMAT.md` | The format specification, versioned. |
@@ -70,9 +70,9 @@ swift run -c release bible-pack validate dist/bsb-2026.10.bible --against-source
 
 | Command | Does |
 |---|---|
-| `build-words <wlc\|tcgnt> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--allow-gaps]` | Parses the edition, aligns its words with the edition's word sources, prints the coverage table, and writes `<id>-<version>.words` and its `.xz`. Refuses a gloss coverage under 95 percent, or a TCGNT morph coverage under 95 percent, unless `--allow-gaps`. |
+| `build-words <wlc\|tcgnt> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--allow-gaps]` | Parses the edition, aligns its words with the edition's word sources, prints the coverage table, and writes `<id>-<version>.words` and its `.xz`. Refuses a gloss coverage under 95 percent, a WLC morph coverage under 99 percent, or a TCGNT morph coverage under 95 percent, unless `--allow-gaps`. |
 | `build-lexicon <greek\|hebrew> [--out dist/] [--version yyyy.mm] [--built-at <iso8601>] [--count-from <words file>] [--allow-gaps]` | Writes `lexicon-<language>-<version>.lexicon` and its `.xz`. With `--count-from`, fills `occurrences` and refuses the build when the words package uses an id the lexicon lacks, unless `--allow-gaps`. |
-| `validate <words file> [--against-source] [--lexicon <lexicon file>]` | Checks verse ids, positions, Strong's ids, and parts. `--lexicon` checks every Strong's id has an entry. `--against-source` parses the edition again and compares every surface and position. |
+| `validate <words file> [--against-source] [--lexicon <lexicon file>]` | Checks verse ids, positions, Strong's ids, parts, and for the WLC that every morph code follows the OSHB code grammar. `--lexicon` checks every Strong's id has an entry. `--against-source` parses the edition again and compares every surface and position. |
 | `validate <lexicon file> [--words <words file>]` | Checks ids, their order, and lemmas. `--words` checks every id that words package uses has an entry. |
 
 `validate` reads a file's `meta.kind` and runs that kind's checks, so it takes edition, words, lexicon, and canon packages alike.
@@ -103,7 +103,7 @@ git diff Tests/Goldens
 
 Publishers serve only the latest revision at an unversioned URL. The lock pins each adopted zip by SHA-256, records the publisher's revision date and a hash of the scripture inside the zip, and names an archived copy of exactly those bytes under the `source-archive` GitHub release. A zip whose bytes change but whose scripture hash does not was only re-zipped.
 
-Word and lexicon sources are plain files in Git repositories. The lock pins each set of them to a commit, by each file's SHA-256 and a hash over the whole set, and `bible-pack` packs them into a deterministic `<id>.zip`. The release archives that zip for `byztxt` and `strongs`. The four STEPBible sets ask not to be redistributed, so their entries say `"redistributable": false` and `sources fetch` rebuilds them from STEPBible's own files. [FORMAT.md](FORMAT.md#sources-lock) defines both kinds of entry.
+Word and lexicon sources are plain files in Git repositories. The lock pins each set of them to a commit, by each file's SHA-256 and a hash over the whole set, and `bible-pack` packs them into a deterministic `<id>.zip`. The release archives that zip for `byztxt`, `strongs`, and `oshb`. The four STEPBible sets ask not to be redistributed, so their entries say `"redistributable": false` and `sources fetch` rebuilds them from STEPBible's own files. [FORMAT.md](FORMAT.md#sources-lock) defines both kinds of entry.
 
 | Id | Source | Format |
 |---|---|---|
@@ -116,6 +116,7 @@ Word and lexicon sources are plain files in Git repositories. The lock pins each
 | `tbesh` | STEPBible TBESH, the brief Hebrew lexicon | files, CC BY 4.0, not redistributed |
 | `byztxt` | Robinson-Pierpont Byzantine Textform 2018, 27 CSV books with Strong's numbers and parsing | files, public domain |
 | `strongs` | Strong's Greek and Hebrew dictionaries in XML, from Open Scriptures | files, public domain |
+| `oshb` | Open Scriptures Hebrew Bible, the WLC's 39 books in OSIS with lemma and morphology on every word | files, CC BY 4.0 |
 
 To archive a new zip or file set, upload it under the name at the end of its `archive` URL: `gh release upload source-archive <dir>/<archive name> --repo tuxr/bible-data`.
 

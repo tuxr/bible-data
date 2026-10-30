@@ -186,6 +186,254 @@
       "sha256": "264c5ac961b2aeb22b05151863c327d6843685b5d54c515ee526997e4d95bad1",
       "url": "https://github.com/byztxt/byzantine-majority-text/tree/27a45ff1b7be6c17ccbfeac414f3f55732ae8e28"
     },
+    "oshb": {
+      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/oshb-2024-08-27-350643a1.zip",
+      "archiveSha256": "39dde568d198b1a733463f5abd64912c8fdd3c8c86bf022a146b38666cbfab0a",
+      "attribution": "Open Scriptures Hebrew Bible Project, github.com/openscriptures/morphhb (CC BY 4.0)",
+      "bytes": 28527617,
+      "file": "oshb.zip",
+      "files": [
+        {
+          "bytes": 1014881,
+          "name": "1Chr.xml",
+          "sha256": "8b59992b6607c6ca0fc423813be8cc244f011c1da32bc8485c0c0f581a897ed4",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/1Chr.xml"
+        },
+        {
+          "bytes": 1189874,
+          "name": "1Kgs.xml",
+          "sha256": "832ba10f605dce34c4888ee0a795d91edc2b293391d6ae9c36c36c6350761a3e",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/1Kgs.xml"
+        },
+        {
+          "bytes": 1206608,
+          "name": "1Sam.xml",
+          "sha256": "960432732c22286b82d80b6b25af8d10dc5f2e82a4e5e48b2e3a1b1eea17f3cb",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/1Sam.xml"
+        },
+        {
+          "bytes": 1222694,
+          "name": "2Chr.xml",
+          "sha256": "507294e8ca0fcf31ec25fe62fa24a7f2581f53116519bf08cfe96ff85e9c99fb",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/2Chr.xml"
+        },
+        {
+          "bytes": 1115537,
+          "name": "2Kgs.xml",
+          "sha256": "056db5393beaef0a1159d9bcaac7dfd865df9bab2eb240ea90e9fa3f0c0e7449",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/2Kgs.xml"
+        },
+        {
+          "bytes": 1013552,
+          "name": "2Sam.xml",
+          "sha256": "e7793e141ed94eadbd2dfb23936abbb4062e81a7dcd41114a6e36644f50b8333",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/2Sam.xml"
+        },
+        {
+          "bytes": 201588,
+          "name": "Amos.xml",
+          "sha256": "6ad94c6a18076762f1a458720c62156d354e5111ee25719b7792b70792d0084d",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Amos.xml"
+        },
+        {
+          "bytes": 569236,
+          "name": "Dan.xml",
+          "sha256": "bc69d0fa9708dacb11ea6d587509250bf1bcc1b4343eac2d6e97f8b41518fc0d",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Dan.xml"
+        },
+        {
+          "bytes": 1315399,
+          "name": "Deut.xml",
+          "sha256": "04f8087442a1e67a631cd70f2ac4e42fe0a780ae132edb165a3a29f3f290358f",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Deut.xml"
+        },
+        {
+          "bytes": 285122,
+          "name": "Eccl.xml",
+          "sha256": "2dfc858d19048f6479eca33b9fe781c2d7e9059e9ae3ab0b37b802d3afec02bb",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Eccl.xml"
+        },
+        {
+          "bytes": 292184,
+          "name": "Esth.xml",
+          "sha256": "f9b5b8adaf504dcac409bb6a27c9328967f47eeb4e920070cd53ef5301299019",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Esth.xml"
+        },
+        {
+          "bytes": 1524391,
+          "name": "Exod.xml",
+          "sha256": "04868367cdacb6ccdc61488e923e20f918172042e6437842a0621f63ac5b847f",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Exod.xml"
+        },
+        {
+          "bytes": 1724378,
+          "name": "Ezek.xml",
+          "sha256": "90bf8adfa66b2f6695c702263fe668755c99c6afc386202c12de4f704f5d4e46",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Ezek.xml"
+        },
+        {
+          "bytes": 369918,
+          "name": "Ezra.xml",
+          "sha256": "fb28ff697d0ee17eba5b4db47fb7261ee1870cea0d5701bfc77c9e28d4138129",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Ezra.xml"
+        },
+        {
+          "bytes": 1859928,
+          "name": "Gen.xml",
+          "sha256": "0526e5c9a5fb4d907847645f954ed3d1268fa69decbd872056cedd2668d86449",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Gen.xml"
+        },
+        {
+          "bytes": 79467,
+          "name": "Hab.xml",
+          "sha256": "2592b212d816775adc8dac46bd0c46263982c308a186dde64dfb8239c57bd2d1",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Hab.xml"
+        },
+        {
+          "bytes": 71754,
+          "name": "Hag.xml",
+          "sha256": "26ebbae4fe491cf89ce70e1264cbcbf66a562b497cb214b677e67a9a43ad545c",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Hag.xml"
+        },
+        {
+          "bytes": 236712,
+          "name": "Hos.xml",
+          "sha256": "f38ae44a3a97d142768bd5f4d40e77b69265184f9a5aec9e6af1b9b226e8daae",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Hos.xml"
+        },
+        {
+          "bytes": 1548674,
+          "name": "Isa.xml",
+          "sha256": "0807678de609bdef284bed5400b94ddab570d101b593c7f59ae1939015572fa2",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Isa.xml"
+        },
+        {
+          "bytes": 1977728,
+          "name": "Jer.xml",
+          "sha256": "1a7ad7bc26a2cae1d3964230e8eb73043bc1f32505cb86cd69a25261dc39f493",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Jer.xml"
+        },
+        {
+          "bytes": 813715,
+          "name": "Job.xml",
+          "sha256": "7db3311184122f37a8fd52f3c7c0c4a6d2da7b77ee82f4fdb26bcba9171d297f",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Job.xml"
+        },
+        {
+          "bytes": 105277,
+          "name": "Joel.xml",
+          "sha256": "c0fefc6881afe949b023968106cdccc05a690734b8bb6e9aa48914d77e5369af",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Joel.xml"
+        },
+        {
+          "bytes": 80534,
+          "name": "Jonah.xml",
+          "sha256": "1e1afcc3aaba1399d5c884ee106894c6bfca87c8c81fa57783ab75a923eee17d",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Jonah.xml"
+        },
+        {
+          "bytes": 919916,
+          "name": "Josh.xml",
+          "sha256": "a066200ab2269c0a86a2e9ba119a3d0fce8c5f7ecc44bb53ec134b83dffc6006",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Josh.xml"
+        },
+        {
+          "bytes": 904347,
+          "name": "Judg.xml",
+          "sha256": "3b3a909f04041dbd52dc6b7293a96ce75d94db8a90fdeda878943db7b8fac57f",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Judg.xml"
+        },
+        {
+          "bytes": 167766,
+          "name": "Lam.xml",
+          "sha256": "be68fc6a913313367280c2596e28733ee8cf877c12a65227237733b40d0248c4",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Lam.xml"
+        },
+        {
+          "bytes": 1085066,
+          "name": "Lev.xml",
+          "sha256": "e21e70265c9ef500182f8ccb4f4e1186e5a79e1169d24cef23cc479baf07b191",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Lev.xml"
+        },
+        {
+          "bytes": 95722,
+          "name": "Mal.xml",
+          "sha256": "1583e6a701406dce7b8c2bf85e3522ec31383756de130685fc7c2eb6df8964b2",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Mal.xml"
+        },
+        {
+          "bytes": 145482,
+          "name": "Mic.xml",
+          "sha256": "267e111adc1b941e32444816af07aa136ecde02cb315cd42597f78b393e67a01",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Mic.xml"
+        },
+        {
+          "bytes": 69823,
+          "name": "Nah.xml",
+          "sha256": "5993b28bdbee3c922e3e93002d343a655493e8bd45e3472f3b62d77beadcb62c",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Nah.xml"
+        },
+        {
+          "bytes": 512876,
+          "name": "Neh.xml",
+          "sha256": "be082e95c206469122455b9849d4dd08da50c817732d8198c1beece90402801a",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Neh.xml"
+        },
+        {
+          "bytes": 1496830,
+          "name": "Num.xml",
+          "sha256": "02e4febfcc027d10b3e35e4f091eae67a40d26f37b6254faac6b4af053fe4896",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Num.xml"
+        },
+        {
+          "bytes": 44626,
+          "name": "Obad.xml",
+          "sha256": "1e893e552a7ed7e2e6d4048637ff5da8a2853a9e4432f4095cede80b959d850c",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Obad.xml"
+        },
+        {
+          "bytes": 678669,
+          "name": "Prov.xml",
+          "sha256": "964f99c00239b53b854c4686c99490c8d1ac7664784a30afdfc23781a3abb161",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Prov.xml"
+        },
+        {
+          "bytes": 1925086,
+          "name": "Ps.xml",
+          "sha256": "fe55eef316a65fb0f46d833d526ca2fd722e86ff7339f1a39f0c5b7f9062ced2",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Ps.xml"
+        },
+        {
+          "bytes": 136188,
+          "name": "Ruth.xml",
+          "sha256": "fb6a2660383c7176941cb87b2be182ef634b66d49d057635869f4d9cb1f0a11e",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Ruth.xml"
+        },
+        {
+          "bytes": 138554,
+          "name": "Song.xml",
+          "sha256": "5cd6ae36d32c059aaf794af5a5eaed914ac643486db3e412eb0b969760db82ca",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Song.xml"
+        },
+        {
+          "bytes": 300202,
+          "name": "Zech.xml",
+          "sha256": "2e287c8d0e0abd3bf601eb8ef9b4ee6ca3ae12cf36c0ed1612a7dcca54a2e777",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Zech.xml"
+        },
+        {
+          "bytes": 87313,
+          "name": "Zeph.xml",
+          "sha256": "eb5bd2a745fba1ffeed31dfafd834ce7c290929c992390be1a2b9451d22dea2e",
+          "url": "https://raw.githubusercontent.com/openscriptures/morphhb/3d15126fb1ef74867fc1434be1942e837932691f/wlc/Zeph.xml"
+        }
+      ],
+      "format": "files",
+      "license": "CC BY 4.0",
+      "revision": "2024-08-27",
+      "sha256": "350643a17e2a1025f494b9eb23b3fbe022e600fc8e5a86b918443e8ac4a4779b",
+      "url": "https://github.com/openscriptures/morphhb/tree/3d15126fb1ef74867fc1434be1942e837932691f"
+    },
     "strongs": {
       "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/strongs-2021-07-15-e108be25.zip",
       "archiveSha256": "87412abc64009f04e7903bf4d683cee8e4d56a75b5d13007f471eb1e26f0ec01",

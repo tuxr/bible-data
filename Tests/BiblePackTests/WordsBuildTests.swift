@@ -74,7 +74,7 @@ struct WordsBuildTests {
     @Test(arguments: ["wlc", "tcgnt"])
     func everyWordsCheckPassesAgainstTheSourceAndTheLexicon(_ edition: String) throws {
         let (words, lexicon) = edition == "wlc" ? (BuiltWords.wlc, BuiltWords.hebrew) : (BuiltWords.tcgnt, BuiltWords.greek)
-        #expect(try validateWords(words, lexicon: lexicon) == CompanionCheck.wordsChecks)
+        #expect(try validateWords(words, lexicon: lexicon) == CompanionCheck.wordsChecks(for: TaggedEdition(rawValue: edition)!))
         var passed: [CompanionCheck] = []
         try CompanionValidator.validateLexicon(at: lexicon, words: words) { check, _ in passed.append(check) }
         #expect(passed == CompanionCheck.lexiconChecks)
@@ -100,6 +100,44 @@ struct WordsBuildTests {
                           WordPart(strong: "H7225", morph: "HNcfsa", gloss: "beginning", surface: "רֵאשִׁ֖ית")])
     }
 
+    @Test func wlcGenesis1v1Word2() throws {
+        let row = try word(BuiltWords.wlc, VerseRef(.genesis, 1, 1), 2)
+        #expect(row[0] == .text("בָּרָ֣א"))
+        #expect(row[1] == .text("H1254"))
+        #expect(row[2] == .text("HVqp3ms"))
+        #expect(row[4] == .null)
+    }
+
+    /// The WLC prints the Ketiv ולא, "and not", whose code differs from the Qere וְלוֹ's `HC/R/Sp3ms`.
+    @Test func wlcMorphIsTheKetivsWhereTheTextPrintsIt() throws {
+        let row = try word(BuiltWords.wlc, VerseRef(.psalms, 100, 3), 8)
+        #expect(row[0] == .text("ולא"))
+        #expect(row[1] == .text("H3808"))
+        #expect(row[2] == .text("HC/Tn"))
+        let parts = try #require(row[4].text.flatMap(WordParts.decode))
+        #expect(parts.map(\.morph) == ["HC", "HTn"])
+        #expect(parts.map(\.surface) == ["ו", "לא"])
+    }
+
+    /// OSHB tags this one WLC word as two, so each of its two stems carries its own id.
+    @Test func aWordOSHBDividesKeepsBothStems() throws {
+        let row = try word(BuiltWords.wlc, VerseRef(.firstChronicles, 15, 13), 2)
+        #expect(row[0] == .text("לְמַבָּרִ֥אשׁוֹנָ֖ה"))
+        #expect(row[2] == .text("HR/Ti/Rd/Aafsa"))
+        let parts = try #require(row[4].text.flatMap(WordParts.decode))
+        #expect(parts.map(\.strong) == ["H9005", "H4100", "H9003", "H7223"])
+    }
+
+    @Test func oshbGivesMorphToNearlyEveryWLCWord() throws {
+        let counts = try rows(BuiltWords.wlc, "SELECT count(*), count(morph) FROM words")
+        guard case .integer(let words) = counts.first?[0], case .integer(let tagged) = counts.first?[1] else {
+            Issue.record("no counts")
+            return
+        }
+        #expect(words == 305_495)
+        #expect(Double(tagged) >= 0.99 * Double(words))
+    }
+
     /// TAHOT's row is the Qere אָהֳלוֹ; the WLC prints the Ketiv אָהֳלֹה, which the row's `K=` note splits.
     @Test func wlcTakesTheKetivReadingTheTextPrints() throws {
         let row = try word(BuiltWords.wlc, VerseRef(.genesis, 9, 21), 7)
@@ -108,15 +146,6 @@ struct WordsBuildTests {
         let parts = try #require(row[4].text.flatMap(WordParts.decode))
         #expect(parts.map(\.surface) == ["אָהֳלֹֽ", "ה"])
         #expect(parts.map(\.strong) == ["H0168", "H9023"])
-    }
-
-    /// TAHOT's morphology is ETCBC's, under a noncommercial license, so every WLC morph is the parser's OSHB tag.
-    @Test func everyWLCMorphIsTheParsersOwn() throws {
-        let parsed = try loadEdition("wlc").books.flatMap(\.chapters).flatMap(\.words).flatMap { verse in
-            verse.words.compactMap { tag in tag.morph.map { "\(PackageSchema.verseRowID(verse.ref)) \(tag.index) \($0)" } }
-        }
-        let packaged = try rows(BuiltWords.wlc, "SELECT verse_id, position, morph FROM words WHERE morph IS NOT NULL").map { "\($0[0]) \($0[1]) \($0[2].text!)" }
-        #expect(packaged.sorted() == parsed.sorted())
     }
 
     @Test(arguments: [
@@ -159,8 +188,8 @@ struct WordsBuildTests {
         func meta(_ url: URL, _ key: String) throws -> [String] {
             try rows(url, "SELECT value FROM meta WHERE key = '\(key)'").first?.first?.text.flatMap(MetaStrings.decode) ?? []
         }
-        #expect(try meta(BuiltWords.wlc, "sources") == ["wlc", "tahot", "tbesh", "strongs"])
-        #expect(try meta(BuiltWords.wlc, "attribution").contains(TaggedEdition.oshbCredit))
+        #expect(try meta(BuiltWords.wlc, "sources") == ["wlc", "oshb", "tahot", "tbesh", "strongs"])
+        #expect(try meta(BuiltWords.wlc, "attribution").contains("Open Scriptures Hebrew Bible Project, github.com/openscriptures/morphhb (CC BY 4.0)"))
         #expect(try meta(BuiltWords.tcgnt, "sources") == ["tcgnt", "byztxt", "tagnt", "tbesg", "strongs"])
         #expect(try meta(BuiltWords.tcgnt, "attribution").contains(TBESGEntry.abbottSmithCredit))
         #expect(try meta(BuiltWords.greek, "attribution").contains(TBESGEntry.abbottSmithCredit))
@@ -174,6 +203,14 @@ struct WordsBuildTests {
         try SQLiteDatabase(path: copy.path, mode: .readWrite).exec("DELETE FROM words WHERE verse_id = 43001001 AND position = 3")
         let error = #expect(throws: CompanionValidationError.self) { try validateWords(copy, lexicon: nil, againstSource: false) }
         #expect(error?.check == .positions)
+    }
+
+    @Test func aCodeOutsideTheOSHBGrammarFailsTheMorphCheck() throws {
+        let copy = BuiltWords.directory.appending(path: "tampered-\(UUID().uuidString).words")
+        try FileManager.default.copyItem(at: BuiltWords.wlc, to: copy)
+        try SQLiteDatabase(path: copy.path, mode: .readWrite).exec("UPDATE words SET morph = 'HQq' WHERE verse_id = 1001001 AND position = 2")
+        let error = #expect(throws: CompanionValidationError.self) { try validateWords(copy, lexicon: nil, againstSource: false) }
+        #expect(error?.check == .morph)
     }
 
     @Test func validateDispatchesOnTheKind() throws {

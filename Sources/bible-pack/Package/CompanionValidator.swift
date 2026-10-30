@@ -9,6 +9,7 @@ enum CompanionCheck: String, CaseIterable, Sendable {
     case positions
     case strongIDs = "strong ids"
     case parts
+    case morph = "morph codes"
     case sorted = "sorted ids"
     case lemmas
     case lexicon = "every strong in the lexicon"
@@ -16,7 +17,10 @@ enum CompanionCheck: String, CaseIterable, Sendable {
     case compressed
     case againstSource = "against source"
 
-    static let wordsChecks: [CompanionCheck] = [.integrity, .meta, .verseIDs, .positions, .strongIDs, .parts, .lexicon, .compressed, .againstSource]
+    static func wordsChecks(for edition: TaggedEdition) -> [CompanionCheck] {
+        [.integrity, .meta, .verseIDs, .positions, .strongIDs, .parts] + (edition.morphGrammar == nil ? [] : [.morph])
+            + [.lexicon, .compressed, .againstSource]
+    }
     static let lexiconChecks: [CompanionCheck] = [.integrity, .meta, .strongIDs, .sorted, .lemmas, .words, .compressed]
 }
 
@@ -114,6 +118,20 @@ enum CompanionValidator {
             }
         }
         try check(.parts, "\(partRows) rows decode", failure: badParts, pass: pass)
+
+        if let grammar = edition.morphGrammar {
+            var codes = 0
+            var invalid: [String] = []
+            for row in try database.rows("SELECT verse_id, position, morph, parts FROM words WHERE morph IS NOT NULL OR parts IS NOT NULL") {
+                let pieces = row[3].text.flatMap(WordParts.decode)?.compactMap(\.morph) ?? []
+                for code in [row[2].text].compactMap({ $0 }) + pieces {
+                    codes += 1
+                    if !grammar(code) { invalid.append("verse_id \(row[0]) position \(row[1]) \(code)") }
+                }
+            }
+            let failure = invalid.isEmpty ? nil : "\(invalid.count) of \(codes) codes break the grammar, first \(invalid.prefix(5).joined(separator: ", "))"
+            try check(.morph, "\(codes) codes, 0 invalid", failure: failure, pass: pass)
+        }
 
         if let lexicon {
             let lexiconDatabase = try SQLiteDatabase(path: lexicon.path, mode: .readOnly)

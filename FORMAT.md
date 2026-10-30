@@ -686,9 +686,9 @@ A words package carries the word tags of one tagged edition, the WLC or the TCGN
 | `morph` | The morphology code as its source writes it, or `NULL`. OSHB codes such as `HR/Ncfsa` for the WLC, Robinson codes such as `N-NSM` for the TCGNT. The app decodes them. |
 | `lemma` | The dictionary form, the same value the lexicon entry's `lemma` holds, or `NULL`. |
 | `gloss` | A short English gloss of the word in this verse, or `NULL`. |
-| `parts` | For a Hebrew word TAHOT splits into a prefix, a stem, and a suffix, a JSON array of its pieces in reading order. `NULL` for any other word. |
+| `parts` | For a Hebrew word OSHB splits into prefixes, a stem, and suffixes, a JSON array of its pieces in reading order. `NULL` for any other word. |
 
-Each element of `parts` is an object with `strong`, `morph`, `gloss`, and `surface`, each left out when absent. `WordParts.encode` writes it with sorted keys. The stem carries the word's own `strong`. A prefix or suffix carries TAHOT's code for it, `H9001` to `H9049`, which no lexicon entry has. `morph` is the piece of the word's OSHB code: `HC/Td/Ncfsa` gives `HC`, `HTd`, and `HNcfsa`, since OSHB writes the language letter once. `surface` is the piece of the word's own surface, when its letters split cleanly into the pieces' letter counts.
+Each element of `parts` is an object with `strong`, `morph`, `gloss`, and `surface`, each left out when absent. `WordParts.encode` writes it with sorted keys. The pieces are OSHB's, one per `/` of its code. `morph` is the piece of the word's OSHB code: `HC/Td/Ncfsa` gives `HC`, `HTd`, and `HNcfsa`, since OSHB writes the language letter once. The stem, OSHB's last piece before any suffix, carries the word's own `strong`. When TAHOT splits the word into as many pieces, a prefix or suffix carries TAHOT's code for it, `H9001` to `H9049`, which no lexicon entry has, and every piece carries TAHOT's `gloss`. When the counts differ, the pieces have no `gloss` and only the stem has a `strong`. A word OSHB tags as two elements, such as `לְמַבָּרִ֥אשׁוֹנָ֖ה` in 1 Chronicles 15:13, has two stems, and each carries its own OSHB lemma's id. `surface` is the piece of the word's own surface, when its letters split cleanly into the pieces' letter counts.
 
 ```json
 [{"gloss":"in","morph":"HR","strong":"H9003","surface":"בְּ"},{"gloss":"beginning","morph":"HNcfsa","strong":"H7225","surface":"רֵאשִׁ֖ית"}]
@@ -711,11 +711,13 @@ The lexicons key their entries at Strong's level, with no homonym letter, becaus
 
 WLC:
 
-- `strong` and `morph` are the parser's, from the OSHB tags in the edition's USFX. The eBible WLC carries an OSHB `m` attribute on 2,352 of its 299,878 tagged words, all of Ruth and Jonah and a few elsewhere, so `morph` is `NULL` on the rest.
-- TAHOT supplies `gloss` and the `parts` split, and `strong` where the parser has none. TAHOT's rows are matched by verse: the Hebrew reference in parentheses where TAHOT gives one, else the reference as written. Rows of type `X`, words other manuscripts add, are left out.
-- Within a verse, the rows pair in order when the counts agree and every pair's letters are close. Otherwise the verse is aligned by its letters with points and cantillation removed, `SearchText.normalize` with `Hebr`, by the alignment below with an exact match scoring 4 and a near match (an edit distance of 1, or 2 for words of 6 letters or more) scoring 2.
-- WLC prints the Ketiv. A Qere row whose `K=` note gives the Ketiv takes the Ketiv's split and glosses when the WLC word matches it at least as well as the Qere.
-- No morph code comes from TAHOT. When a word's OSHB code has a different number of pieces from TAHOT's split, its parts keep no `morph`.
+- `morph` and the `parts` pieces are OSHB's, from the `oshb` file set: the `wlc/` books of `github.com/openscriptures/morphhb`. The eBible USFX carries an OSHB `m` attribute on only 2,352 of its 299,878 tagged words, and on 215 of those it is an older code than OSHB's, so the build reads no `m` attribute.
+- OSHB's words are read per verse in reading order. Each `<w>` is a word, its text and its `morph` split at `/` into pieces, and its `lemma` gives each prefix and stem a piece; a suffix has none. Two `<w>` elements with nothing between them are one WLC word that OSHB divides for exegesis. A note's contents are not text: the WLC prints the Ketiv, OSHB's `<w type="x-ketiv">`, and keeps the Qere in a `<note type="variant">`, which the reader skips, as it skips a Qere with no Ketiv.
+- `strong` is the parser's, from the edition's USFX tags. Where the parser has none, it is OSHB's stem lemma at Strong's level, then TAHOT's stem.
+- TAHOT supplies `gloss`, and the prefix and suffix codes and glosses of `parts`. TAHOT's rows are matched by verse: the Hebrew reference in parentheses where TAHOT gives one, else the reference as written. Rows of type `X`, words other manuscripts add, are left out.
+- Within a verse, OSHB's words and then TAHOT's rows each pair in order when the counts agree and every pair's letters are close. Otherwise the verse is aligned by its letters with points, cantillation, and OSHB's `/` removed, `SearchText.normalize` with `Hebr`, by the alignment below with an exact match scoring 4 and a near match (an edit distance of 1, or 2 for words of 6 letters or more) scoring 2.
+- A TAHOT Qere row whose `K=` note gives the Ketiv takes the Ketiv's split and glosses when the WLC word matches it at least as well as the Qere.
+- No morph code comes from TAHOT, whose morphology is ETCBC's. A word OSHB does not pair would take TAHOT's split with no `morph`; with the locked sources there is none.
 
 TCGNT:
 
@@ -727,21 +729,23 @@ TCGNT:
 
 The alignment is bible-api's `alignSequences`: the global pairing in order with the highest total score. It runs within `abs(n - m) + 128` of the diagonal, which gives byte-identical packages to the unbanded alignment for both editions and keeps a chapter's cost linear in its length.
 
-The build prints a coverage table and refuses to write the package when `gloss` covers under 95 percent of the words, or `morph` under 95 percent for the TCGNT, unless `--allow-gaps` is set. For the locked sources:
+The build prints a coverage table and refuses to write the package when `gloss` covers under 95 percent of the words, or `morph` under 99 percent for the WLC or 95 percent for the TCGNT, unless `--allow-gaps` is set. For the locked sources:
 
 | | WLC | TCGNT |
 |---|---|---|
 | Words | 305,495 | 140,182 |
 | With `strong` | 299,808 (98.14%) | 140,171 (99.99%) |
-| With `morph` | 2,352 (0.77%) | 139,941 (99.83%) |
+| With `morph` | 305,495 (100.00%) | 139,941 (99.83%) |
 | With `gloss` | 304,960 (99.82%), all contextual | 140,163 (99.99%): 134,406 contextual, 5,757 from TBESG |
-| With `parts` | 145,275 (47.55%) | 0 |
-| Verses needing alignment by letters | 170 | 2,321 with a word not paired exactly |
-| Words matched to no source word | 535 | 241, which have no `morph` |
-| Ketiv readings used | 997 | |
+| With `parts` | 145,968 (47.78%) | 0 |
+| Verses needing alignment by letters | 0 with OSHB, 170 with TAHOT | 2,321 with a word not paired exactly |
+| Words matched to no source word | 0 with OSHB, 535 with TAHOT | 241, which have no `morph` |
+| Ketiv words | 1,266 of OSHB's; 997 TAHOT Ketiv readings used | |
+| Strong's filled in | 0 from OSHB, 1 from TAHOT | |
+| Piece counts differ | 581 words where OSHB and TAHOT disagree, whose parts have no `gloss` | |
 | Strong's disagreements | 3,429 with TAHOT, the parser's id kept | 2,158 with Byztxt: 2,156 on the same form, Byztxt's id kept; 2 fuzzy, the parser's kept |
 
-A WLC word with no `strong` is a preposition with a pronoun suffix, such as `בּוֹ` "in it", which Strong's gives no entry. Its `parts` carry TAHOT's codes for both pieces.
+A WLC word with no `strong` is a preposition with a pronoun suffix, such as `בּוֹ` "in it", which Strong's gives no entry. OSHB's lemma for it is the letter `b` or `l`, not a number. Its `parts` carry TAHOT's codes for both pieces.
 
 The build is deterministic. Rows go in by verse id and position, and two builds with the same `--built-at` are byte-identical, as are their `.xz` files. It writes beside the destination and renames into place, with a 4096-byte page size, `VACUUM`, and rollback journal mode, as the edition package does.
 
@@ -755,9 +759,10 @@ The build is deterministic. Rows go in by verse id and position, and two builds 
 4. Positions run 1 to n in every verse.
 5. Every `strong` is a stored id of the edition's language.
 6. Every `parts` value decodes, and every part's `strong` is a stored id.
-7. With `--lexicon <file>`, every `strong` has an entry in that lexicon.
-8. The `.xz` beside the package, when present, decompresses to the package's bytes.
-9. With `--against-source`, the edition is parsed again and every row's verse, position, and surface equal the parse's, and `edition_source_sha256` is the locked source's.
+7. For the WLC, every `morph` and every part's `morph` follows the OSHB code grammar. The check reports the count of codes that do not and fails on any.
+8. With `--lexicon <file>`, every `strong` has an entry in that lexicon.
+9. The `.xz` beside the package, when present, decompresses to the package's bytes.
+10. With `--against-source`, the edition is parsed again and every row's verse, position, and surface equal the parse's, and `edition_source_sha256` is the locked source's.
 
 ### Words schema
 
@@ -860,11 +865,11 @@ CREATE TABLE entries (
 
 ### Attribution
 
-A words or lexicon package's `attribution` lists the credit of exactly the sources in its `sources`: the edition's own attribution from `editions/<id>.json`, then each file set's `attribution` from the lock. A package that ships the WLC's OSHB tags adds "Hebrew lemma and morphology from the Open Scriptures Hebrew Bible Project (github.com/openscriptures/morphhb), CC BY 4.0." A package that ships a TBESG field adds "Abbott-Smith, A Manual Greek Lexicon of the New Testament (1922), public domain, via STEPBible TBESG" before STEPBible's credit. A package that ships a TBESH field adds "STEP Bible TBESH (Tyndale House Cambridge), CC BY 4.0, gloss and grammar fields only" before STEPBible's credit.
+A words or lexicon package's `attribution` lists the credit of exactly the sources in its `sources`: the edition's own attribution from `editions/<id>.json`, then each file set's `attribution` from the lock. The `oshb` set's is "Open Scriptures Hebrew Bible Project, github.com/openscriptures/morphhb (CC BY 4.0)". A package that ships a TBESG field adds "Abbott-Smith, A Manual Greek Lexicon of the New Testament (1922), public domain, via STEPBible TBESG" before STEPBible's credit. A package that ships a TBESH field adds "STEP Bible TBESH (Tyndale House Cambridge), CC BY 4.0, gloss and grammar fields only" before STEPBible's credit.
 
 | Package | `sources` |
 |---|---|
-| `wlc-<v>.words` | `wlc`, `tahot`, `tbesh`, `strongs` |
+| `wlc-<v>.words` | `wlc`, `oshb`, `tahot`, `tbesh`, `strongs` |
 | `tcgnt-<v>.words` | `tcgnt`, `byztxt`, `tagnt`, `tbesg`, `strongs` |
 | `lexicon-greek-<v>.lexicon` | `tbesg`, `strongs` |
 | `lexicon-hebrew-<v>.lexicon` | `tbesh`, `strongs` |
@@ -907,16 +912,17 @@ A file set entry has no `scriptureSha256`, because the set hash already covers o
 
 `<id>.zip` holds each file under its `name`, stored without compression. Its entries are in name order, and each carries the revision at 00:00:00 UTC in both the DOS fields and the extended timestamp field. The zip's bytes are therefore a function of the files and the revision. `sources fetch` takes the archived zip if its SHA-256 is `archiveSha256` and its files hash to `sha256`. Otherwise it downloads each file, checks each `sha256`, and rebuilds the zip, which must hash to `archiveSha256`. A set with `"redistributable": false` is always rebuilt from its files. `archiveSha256` still pins the zip `bible-pack` builds in the sources directory.
 
-The four STEPBible sets, `tahot`, `tagnt`, `tbesg`, and `tbesh`, are `"redistributable": false`. Their headers ask users to get the data from STEPBible and not to redistribute it. `byztxt` and `strongs` are public domain and keep their archives.
+The four STEPBible sets, `tahot`, `tagnt`, `tbesg`, and `tbesh`, are `"redistributable": false`. Their headers ask users to get the data from STEPBible and not to redistribute it. `byztxt` and `strongs` are public domain and keep their archives. `oshb` is CC BY 4.0, whose README asks only for credit, and keeps its archive.
 
 ### Licenses of the word sources
 
-The WLC edition's USFX carries OSHB lemma and morphology on every word. The OSHB README at `github.com/openscriptures/morphhb` commit `3d15126` licenses that data under CC BY 4.0 and asks that the credit go to the Open Scriptures Hebrew Bible Project. The WLC text itself is in the public domain. eBible's `copr.htm` inside `hboWLC_usfx.zip` still prints CC BY-SA 3.0. A package that ships the WLC's lemma or morphology credits the Open Scriptures Hebrew Bible Project under CC BY 4.0.
+The WLC words take their morphology from OSHB, locked as `oshb` at `github.com/openscriptures/morphhb` commit `3d15126`. Its README and LICENSE.md license the lemma and morphology under CC BY 4.0 and ask that the credit go to the Open Scriptures Hebrew Bible Project. The WLC text itself is in the public domain. The eBible USFX's own OSHB tags fall under the same license; eBible's `copr.htm` inside `hboWLC_usfx.zip` still prints CC BY-SA 3.0. A package that ships the WLC's lemma or morphology credits the Open Scriptures Hebrew Bible Project under CC BY 4.0, which the `oshb` lock entry's attribution does.
 
 What each word source may supply follows from its license:
 
 | Source | License | Ships | Never ships |
 |---|---|---|---|
+| OSHB | CC BY 4.0, the WLC text public domain | Morphology and its pieces, Strong's ids where the parser has none | |
 | TAHOT | CC BY 4.0, morphology from ETCBC under CC BY-NC | Glosses, the prefix and suffix split, Strong's ids | Its morphology column |
 | TAGNT | CC BY 4.0, parsing from MorphGNT under CC BY-SA | Glosses, Strong's ids for matching | Its parsing |
 | TBESG | CC BY 4.0, Abbott-Smith (1922) public domain | Lemma, transliteration, part of speech, gloss of `(AS)` and untagged rows | Any field of an `(ML)` row, Middle Liddell under CC BY-SA |

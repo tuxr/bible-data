@@ -62,14 +62,11 @@ struct WordsCoverage {
         return lines
     }
 
-    /// The coverage floor: `morph` for an edition whose morphology is required, and `gloss` for every edition.
-    func shortfalls(floor: Double, requireMorph: Bool) -> [String] {
-        var short: [String] = []
-        let required = [("gloss", gloss)] + (requireMorph ? [("morph", morph)] : [])
-        for (name, count) in required where Double(count) < floor * Double(words) {
-            short.append("\(name) covers \(count) of \(words) words, under \(Int(floor * 100)) percent")
+    /// The coverage floors `gloss` and `morph` must reach.
+    func shortfalls(gloss glossFloor: Double, morph morphFloor: Double) -> [String] {
+        [("gloss", gloss, glossFloor), ("morph", morph, morphFloor)].compactMap { name, count, floor in
+            Double(count) < floor * Double(words) ? "\(name) covers \(count) of \(words) words, under \(Int(floor * 100)) percent" : nil
         }
-        return short
     }
 
     mutating func count(_ row: WordRow) {
@@ -105,7 +102,7 @@ enum TaggedEdition: String, CaseIterable {
 
     var wordSources: [String] {
         switch self {
-        case .wlc: ["tahot", "tbesh", "strongs"]
+        case .wlc: ["oshb", "tahot", "tbesh", "strongs"]
         case .tcgnt: ["byztxt", "tagnt", "tbesg", "strongs"]
         }
     }
@@ -117,19 +114,33 @@ enum TaggedEdition: String, CaseIterable {
         }
     }
 
-    /// The morphology floor applies where the brief requires it: TCGNT's morphology is the point of Byztxt.
-    var requiresMorph: Bool { self == .tcgnt }
+    /// The share of words `morph` must cover. OSHB tags every word of the WLC.
+    var morphFloor: Double {
+        switch self {
+        case .wlc: 0.99
+        case .tcgnt: 0.95
+        }
+    }
 
-    /// The credit the OSHB README asks for, owed by any package that ships the WLC's lemma or morphology.
-    static let oshbCredit = "Hebrew lemma and morphology from the Open Scriptures Hebrew Bible Project (github.com/openscriptures/morphhb), CC BY 4.0."
+    /// The grammar `validate` checks every morph code against, for an edition whose codes have one.
+    var morphGrammar: ((String) -> Bool)? {
+        switch self {
+        case .wlc: OSHBMorph.isValid
+        case .tcgnt: nil
+        }
+    }
 
     func build(_ edition: EditionInput, lock: SourcesLock, cache: SourceCache) throws -> (rows: [WordRow], coverage: WordsCoverage) {
         switch self {
         case .wlc:
+            var oshb: [VerseRef: [OSHBWord]] = [:]
+            for (_, data) in try FileSetFiles.load("oshb", lock: lock, cache: cache) {
+                oshb.merge(try OSHBWord.verses(in: data)) { $0 + $1 }
+            }
             let tahot = TAHOTWord.words(in: try FileSetFiles.text("tahot", lock: lock, cache: cache))
             let tbesh = TBESHEntry.entries(in: try FileSetFiles.text("tbesh", lock: lock, cache: cache))
             let strongs = try StrongsHebrew.entries(in: try FileSetFiles.member("strongs", "StrongHebrewG.xml", lock: lock, cache: cache))
-            return HebrewWords.build(edition.books, tahot: tahot, lemmas: { tbesh[$0]?.lemma ?? strongs[$0]?.lemma })
+            return HebrewWords.build(edition.books, oshb: oshb, tahot: tahot, lemmas: { tbesh[$0]?.lemma ?? strongs[$0]?.lemma })
         case .tcgnt:
             let files = try FileSetFiles.load("byztxt", lock: lock, cache: cache)
             var byztxt: [Book: [ByztxtWord]] = [:]
@@ -180,8 +191,7 @@ struct WordsContent {
         self.edition = edition
         self.builtAt = builtAt
         sources = [edition.edition.id] + tagged.wordSources
-        attribution = [edition.metadata.attribution] + (tagged == .wlc ? [TaggedEdition.oshbCredit] : [])
-            + SourceCredits.lines(for: tagged.wordSources, lock: lock)
+        attribution = [edition.metadata.attribution] + SourceCredits.lines(for: tagged.wordSources, lock: lock)
         self.rows = rows.sorted { ($0.ref, $0.position) < ($1.ref, $1.position) }
     }
 

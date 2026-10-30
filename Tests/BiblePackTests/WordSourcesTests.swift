@@ -210,9 +210,110 @@ private func id(_ text: String) -> StrongID { StrongID(text)! }
         #expect(HebrewWords.split("וְהָאָ֗רֶץ", letterCounts: [1, 1, 3]) == ["וְ", "הָ", "אָ֗רֶץ"])
         #expect(HebrewWords.split("וְהָאָ֗רֶץ", letterCounts: [1, 1]) == nil)
     }
+}
 
-    @Test func splitsAnOSHBCodeIntoPieces() {
-        #expect(HebrewWords.pieces(of: "HC/Td/Ncfsa", count: 3) == ["HC", "HTd", "HNcfsa"])
-        #expect(HebrewWords.pieces(of: "HVqw3ms", count: 2) == nil)
+@Suite struct OSHBReaderTests {
+    private func verses(_ body: String) throws -> [VerseRef: [OSHBWord]] {
+        let osis = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <osis xmlns="http://www.bibletechnologies.net/2003/OSIS/namespace"><osisText><div type="book" osisID="Gen"><chapter osisID="Gen.1">
+            \(body)
+            </chapter></div></osisText></osis>
+            """
+        return try OSHBWord.verses(in: Data(osis.utf8))
+    }
+
+    private func piece(_ surface: String, _ morph: String, _ lemma: String?) -> OSHBWord.Piece {
+        OSHBWord.Piece(surface: surface, morph: morph, lemma: lemma)
+    }
+
+    @Test func readsAPrefixedWordPieceByPiece() throws {
+        let words = try verses(#"<verse osisID="Gen.1.2"><w lemma="c/d/776" n="1.1.1" morph="HC/Td/Ncbsa" id="01LN3">וְ/הָ/אָ֗רֶץ</w></verse>"#)
+        let word = try #require(words[VerseRef(.genesis, 1, 2)]?.first)
+        #expect(word.surface == "וְהָאָ֗רֶץ")
+        #expect(word.morph == "HC/Td/Ncbsa")
+        #expect(word.pieces == [piece("וְ", "HC", "c"), piece("הָ", "HTd", "d"), piece("אָ֗רֶץ", "HNcbsa", "776")])
+        #expect(word.strong == StrongID("H0776"))
+        #expect(!word.isKetiv)
+    }
+
+    @Test func aSuffixHasNoLemma() throws {
+        let words = try verses(#"<verse osisID="Gen.8.18"><w lemma="c/1121 a" n="0.0.0" morph="HC/Ncmpc/Sp3ms" id="01q1J">וּ/בָנָ֛י/ו</w></verse>"#)
+        let word = try #require(words[VerseRef(.genesis, 8, 18)]?.first)
+        #expect(word.pieces == [piece("וּ", "HC", "c"), piece("בָנָ֛י", "HNcmpc", "1121 a"), piece("ו", "HSp3ms", nil)])
+        #expect(word.pieces.map(\.isSuffix) == [false, false, true])
+        #expect(word.strong == StrongID("H1121"))
+    }
+
+    /// Psalm 100:3: the WLC prints the Ketiv ולא, "and not", where the Qere is וְלוֹ, "and his".
+    @Test func takesTheKetivAndSkipsTheQereNote() throws {
+        let words = try verses("""
+            <verse osisID="Gen.1.3"><w lemma="6213 a" n="1.0" morph="HVqp3ms/Sp1cp" id="19gfm">עָ֭שָׂ/נוּ</w>
+            <w type="x-ketiv" lemma="c/3808" morph="HC/Tn" id="19ua2">ו/לא</w><note type="variant"><catchWord>ו/לא</catchWord><rdg type="x-qere"><w lemma="c/l" morph="HC/R/Sp3ms" id="19EBF">וְ/ל֣/וֹ</w></rdg></note>
+            <w lemma="587" n="1" morph="HPp1cp" id="19i7Z">אֲנַ֑חְנוּ</w></verse>
+            """)
+        let verse = try #require(words[VerseRef(.genesis, 1, 3)])
+        #expect(verse.map(\.surface) == ["עָ֭שָׂנוּ", "ולא", "אֲנַ֑חְנוּ"])
+        #expect(verse.map(\.isKetiv) == [false, true, false])
+        #expect(verse[1].morph == "HC/Tn")
+        #expect(verse[1].strong == StrongID("H3808"))
+    }
+
+    @Test func aMaqafJoinsTwoWords() throws {
+        let words = try verses(#"<verse osisID="Gen.1.4"><w lemma="3605" morph="HNcmsc" id="01PUa">כָּל</w><seg type="x-maqqef">־</seg><w lemma="d/2416 c" morph="HTd/Ncfsa" id="01r3q">הַ/חַיָּ֨ה</w><seg type="x-sof-pasuq">׃</seg></verse>"#)
+        let verse = try #require(words[VerseRef(.genesis, 1, 4)])
+        #expect(verse.map(\.surface) == ["כָּל", "הַחַיָּ֨ה"])
+        #expect(verse.map(\.morph) == ["HNcmsc", "HTd/Ncfsa"])
+        #expect(verse[1].strong == StrongID("H2416"))
+    }
+
+    /// 1 Chronicles 15:13: OSHB divides the WLC's one word לְמַבָּרִ֥אשׁוֹנָ֖ה into two elements with nothing between.
+    @Test func twoTouchingElementsAreOneWord() throws {
+        let words = try verses(#"<verse osisID="Gen.1.5"><w lemma="l/4100" morph="HR/Ti" id="13Z5a">לְ/מַ</w><w lemma="b/7223" n="1.0" morph="HRd/Aafsa" id="1391p">בָּ/רִ֥אשׁוֹנָ֖ה</w></verse>"#)
+        let verse = try #require(words[VerseRef(.genesis, 1, 5)])
+        #expect(verse.count == 1)
+        #expect(verse[0].surface == "לְמַבָּרִ֥אשׁוֹנָ֖ה")
+        #expect(verse[0].morph == "HR/Ti/Rd/Aafsa")
+        #expect(verse[0].strong == StrongID("H7223"))
+    }
+
+    @Test func aQereWithNoKetivIsNotAWord() throws {
+        let words = try verses(#"<verse osisID="Gen.1.6"><w lemma="b/5104" morph="HR/Ncmsc" id="10BJi">בִּֽ/נְהַר</w><seg type="x-maqqef">־</seg><note type="variant"><rdg type="x-qere"><w lemma="6578" n="0" morph="HNp" id="10dp9">פְּרָֽת</w></rdg></note></verse>"#)
+        #expect(words[VerseRef(.genesis, 1, 6)]?.map(\.surface) == ["בִּֽנְהַר"])
+    }
+
+    @Test func aCodeThatSplitsUnlikeItsTextHasNoPieces() {
+        let word = OSHBWord(text: "בְּ/רֵאשִׁ֖ית", lemma: "b/7225", morph: "HNcfsa", isKetiv: false)
+        #expect(word.pieces.isEmpty)
+        #expect(word.morph == nil)
+        #expect(word.strong == StrongID("H7225"))
+    }
+}
+
+@Suite struct OSHBMorphTests {
+    @Test(arguments: ["HR/Ncfsa", "HVqp3ms", "HC/Td/Ncbsa", "HNcmpc/Sp3ms", "HVqrmsa", "HVqc", "HNp", "HTd", "HR", "HSd",
+                      "AVhp3ms", "ANcfsd", "HVqi3mp", "HPp1cp", "HVqrxsa"])
+    func acceptsCodesOfTheGrammar(_ code: String) {
+        #expect(OSHBMorph.isValid(code))
+    }
+
+    @Test(arguments: ["", "R/Ncfsa", "XNcfsa", "HNcfsaa", "HNz", "HR/", "HVqp3msa", "HVqrx", "HVYp3ms", "HAVqp3ms", "HVap3ms", "HC/C/"])
+    func rejectsCodesOutsideTheGrammar(_ code: String) {
+        #expect(!OSHBMorph.isValid(code))
+    }
+}
+
+@Suite struct CoverageFloorTests {
+    private func coverage(words: Int, gloss: Int, morph: Int) -> WordsCoverage {
+        var coverage = WordsCoverage()
+        (coverage.words, coverage.contextualGloss, coverage.morph) = (words, gloss, morph)
+        return coverage
+    }
+
+    @Test func theWLCMorphFloorIs99Percent() {
+        let floor = TaggedEdition.wlc.morphFloor
+        #expect(coverage(words: 1000, gloss: 1000, morph: 990).shortfalls(gloss: BuildWords.glossFloor, morph: floor).isEmpty)
+        #expect(coverage(words: 1000, gloss: 1000, morph: 989).shortfalls(gloss: BuildWords.glossFloor, morph: floor)
+            == ["morph covers 989 of 1000 words, under 99 percent"])
     }
 }
