@@ -24,6 +24,8 @@ jobs:
           restore-keys: spm-${{ runner.os }}-
       - name: Build
         run: swift build
+      - name: Fetch sources
+        run: swift run bible-pack sources fetch
       - name: Test
         run: swift test
       - name: CLI smoke
@@ -32,3 +34,6 @@ jobs:
           swift run bible-pack sources --help
           swift run bible-pack sources show
           swift run bible-pack canon build --out .build/canon.sqlite && swift run bible-pack canon validate .build/canon.sqlite
+          swift run bible-pack parse bsb
+          swift run bible-pack parse wlc
+          swift run bible-pack parse tcgnt
