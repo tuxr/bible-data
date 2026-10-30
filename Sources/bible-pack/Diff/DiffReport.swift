@@ -227,7 +227,12 @@ enum DiffReport {
                 }
                 return out
             },
-            code: { $0.contains("`") ? "`` \($0) ``" : "`\($0)`" }
+            code: { text in
+                let longest = text.split(separator: "`", omittingEmptySubsequences: false)
+                    .count - 1 > 0 ? text.ranges(of: /`+/).map { text[$0].count }.max() ?? 0 : 0
+                let fence = String(repeating: "`", count: longest + 1)
+                return longest == 0 ? "\(fence)\(text)\(fence)" : "\(fence) \(text) \(fence)"
+            }
         )
     }
 }

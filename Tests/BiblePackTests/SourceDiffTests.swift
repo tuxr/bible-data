@@ -149,6 +149,12 @@ private func kinds(_ diff: EditionDiff) -> [String] {
         #expect(lines[1].text == "the **only son** who is")
     }
 
+    @Test func markdownCodeSpansOutrunTheirContentsBackticks() {
+        #expect(DiffReport.Marks.markdown.code("plain") == "`plain`")
+        #expect(DiffReport.Marks.markdown.code("a `b` c") == "`` a `b` c ``")
+        #expect(DiffReport.Marks.markdown.code("x ``` y") == "```` x ``` y ````")
+    }
+
     @Test func markdownCapsEachKind() {
         let old = john((1...5).map { ($0, "verse \($0) text") })
         let new = john((1...5).map { ($0, "verse \($0) words") })
