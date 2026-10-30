@@ -11,7 +11,7 @@ struct SourcesCommand: AsyncParsableCommand {
         plain files at one GitHub commit, pinned by a hash over their names and bytes and archived as <id>.zip, \
         a zip bible-pack builds deterministically. Add a zip with `sources lock --add` and a file set with `sources add-files`.
         """,
-        subcommands: [Lock.self, AddFiles.self, Verify.self, Fetch.self, Show.self]
+        subcommands: [Lock.self, AddFiles.self, Verify.self, Diff.self, Fetch.self, Show.self]
     )
 
     struct Lock: AsyncParsableCommand {
@@ -97,7 +97,7 @@ struct SourcesCommand: AsyncParsableCommand {
 
     struct Verify: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
-            abstract: "Re-download sources and compare them to the lock without writing. Exits 1 on any change."
+            abstract: "Re-download sources and compare them to the lock without writing. Exits 2 on any change, 1 on an error."
         )
 
         @OptionGroup var global: GlobalOptions
@@ -110,7 +110,97 @@ struct SourcesCommand: AsyncParsableCommand {
             let requests = try lock.locked(ids: ids).map { SourceRequest(id: $0.id, spec: try $0.source.spec()) }
             let results = try await lock.relock(requests, download: HTTP.download)
             printLines(results.map { ($0.id, $0.line) })
-            if results.contains(where: { $0.change != .unchanged }) { throw ExitCode.failure }
+            if results.contains(where: { $0.change != .unchanged }) { throw ExitCode(2) }
+        }
+    }
+
+    struct Diff: AsyncParsableCommand {
+        static let configuration = CommandConfiguration(
+            abstract: "Compare two revisions of an edition's source verse by verse. Exits 0 when identical, 2 when not, 1 on an error.",
+            discussion: """
+            Each differing verse is one kind, the first that applies: moved (the same text at another verse of the \
+            chapter), added, removed, punctuation (equal once punctuation is removed, case included), pointing (Hebrew \
+            or Greek letters equal once points and accents are folded), wording, or markup (the same plain text in a \
+            different stream). Notes, book names, chapter and verse counts, and absent verses are compared too. \
+            Markdown lists at most --limit verses of each kind; JSON lists everything.
+            """
+        )
+
+        @OptionGroup var global: GlobalOptions
+
+        @Argument(help: "The edition's source id, such as tcgnt.")
+        var id: String
+
+        @Option(help: ArgumentHelp("The old zip. Defaults to the locked zip in the sources directory.", valueName: "zip"))
+        var from: String?
+
+        @Option(help: ArgumentHelp(
+            "The new zip. Defaults to the publisher's current zip, downloaded and kept as <sources-dir>/archive/<archive name>.",
+            valueName: "zip"
+        ))
+        var to: String?
+
+        @Option(help: "How to print the diff: text for a terminal, markdown for a pull request, json for every detail.")
+        var format: DiffReport.Format = .text
+
+        @Option(help: "In markdown, the most verses listed for each kind, and the most notes.")
+        var limit = 200
+
+        @Option(help: "The directory of edition metadata files.")
+        var editionsDir = "editions"
+
+        func run() async throws {
+            let diff: EditionDiff
+            do {
+                diff = try await compare()
+            } catch {
+                FileHandle.standardError.write(Data("Error: \(error)\n".utf8))
+                throw ExitCode.failure
+            }
+            print(DiffReport.render(diff, as: format, limit: limit))
+            if !diff.identical { throw ExitCode(2) }
+        }
+
+        private func compare() async throws -> EditionDiff {
+            guard let edition = Edition.named(id) else {
+                throw ValidationError("\(id) is not an edition; diff compares \(Edition.all.map(\.id).joined(separator: ", "))")
+            }
+            let lock = try global.readLock()
+            guard let source = lock.sources[id] else { throw EditionError.notLocked(id) }
+            let metadataFile = URL(fileURLWithPath: editionsDir, isDirectory: true).appending(path: "\(id).json")
+            let metadata = try EditionMetadata(jsonData: try Data(contentsOf: metadataFile), lock: lock)
+            let cache = global.cache
+
+            let old: (name: String, bytes: Data)
+            if let from {
+                old = (URL(fileURLWithPath: from).lastPathComponent, try Data(contentsOf: URL(fileURLWithPath: from)))
+            } else {
+                guard let bytes = cache.contents(of: source.file) else { throw EditionError.missing(file: source.file, id: id) }
+                guard sha256Hex(bytes) == source.sha256 else { throw EditionError.hashMismatch(file: source.file, id: id) }
+                old = (source.file, bytes)
+            }
+            let new: (name: String, bytes: Data)
+            if let to {
+                new = (URL(fileURLWithPath: to).lastPathComponent, try Data(contentsOf: URL(fileURLWithPath: to)))
+            } else {
+                let bytes = try await HTTP.download(source.url)
+                if bytes != old.bytes, let kept = try cache.preserve(bytes, file: source.file) {
+                    FileHandle.standardError.write(Data("kept the publisher's zip as \(kept.path)\n".utf8))
+                }
+                new = (source.file, bytes)
+            }
+
+            func side(_ zip: (name: String, bytes: Data)) throws -> (EditionDiff.Side, ParsedEdition) {
+                let parsed = try edition.parse(zip: zip.bytes, lock: lock, name: zip.name)
+                let side = EditionDiff.Side(
+                    file: zip.name, revision: try ZipArchive(zip.bytes).revisionDate(), sha256: sha256Hex(zip.bytes),
+                    warnings: parsed.report.warnings
+                )
+                return (side, parsed)
+            }
+            let (fromSide, oldEdition) = try side(old)
+            let (toSide, newEdition) = try side(new)
+            return EditionDiff(edition: id, script: metadata.script, from: fromSide, old: oldEdition, to: toSide, new: newEdition)
         }
     }
 
@@ -154,6 +244,8 @@ struct SourcesCommand: AsyncParsableCommand {
         }
     }
 }
+
+extension DiffReport.Format: ExpressibleByArgument {}
 
 extension SourceRequest {
     static func parseAddition(_ argument: String) throws -> SourceRequest {

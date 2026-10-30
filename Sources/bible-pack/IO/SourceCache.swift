@@ -31,12 +31,15 @@ struct SourceCache {
         try FileManager.default.removeItem(at: path(of: file))
     }
 
-    // Bytes that do not parse as a zip are not a source revision, so there is nothing to keep.
-    private func preserve(_ bytes: Data, file: String) throws {
-        guard let revision = try? ZipArchive(bytes).revisionDate() else { return }
+    /// Writes `archive/<archive name>` for a revision of `file`. Bytes that do not parse as a zip are not a source
+    /// revision, so there is nothing to keep and the result is nil.
+    @discardableResult
+    func preserve(_ bytes: Data, file: String) throws -> URL? {
+        guard let revision = try? ZipArchive(bytes).revisionDate() else { return nil }
         let archive = directory.appending(path: "archive")
         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: true)
-        let name = SourcesLock.archiveFileName(file: file, revision: revision, sha256: sha256Hex(bytes))
-        try bytes.write(to: archive.appending(path: name), options: .atomic)
+        let path = archive.appending(path: SourcesLock.archiveFileName(file: file, revision: revision, sha256: sha256Hex(bytes)))
+        try bytes.write(to: path, options: .atomic)
+        return path
     }
 }

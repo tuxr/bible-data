@@ -1,0 +1,56 @@
+name: Source watch
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+# A rerun on the same day rebuilds the same branch, so two runs must not race on it.
+concurrency:
+  group: source-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  watch:
+    name: Compare the sources with their publishers
+    runs-on: macos-latest
+    env:
+      GH_REPO: ${{ github.repository }}
+      # A push or pull request made with GITHUB_TOKEN starts no other workflow, so CI runs on the watch branch only
+      # when SOURCE_WATCH_TOKEN, a token with contents and pull request write access, is set.
+      GH_TOKEN: ${{ secrets.SOURCE_WATCH_TOKEN || github.token }}
+      SOURCE_WATCH_TOKEN: ${{ secrets.SOURCE_WATCH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.SOURCE_WATCH_TOKEN || github.token }}
+      - name: Select newest Xcode
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+          swift --version
+      - uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-watch-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-watch-${{ runner.os }}-
+      - name: Watch
+        env:
+          # Outside .build, so the release build's packages stay out of the build cache.
+          SOURCE_WATCH_OUT: ${{ runner.temp }}/source-watch
+        run: Tools/source-watch.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-watch
+          path: |
+            ${{ runner.temp }}/source-watch/*.markdown
+            ${{ runner.temp }}/source-watch/*.json
+            ${{ runner.temp }}/source-watch/*.log
+            ${{ runner.temp }}/source-watch/*.txt
+            ${{ runner.temp }}/source-watch/body.md
+          if-no-files-found: ignore
