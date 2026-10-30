@@ -40,6 +40,7 @@ import Testing
         var wlc = bsb
         wlc.format = .usfx
         wlc.file = "hboWLC_usfx.zip"
+        wlc.url = URL(string: "https://ebible.org/Scriptures/hboWLC_usfx.zip")!
         let lock = SourcesLock(sources: ["wlc": wlc, "bsb": bsb])
 
         let first = lock.jsonData()
