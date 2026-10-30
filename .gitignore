@@ -1,0 +1,9 @@
+.build/
+.swiftpm/
+*.xcodeproj
+xcuserdata/
+.DS_Store
+# Downloaded publisher sources (fetched by `bible-pack sources fetch`, verified by sources.lock.json)
+.sources/
+# Built packages
+dist/
