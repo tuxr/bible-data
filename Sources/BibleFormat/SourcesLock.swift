@@ -1,44 +1,164 @@
 import Foundation
 
+/// The layout of a publisher zip.
 public enum SourceFormat: String, Codable, Sendable, Hashable, CaseIterable {
     case usfm
     case usfx
 }
 
-public struct LockedSource: Codable, Sendable, Hashable {
-    public var format: SourceFormat
+/// One plain file of a file set, downloaded from `url` and stored in the set's zip as `name`.
+public struct LockedFile: Codable, Sendable, Hashable {
+    public var name: String
+    public var url: URL
+    public var sha256: String
+    public var bytes: Int
+
+    public init(name: String, url: URL, sha256: String, bytes: Int) {
+        self.name = name
+        self.url = url
+        self.sha256 = sha256
+        self.bytes = bytes
+    }
+
+    // A member name becomes a zip entry path that a build extracts by name, so it is one component, never a path.
+    public static func isValidName(_ name: String) -> Bool {
+        let allowed = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
+        return !name.isEmpty && !name.hasPrefix(".") && name.allSatisfy(allowed.contains)
+    }
+
+    /// `.../TAHOT%20Gen-Deu%20-%20...%20CC%20BY.txt` is `TAHOT_Gen-Deu_-_..._CC_BY.txt`; nil when the result is not a valid name.
+    public static func name(for url: URL) -> String? {
+        let name = url.lastPathComponent.replacingOccurrences(of: " ", with: "_")
+        return isValidName(name) ? name : nil
+    }
+}
+
+/// Plain files pinned to one upstream commit, which `bible-pack` archives as one zip it builds itself.
+public struct FileSet: Sendable, Hashable {
+    /// Sorted by name in UTF-8 byte order.
+    public var files: [LockedFile]
+    /// The SHA-256 of the zip `bible-pack` builds from `files`, which is deterministic for a given set and revision.
+    public var archiveSha256: String
+    public var license: String
+    public var attribution: String
+
+    public init(files: [LockedFile], archiveSha256: String, license: String, attribution: String) {
+        self.files = files
+        self.archiveSha256 = archiveSha256
+        self.license = license
+        self.attribution = attribution
+    }
+}
+
+/// A locked source. A publisher zip is pinned by its own bytes; a file set by the hash of its members,
+/// with `file` naming the zip built from them.
+public struct LockedSource: Sendable, Hashable {
+    public enum Kind: Sendable, Hashable {
+        case zip(SourceFormat, scriptureSha256: String)
+        case files(FileSet)
+    }
+
     public var file: String
     public var url: URL
     public var revision: String
     public var sha256: String
     public var bytes: Int
-    public var scriptureSha256: String
-    public var archive: URL
+    /// The archived copy under the `source-archive` release, or nil for a file set whose license asks that
+    /// it not be redistributed, which `sources fetch` rebuilds from its files instead.
+    public var archive: URL?
+    public var kind: Kind
 
-    public init(
-        format: SourceFormat,
-        file: String,
-        url: URL,
-        revision: String,
-        sha256: String,
-        bytes: Int,
-        scriptureSha256: String,
-        archive: URL
-    ) {
-        self.format = format
+    public init(file: String, url: URL, revision: String, sha256: String, bytes: Int, archive: URL?, kind: Kind) {
         self.file = file
         self.url = url
         self.revision = revision
         self.sha256 = sha256
         self.bytes = bytes
-        self.scriptureSha256 = scriptureSha256
         self.archive = archive
+        self.kind = kind
+    }
+
+    /// The lock's `format` value: `usfm`, `usfx`, or `files`.
+    public var formatName: String {
+        switch kind {
+        case .zip(let format, _): format.rawValue
+        case .files: "files"
+        }
+    }
+}
+
+extension LockedSource: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case format, file, url, revision, sha256, bytes, archive, redistributable
+        case scriptureSha256
+        case files, archiveSha256, license, attribution
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let format = try container.decode(String.self, forKey: .format)
+        let kind: Kind
+        if format == "files" {
+            kind = .files(FileSet(
+                files: try container.decode([LockedFile].self, forKey: .files),
+                archiveSha256: try container.decode(String.self, forKey: .archiveSha256),
+                license: try container.decode(String.self, forKey: .license),
+                attribution: try container.decode(String.self, forKey: .attribution)
+            ))
+        } else if let zipFormat = SourceFormat(rawValue: format) {
+            kind = .zip(zipFormat, scriptureSha256: try container.decode(String.self, forKey: .scriptureSha256))
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .format, in: container, debugDescription: "unknown source format \(format)")
+        }
+        // An entry names its archive or says it has none; never both, never neither.
+        let archive = try container.decodeIfPresent(URL.self, forKey: .archive)
+        let redistributable = try container.decodeIfPresent(Bool.self, forKey: .redistributable)
+        guard (archive != nil && redistributable == nil) || (archive == nil && redistributable == false) else {
+            throw DecodingError.dataCorruptedError(forKey: .archive, in: container,
+                                                   debugDescription: "an entry has an archive or \"redistributable\": false, not both")
+        }
+        self.init(
+            file: try container.decode(String.self, forKey: .file),
+            url: try container.decode(URL.self, forKey: .url),
+            revision: try container.decode(String.self, forKey: .revision),
+            sha256: try container.decode(String.self, forKey: .sha256),
+            bytes: try container.decode(Int.self, forKey: .bytes),
+            archive: archive,
+            kind: kind
+        )
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(formatName, forKey: .format)
+        try container.encode(file, forKey: .file)
+        try container.encode(url, forKey: .url)
+        try container.encode(revision, forKey: .revision)
+        try container.encode(sha256, forKey: .sha256)
+        try container.encode(bytes, forKey: .bytes)
+        if let archive {
+            try container.encode(archive, forKey: .archive)
+        } else {
+            try container.encode(false, forKey: .redistributable)
+        }
+        switch kind {
+        case .zip(_, let scriptureSha256):
+            try container.encode(scriptureSha256, forKey: .scriptureSha256)
+        case .files(let set):
+            try container.encode(set.files, forKey: .files)
+            try container.encode(set.archiveSha256, forKey: .archiveSha256)
+            try container.encode(set.license, forKey: .license)
+            try container.encode(set.attribution, forKey: .attribution)
+        }
     }
 }
 
 public enum SourcesLockError: Error, Equatable, CustomStringConvertible {
     case unsupportedVersion(Int)
     case invalidFileName(String)
+    case invalidMemberName(String)
+    case unsortedFileSet(String)
+    case noArchive(String)
 
     public var description: String {
         switch self {
@@ -46,6 +166,12 @@ public enum SourcesLockError: Error, Equatable, CustomStringConvertible {
             "sources lock version \(version) is not supported (expected \(SourcesLock.currentVersion))"
         case .invalidFileName(let file):
             "source file name \(file) must be a plain .zip name with letters, digits, '.', '_', or '-'"
+        case .invalidMemberName(let name):
+            "file set member name \(name) must be one plain file name with letters, digits, '.', '_', or '-'"
+        case .unsortedFileSet(let id):
+            "\(id): file set members must be sorted by name with no duplicates"
+        case .noArchive(let id):
+            "\(id): a publisher zip must name its archive; only a file set can be redistributable: false"
         }
     }
 }
@@ -55,6 +181,25 @@ extension LockedSource {
     public static func isValidFileName(_ file: String) -> Bool {
         let allowed = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
         return file.hasSuffix(".zip") && file.count > 4 && !file.hasPrefix(".") && file.allSatisfy(allowed.contains)
+    }
+
+    /// A zip's `file` is the URL's last component; a file set's is `<id>.zip`, since there is no upstream zip.
+    func check(id: String) throws {
+        guard Self.isValidFileName(file) else { throw SourcesLockError.invalidFileName(file) }
+        switch kind {
+        case .zip:
+            guard url.lastPathComponent == file else { throw SourcesLockError.invalidFileName(file) }
+            guard archive != nil else { throw SourcesLockError.noArchive(id) }
+        case .files(let set):
+            guard file == "\(id).zip" else { throw SourcesLockError.invalidFileName(file) }
+            if let bad = set.files.first(where: { !LockedFile.isValidName($0.name) }) {
+                throw SourcesLockError.invalidMemberName(bad.name)
+            }
+            let names = set.files.map(\.name)
+            guard zip(names, names.dropFirst()).allSatisfy({ $0.utf8.lexicographicallyPrecedes($1.utf8) }) else {
+                throw SourcesLockError.unsortedFileSet(id)
+            }
+        }
     }
 }
 
@@ -75,8 +220,8 @@ public struct SourcesLock: Codable, Sendable, Hashable {
         guard lock.version == Self.currentVersion else {
             throw SourcesLockError.unsupportedVersion(lock.version)
         }
-        if let bad = lock.sources.values.first(where: { !LockedSource.isValidFileName($0.file) || $0.url.lastPathComponent != $0.file }) {
-            throw SourcesLockError.invalidFileName(bad.file)
+        for id in lock.sources.keys.sorted() {
+            try lock.sources[id]!.check(id: id)
         }
         self = lock
     }

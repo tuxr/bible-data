@@ -61,6 +61,9 @@ enum CanonPackage {
         let formatVersion = metaValue(.formatVersion)
         try check("meta format_version \(CanonSchema.version)", table: "meta", failure: formatVersion == "\(CanonSchema.version)"
             ? nil : "format_version is \(formatVersion ?? "missing"), expected \(CanonSchema.version)")
+        let kind = metaValue(.kind)
+        try check("meta kind canon", table: "meta", failure: kind == PackageKind.canon.rawValue
+            ? nil : "kind is \(kind ?? "missing"), expected \(PackageKind.canon.rawValue)")
         let builtAt = metaValue(.builtAt)
         try check("meta built_at", table: "meta", failure: builtAt.flatMap(parseBuiltAt) != nil
             ? nil : "built_at is \(builtAt ?? "missing"), expected an ISO 8601 UTC time")

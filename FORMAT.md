@@ -6,15 +6,17 @@ This document defines the files that `bible-pack` writes and the app reads. The 
 
 ## Scope and principles
 
-The format has two kinds of file.
+The format has four kinds of file. Each is a read-only SQLite 3 database, and each says which kind it is in its `meta` table.
 
-- An **edition package** holds one edition of scripture, such as the BSB or the WLC. It is a read-only SQLite 3 database.
+- An **edition package** holds one edition of scripture, such as the BSB or the WLC.
+- A **words package** holds the word tags of one tagged edition: Strong's number, morphology, lemma, gloss, and parts, by verse and word position.
+- A **lexicon package** holds the Greek or the Hebrew dictionary that every words package in that language points into.
 - The **canon package**, `canon.sqlite`, holds the book table, the versification schemes, and the mappings between schemes. The app bundles it.
 
 These rules hold for every file.
 
 - A package is immutable. A new build of an edition is a new file with a new version. Nothing edits a released package.
-- A package carries one edition. Adding an edition never changes another edition's file.
+- An edition or words package carries one edition. Adding an edition never changes another edition's file.
 - Book ids are USFM 3-letter codes, such as `GEN`, `1SA`, and `REV`.
 - Anchors that outlive a package, such as marks, notes, and reading positions, use the `eng` scheme. An edition in another scheme reaches `eng` through a mapping.
 - Packages carry only the 66 books of the Protestant canon. The canon defines 86 books, so the Apocrypha can ship later without a format change.
@@ -28,7 +30,13 @@ An edition package is named `<id>-<yyyy.mm>.bible`.
 
 The download is `<id>-<yyyy.mm>.bible.xz`, the package compressed with Apple's `COMPRESSION_LZMA`. That algorithm writes an xz stream with no integrity check field, which `xz -t` accepts. The app decompresses it with the same framework and accepts the result only if its SHA-256 matches the manifest.
 
+A words package is named `<id>-<yyyy.mm>.words`, after the edition it tags, such as `wlc-2026.10.words`. A lexicon package is named `lexicon-<greek|hebrew>-<yyyy.mm>.lexicon`. Each has an `.xz` download beside it, made the same way.
+
 The canon package is named `canon.sqlite`.
+
+### `meta.kind`
+
+Every package's schema inserts a `kind` row into `meta`: `edition`, `words`, `lexicon`, or `canon`. A reader reads it before any other table and refuses a file of a kind it did not expect. `PackageKind` holds the values. `bible-pack validate` picks its checks by it.
 
 ## Edition package
 
@@ -52,6 +60,7 @@ The canon package is named `canon.sqlite`.
 |---|---|
 | `format_version` | The format version as a decimal integer. The schema inserts it. |
 | `format_minor` | The additive revision within the format version. The schema inserts it. |
+| `kind` | `edition`. The schema inserts it. |
 | `built_at` | The build time, ISO 8601 in UTC. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
 | `source_lock` | The `sources.lock.json` entry for the edition's source, as JSON with sorted keys. |
@@ -174,6 +183,7 @@ CREATE TABLE meta (
 
 INSERT INTO meta (key, value) VALUES ('format_version', '1');
 INSERT INTO meta (key, value) VALUES ('format_minor', '0');
+INSERT INTO meta (key, value) VALUES ('kind', 'edition');
 
 CREATE TABLE edition (
   id TEXT PRIMARY KEY NOT NULL,
@@ -573,6 +583,7 @@ A book's short name is its SBL Handbook of Style abbreviation, such as `Gen`, `1
 | Key | Value |
 |---|---|
 | `format_version` | `CanonSchema.version` as a decimal integer. The schema inserts it. |
+| `kind` | `canon`. The schema inserts it. |
 | `built_at` | The build time, ISO 8601 in UTC, such as `2026-10-29T00:00:00Z`. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
 | `versification_attribution` | The STEPBible credit, `Versification.attribution`. The app shows it in About. |
@@ -583,7 +594,7 @@ A book's short name is its SBL Handbook of Style abbreviation, such as `Gen`, `1
 
 The build is deterministic. Rows go in a fixed order: sections in `Section` order, books in canonical order, aliases by book and then by `lookupNames` order, verse counts by scheme, book, and chapter, and mappings by file and then by entry order. Two builds from the same tables with the same `--built-at` are byte-identical.
 
-`bible-pack canon validate <path>` is the acceptance check. It opens the file read-only and runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`. It checks `meta`, then compares every table to the `Canon` and `Versification` types row by row. It checks that every verse count is from 1 to 999 and that each scheme's totals match `Versification.counts(for:)`. It exits 1 on the first failure and names the table and the first differing row. A canon package ships only if it passes.
+`bible-pack canon validate <path>` is the acceptance check. It opens the file read-only and runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`. It checks `meta`, including `kind`, then compares every table to the `Canon` and `Versification` types row by row. It checks that every verse count is from 1 to 999 and that each scheme's totals match `Versification.counts(for:)`. It exits 1 on the first failure and names the table and the first differing row. A canon package ships only if it passes.
 
 `CanonSchema.ddl` holds the schema. A test checks that this block matches it.
 
@@ -594,6 +605,7 @@ CREATE TABLE meta (
 ) WITHOUT ROWID;
 
 INSERT INTO meta (key, value) VALUES ('format_version', '1');
+INSERT INTO meta (key, value) VALUES ('kind', 'canon');
 
 CREATE TABLE sections (
   id TEXT PRIMARY KEY NOT NULL,
@@ -646,6 +658,278 @@ CREATE INDEX mappings_by_source ON mappings (source, target, book, source_chapte
 CREATE INDEX mappings_by_target ON mappings (source, target, book, target_chapter, target_verse);
 ```
 
+## Words package
+
+A words package carries the word tags of one tagged edition, the WLC or the TCGNT. Its rows are keyed by the edition's own verse row id and the word's position in the verse, the same coordinates as `Run.word` in the edition package. A mark on a word and a tap on it for word study name the same row.
+
+### Words `meta`
+
+| Key | Value |
+|---|---|
+| `format_version`, `format_minor` | As in the edition package. The schema inserts them. |
+| `kind` | `words`. The schema inserts it. |
+| `built_at` | The build time, ISO 8601 in UTC. |
+| `builder_version` | The `bible-pack` version that wrote the file. |
+| `edition` | The edition id, such as `wlc`. |
+| `edition_source_sha256` | The SHA-256 of the edition's locked source zip. A words file belongs to exactly the text it was aligned to. |
+| `attribution` | A JSON array of the credit lines of exactly the sources the package used. The app shows them in About and the word panel. |
+| `sources` | A JSON array of the `sources.lock.json` ids it used, the edition first. |
+
+### `words`
+
+| Column | Meaning |
+|---|---|
+| `verse_id` | The verse row id, `PackageSchema.verseRowID`, in the edition's own versification. The same id the edition package's `verses` row has. |
+| `position` | The word's position in the verse, from 1, equal to `Run.word`. Positions run 1 to n in every verse with no gap. |
+| `surface` | The word as the edition prints it, with its points and accents. |
+| `strong` | The Strong's id, in the stored form below, or `NULL`. |
+| `morph` | The morphology code as its source writes it, or `NULL`. OSHB codes such as `HR/Ncfsa` for the WLC, Robinson codes such as `N-NSM` for the TCGNT. The app decodes them. |
+| `lemma` | The dictionary form, the same value the lexicon entry's `lemma` holds, or `NULL`. |
+| `gloss` | A short English gloss of the word in this verse, or `NULL`. |
+| `parts` | For a Hebrew word OSHB splits into prefixes, a stem, and suffixes, a JSON array of its pieces in reading order. `NULL` for any other word. |
+
+Each element of `parts` is an object with `strong`, `morph`, `gloss`, and `surface`, each left out when absent. `WordParts.encode` writes it with sorted keys. The pieces are OSHB's, one per `/` of its code. `morph` is the piece of the word's OSHB code: `HC/Td/Ncfsa` gives `HC`, `HTd`, and `HNcfsa`, since OSHB writes the language letter once. The stem, OSHB's last piece before any suffix, carries the word's own `strong`. When TAHOT splits the word into as many pieces, a prefix or suffix carries TAHOT's code for it, `H9001` to `H9049`, which no lexicon entry has, and every piece carries TAHOT's `gloss`. When the counts differ, the pieces have no `gloss` and only the stem has a `strong`. A word OSHB tags as two elements, such as `לְמַבָּרִ֥אשׁוֹנָ֖ה` in 1 Chronicles 15:13, has two stems, and each carries its own OSHB lemma's id. `surface` is the piece of the word's own surface, when its letters split cleanly into the pieces' letter counts.
+
+```json
+[{"gloss":"in","morph":"HR","strong":"H9003","surface":"בְּ"},{"gloss":"beginning","morph":"HNcfsa","strong":"H7225","surface":"רֵאשִׁ֖ית"}]
+```
+
+### Strong's ids
+
+`StrongID` reads and writes every Strong's id the format stores. The app keys lexicon lookups with it.
+
+- An id is `G` or `H` and the number, zero-padded to four digits: `G3056`, `H0776`, `G0746`. A number above 9999 keeps its digits, as in `G10005`.
+- A Hebrew id keeps an extended Strong's homonym letter `A` to `F`, upper case, as in `H1254A`.
+- Any other trailing letter is a STEPBible disambiguation of one entry and is dropped: `H0430G` is `H0430`, `G3708H` is `G3708`. A Greek id never has a letter.
+- `StrongID.isCanonical` is true only for the stored form, so `H430`, `H0430G`, and `H1254a` are not stored ids.
+
+The lexicons key their entries at Strong's level, with no homonym letter, because Strong's dictionary does not split homonyms and the editions' own tags carry none. TAHOT's `H1254A` is stored as `H1254`.
+
+### Building words
+
+`bible-pack build-words <edition>` parses the edition as `build` does and takes every word's position and surface from the parse. It never renumbers them. It then aligns the parse with the edition's word sources.
+
+WLC:
+
+- `morph` and the `parts` pieces are OSHB's, from the `oshb` file set: the `wlc/` books of `github.com/openscriptures/morphhb`. The eBible USFX carries an OSHB `m` attribute on only 2,352 of its 299,878 tagged words, and on 215 of those it is an older code than OSHB's, so the build reads no `m` attribute.
+- OSHB's words are read per verse in reading order. Each `<w>` is a word, its text and its `morph` split at `/` into pieces, and its `lemma` gives each prefix and stem a piece; a suffix has none. Two `<w>` elements with nothing between them are one WLC word that OSHB divides for exegesis. A note's contents are not text: the WLC prints the Ketiv, OSHB's `<w type="x-ketiv">`, and keeps the Qere in a `<note type="variant">`, which the reader skips, as it skips a Qere with no Ketiv.
+- `strong` is the parser's, from the edition's USFX tags. Where the parser has none, it is OSHB's stem lemma at Strong's level, then TAHOT's stem.
+- TAHOT supplies `gloss`, and the prefix and suffix codes and glosses of `parts`. TAHOT's rows are matched by verse: the Hebrew reference in parentheses where TAHOT gives one, else the reference as written. Rows of type `X`, words other manuscripts add, are left out.
+- Within a verse, OSHB's words and then TAHOT's rows each pair in order when the counts agree and every pair's letters are close. Otherwise the verse is aligned by its letters with points, cantillation, and OSHB's `/` removed, `SearchText.normalize` with `Hebr`, by the alignment below with an exact match scoring 4 and a near match (an edit distance of 1, or 2 for words of 6 letters or more) scoring 2.
+- A TAHOT Qere row whose `K=` note gives the Ketiv takes the Ketiv's split and glosses when the WLC word matches it at least as well as the Qere.
+- No morph code comes from TAHOT, whose morphology is ETCBC's. A word OSHB does not pair would take TAHOT's split with no `morph`; with the locked sources there is none.
+
+TCGNT:
+
+- `strong` is the parser's, except where Byztxt's tag on the same form disagrees. Each chapter is aligned with Byztxt's words of that chapter, by the Greek search fold with only letters kept, `SearchText.normalize` with `Grek`. The scores are bible-api's: an exact form 4, a movable nu or sigma or an elided vowel 3, a spelling variant within a small edit distance 2, anything else never paired. A pair scoring 2 is trusted only when Byztxt never uses the word's exact form for a different Strong's id.
+- On a trusted pair scoring 3 or 4, Byztxt's Strong's id is kept over the parser's. The eBible tags ignore accents and breathings, so `ἢ` "or" carries the article's G3588, relative `ὅ` the article's, and `τίς` and `τις` swap. On a pair scoring 2, the parser's id is kept. A word the parser left untagged takes Byztxt's.
+- `morph` is the Robinson code of the paired Byztxt word, its first analysis where it has two. A word Byztxt does not pair has no `morph`. No morph code comes from TAGNT.
+- `gloss` is TAGNT's contextual gloss when the chapter alignment pairs the word with a TAGNT word whose Strong's id, or whose lemma's id in TBESG or Strong's, is the word's. Otherwise it is TBESG's gloss of the id. Otherwise it is `NULL`.
+- `lemma` is TBESG's, else Strong's.
+
+The alignment is bible-api's `alignSequences`: the global pairing in order with the highest total score. It runs within `abs(n - m) + 128` of the diagonal, which gives byte-identical packages to the unbanded alignment for both editions and keeps a chapter's cost linear in its length.
+
+The build prints a coverage table and refuses to write the package when `gloss` covers under 95 percent of the words, or `morph` under 99 percent for the WLC or 95 percent for the TCGNT, unless `--allow-gaps` is set. For the locked sources:
+
+| | WLC | TCGNT |
+|---|---|---|
+| Words | 305,495 | 140,182 |
+| With `strong` | 299,808 (98.14%) | 140,171 (99.99%) |
+| With `morph` | 305,495 (100.00%) | 139,941 (99.83%) |
+| With `gloss` | 304,960 (99.82%), all contextual | 140,163 (99.99%): 134,406 contextual, 5,757 from TBESG |
+| With `parts` | 145,968 (47.78%) | 0 |
+| Verses needing alignment by letters | 0 with OSHB, 170 with TAHOT | 2,321 with a word not paired exactly |
+| Words matched to no source word | 0 with OSHB, 535 with TAHOT | 241, which have no `morph` |
+| Ketiv words | 1,266 of OSHB's; 997 TAHOT Ketiv readings used | |
+| Strong's filled in | 0 from OSHB, 1 from TAHOT | |
+| Piece counts differ | 581 words where OSHB and TAHOT disagree, whose parts have no `gloss` | |
+| Strong's disagreements | 3,429 with TAHOT, the parser's id kept | 2,158 with Byztxt: 2,156 on the same form, Byztxt's id kept; 2 fuzzy, the parser's kept |
+
+A WLC word with no `strong` is a preposition with a pronoun suffix, such as `בּוֹ` "in it", which Strong's gives no entry. OSHB's lemma for it is the letter `b` or `l`, not a number. Its `parts` carry TAHOT's codes for both pieces.
+
+The build is deterministic. Rows go in by verse id and position, and two builds with the same `--built-at` are byte-identical, as are their `.xz` files. It writes beside the destination and renames into place, with a 4096-byte page size, `VACUUM`, and rollback journal mode, as the edition package does.
+
+### Validating words
+
+`bible-pack validate <file>` on a words package runs these checks in order and exits 1 on the first failure.
+
+1. `PRAGMA integrity_check`.
+2. `meta`: `kind` is `words`, the format version, `built_at`, a known tagged `edition`, a 64-hex `edition_source_sha256`, and nonempty `attribution` and `sources` arrays.
+3. Every `verse_id` decodes to a verse of the edition's scheme.
+4. Positions run 1 to n in every verse.
+5. Every `strong` is a stored id of the edition's language.
+6. Every `parts` value decodes, and every part's `strong` is a stored id.
+7. For the WLC, every `morph` and every part's `morph` follows the OSHB code grammar. The check reports the count of codes that do not and fails on any.
+8. With `--lexicon <file>`, every `strong` has an entry in that lexicon.
+9. The `.xz` beside the package, when present, decompresses to the package's bytes.
+10. With `--against-source`, the edition is parsed again and every row's verse, position, and surface equal the parse's, and `edition_source_sha256` is the locked source's.
+
+### Words schema
+
+`WordsSchema.ddl` holds the schema. A test checks that this block matches it.
+
+```sql
+CREATE TABLE meta (
+  key TEXT PRIMARY KEY NOT NULL,
+  value TEXT NOT NULL
+) WITHOUT ROWID;
+
+INSERT INTO meta (key, value) VALUES ('format_version', '1');
+INSERT INTO meta (key, value) VALUES ('format_minor', '0');
+INSERT INTO meta (key, value) VALUES ('kind', 'words');
+
+CREATE TABLE words (
+  verse_id INTEGER NOT NULL,
+  position INTEGER NOT NULL CHECK (position >= 1),
+  surface TEXT NOT NULL,
+  strong TEXT,
+  morph TEXT,
+  lemma TEXT,
+  gloss TEXT,
+  parts TEXT,
+  PRIMARY KEY (verse_id, position)
+) WITHOUT ROWID;
+```
+
+## Lexicon package
+
+A lexicon package is one language's dictionary, one entry per Strong's id. Every words package in the language points into it, so it is downloaded once.
+
+### Lexicon `meta`
+
+The keys of a words package's `meta`, less `edition` and `edition_source_sha256`, plus `language`, the BCP 47 tag `grc` or `hbo`. `kind` is `lexicon`.
+
+### `entries`
+
+| Column | Meaning |
+|---|---|
+| `strong` | The Strong's id at Strong's level. The primary key. |
+| `lemma` | The dictionary form. Never empty. |
+| `transliteration` | The source's transliteration, as written. |
+| `pronunciation` | Strong's own respelling, such as `log'-os` or `el-o-heem'`. |
+| `part_of_speech` | The STEPBible morph summary code, as written: `G:N-M`, `N:N-M-P`, `H:N-M`, `A:V`. A stable code the app decodes, not a sentence. |
+| `gloss` | A short English gloss. |
+| `definition` | Strong's definition, with its etymology removed. |
+| `occurrences` | How often the id occurs in the words package given with `--count-from`, or `NULL` when none was. |
+
+Greek, from `tbesg` and `strongs`:
+
+- `lemma`, `transliteration`, `part_of_speech`, and `gloss` from TBESG's lemma-level row of the id, the first row of its eStrong. A disambiguated gloss such as `to see: see` keeps the part before the colon.
+- TBESG takes most entries from Abbott-Smith (1922), marked `(AS)` at the end of the meaning, which is public domain. It takes some from Middle Liddell, marked `(ML)`, which reached it from the Perseus Digital Library under CC BY-SA. No field of an `(ML)` row ships. The reader drops 2,303 such ids. For the 63 of them in Strong's range, the entry is Strong's alone, with no gloss or part of speech.
+- `lemma` and `transliteration` from Strong's where TBESG has no shippable row, and `pronunciation` and `definition` from Strong's always.
+- The definition takes `<strongs_derivation>` and `<strongs_def>` together, renders each `<strongsref>` as the lemma it names, and cuts the derivation's leading etymology clauses at their top-level semicolons, as bible-api does: θεός keeps "a deity, especially (with ὁ) the supreme Divinity", ἄνθρωπος drops "from ἀνήρ and ὤψ (the countenance; from ὀπτάνομαι)", and ἐγώ, which has no `<strongs_def>`, keeps its derivation.
+
+Hebrew, from `tbesh` and `strongs`:
+
+- `lemma`, `transliteration`, `part_of_speech`, and `gloss` from TBESH, at Strong's level: the plain eStrong row, else the number's first homonym row, so `H1254` takes `H1254a`, "to create". All 8,674 entries have a TBESH gloss and part of speech.
+- TBESH's Meaning column is Online Bible's abridged BDB, which needs Online Bible's permission. The reader never parses it. TBESH's gloss and morph columns are Tyndale House's own.
+- `pronunciation` and `definition` from Strong's Hebrew dictionary. The definition is the explanation note, completed from the exegesis note where the explanation opens inside a parenthesis the exegesis began. The `gloss` attribute of each entry holds TWOT numbers, which are copyrighted, so nothing reads it.
+
+The entries are every id in Strong's dictionary, 5,523 Greek and 8,674 Hebrew, plus any id the words package uses that the sources define. `build-lexicon` prints how many ids the words package uses that the lexicon lacks and refuses to write it if any, unless `--allow-gaps`. For the locked sources the count is 0 for both.
+
+### Validating a lexicon
+
+1. `PRAGMA integrity_check`.
+2. `meta`: `kind` is `lexicon`, the format version, `built_at`, `language` `grc` or `hbo`, and nonempty `attribution` and `sources`.
+3. Every `strong` is a stored id of the language.
+4. The ids' text order, the table's order, is their numeric order.
+5. Every `lemma` is nonempty.
+6. With `--words <file>`, every id that words package uses has an entry.
+7. The `.xz`, when present, decompresses to the package's bytes.
+
+### Lexicon schema
+
+`LexiconSchema.ddl` holds the schema. A test checks that this block matches it.
+
+```sql
+CREATE TABLE meta (
+  key TEXT PRIMARY KEY NOT NULL,
+  value TEXT NOT NULL
+) WITHOUT ROWID;
+
+INSERT INTO meta (key, value) VALUES ('format_version', '1');
+INSERT INTO meta (key, value) VALUES ('format_minor', '0');
+INSERT INTO meta (key, value) VALUES ('kind', 'lexicon');
+
+CREATE TABLE entries (
+  strong TEXT PRIMARY KEY NOT NULL,
+  lemma TEXT NOT NULL CHECK (lemma <> ''),
+  transliteration TEXT,
+  pronunciation TEXT,
+  part_of_speech TEXT,
+  gloss TEXT,
+  definition TEXT,
+  occurrences INTEGER CHECK (occurrences >= 0)
+) WITHOUT ROWID;
+```
+
+### Attribution
+
+A words or lexicon package's `attribution` lists the credit of exactly the sources in its `sources`: the edition's own attribution from `editions/<id>.json`, then each file set's `attribution` from the lock. The `oshb` set's is "Open Scriptures Hebrew Bible Project, github.com/openscriptures/morphhb (CC BY 4.0)". A package that ships a TBESG field adds "Abbott-Smith, A Manual Greek Lexicon of the New Testament (1922), public domain, via STEPBible TBESG" before STEPBible's credit. A package that ships a TBESH field adds "STEP Bible TBESH (Tyndale House Cambridge), CC BY 4.0, gloss and grammar fields only" before STEPBible's credit.
+
+| Package | `sources` |
+|---|---|
+| `wlc-<v>.words` | `wlc`, `oshb`, `tahot`, `tbesh`, `strongs` |
+| `tcgnt-<v>.words` | `tcgnt`, `byztxt`, `tagnt`, `tbesg`, `strongs` |
+| `lexicon-greek-<v>.lexicon` | `tbesg`, `strongs` |
+| `lexicon-hebrew-<v>.lexicon` | `tbesh`, `strongs` |
+
+## Sources lock
+
+`sources.lock.json` pins every input a package is built from. It is JSON with sorted keys, two-space indents, and a trailing newline: `{"sources": {<id>: <entry>}, "version": 1}`. An id is lowercase letters and digits. Every entry has these fields.
+
+| Field | Holds |
+|---|---|
+| `format` | `usfm` or `usfx` for a publisher zip, `files` for a file set. |
+| `file` | The zip's name in the sources directory. One plain `.zip` name: letters, digits, `.`, `_`, and `-`. |
+| `url` | Where the source comes from. |
+| `revision` | The upstream's date, `YYYY-MM-DD`. |
+| `sha256` | What the lock pins. |
+| `bytes` | The source's size. |
+| `archive` | The archived copy, `<file stem>-<revision>-<first 8 hex of sha256>.zip` under the `source-archive` release of `tuxr/bible-data`. A file set whose license asks that it not be redistributed has no `archive` and says `"redistributable": false` instead. An entry has exactly one of the two, and a publisher zip always has an `archive`. |
+
+### Publisher zips
+
+A `usfm` or `usfx` entry pins a zip the publisher serves at an unversioned URL. `file` is the URL's last path component. `sha256` and `bytes` are the zip's. `revision` is the newest entry's modification date in UTC. `scriptureSha256` hashes only the scripture: the one `*_usfx.xml` entry, or for USFM each `.usfm` entry's path, a newline, then its bytes, in path order. A zip whose `sha256` changes and whose `scriptureSha256` does not was only re-zipped.
+
+### File sets
+
+A `files` entry pins plain files at one GitHub commit. Upstream serves no zip, so `bible-pack` builds one.
+
+| Field | Holds |
+|---|---|
+| `url` | The commit, `https://github.com/<owner>/<repo>/tree/<sha>`. |
+| `revision` | The commit's committer date. |
+| `files` | One object per file, sorted by `name` in UTF-8 byte order: `name`, `url` (the raw file at that commit), `sha256`, and `bytes`. |
+| `sha256` | The set hash: over the files in name order, each file's `name`, a newline, then its bytes. The same rule as the USFM scripture hash, so renaming a file changes it. |
+| `bytes` | The total of the files' sizes. |
+| `file` | `<id>.zip`. |
+| `archiveSha256` | The SHA-256 of `<id>.zip`. |
+| `license` | The license, such as `CC BY 4.0` or `Public domain`. |
+| `attribution` | The credit a package built from the files must show, quoting the files' own header where they have one. |
+
+A file set entry has no `scriptureSha256`, because the set hash already covers only the files. A file's `name` is its URL's last path component, percent-decoded, with spaces as underscores. It must be one plain name of letters, digits, `.`, `_`, and `-`.
+
+`<id>.zip` holds each file under its `name`, stored without compression. Its entries are in name order, and each carries the revision at 00:00:00 UTC in both the DOS fields and the extended timestamp field. The zip's bytes are therefore a function of the files and the revision. `sources fetch` takes the archived zip if its SHA-256 is `archiveSha256` and its files hash to `sha256`. Otherwise it downloads each file, checks each `sha256`, and rebuilds the zip, which must hash to `archiveSha256`. A set with `"redistributable": false` is always rebuilt from its files. `archiveSha256` still pins the zip `bible-pack` builds in the sources directory.
+
+The four STEPBible sets, `tahot`, `tagnt`, `tbesg`, and `tbesh`, are `"redistributable": false`. Their headers ask users to get the data from STEPBible and not to redistribute it. `byztxt` and `strongs` are public domain and keep their archives. `oshb` is CC BY 4.0, whose README asks only for credit, and keeps its archive.
+
+### Licenses of the word sources
+
+The WLC words take their morphology from OSHB, locked as `oshb` at `github.com/openscriptures/morphhb` commit `3d15126`. Its README and LICENSE.md license the lemma and morphology under CC BY 4.0 and ask that the credit go to the Open Scriptures Hebrew Bible Project. The WLC text itself is in the public domain. The eBible USFX's own OSHB tags fall under the same license; eBible's `copr.htm` inside `hboWLC_usfx.zip` still prints CC BY-SA 3.0. A package that ships the WLC's lemma or morphology credits the Open Scriptures Hebrew Bible Project under CC BY 4.0, which the `oshb` lock entry's attribution does.
+
+What each word source may supply follows from its license:
+
+| Source | License | Ships | Never ships |
+|---|---|---|---|
+| OSHB | CC BY 4.0, the WLC text public domain | Morphology and its pieces, Strong's ids where the parser has none | |
+| TAHOT | CC BY 4.0, morphology from ETCBC under CC BY-NC | Glosses, the prefix and suffix split, Strong's ids | Its morphology column |
+| TAGNT | CC BY 4.0, parsing from MorphGNT under CC BY-SA | Glosses, Strong's ids for matching | Its parsing |
+| TBESG | CC BY 4.0, Abbott-Smith (1922) public domain | Lemma, transliteration, part of speech, gloss of `(AS)` and untagged rows | Any field of an `(ML)` row, Middle Liddell under CC BY-SA |
+| TBESH | CC BY 4.0, Meaning from Online Bible's abridged BDB | Lemma, transliteration, part of speech, gloss | Its Meaning column |
+| Byztxt | Public domain | Strong's ids and Robinson morphology | |
+| Strong's XML | Public domain | Lemma, transliteration, pronunciation, definition | The Hebrew `gloss` attribute, which holds TWOT numbers |
+
 ## Compatibility
 
 A reader supports a set of format versions. It opens a package only if `meta.format_version` is in that set.
@@ -668,3 +952,6 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 - `meta.absent_verses` lists the scheme verses an edition does not print.
 - Parsing rules for USFM 3 and USFX sources, and the note caller rule for labels.
 - `verses.text_search`, the `verses_search` view as the search index's content, the `SearchText` folding rules, the `meta.absent_verses` key, edition metadata files, and the `.xz` download.
+- The sources lock, with file set entries for word and lexicon sources. A file set can be `"redistributable": false` with no archive.
+- `meta.kind` in every package: `edition`, `words`, `lexicon`, and `canon`.
+- The words package and the lexicon package, the `StrongID` stored form, and the alignment rules that build them.

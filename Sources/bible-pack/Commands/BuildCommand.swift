@@ -35,7 +35,7 @@ struct Build: ParsableCommand {
         if let builtAt, CanonPackage.parseBuiltAt(builtAt) == nil {
             throw ValidationError("--built-at takes an ISO 8601 UTC time such as 2026-10-29T00:00:00Z, got \(builtAt)")
         }
-        if let version, !EditionPackage.isValidVersion(version) {
+        if let version, !PackageWriter.isValidVersion(version) {
             throw ValidationError("--version takes yyyy.mm, such as 2026.10, got \(version)")
         }
         if chapterEncoding == nil {
@@ -52,17 +52,11 @@ struct Build: ParsableCommand {
             cache: global.cache
         )
         let destination = URL(fileURLWithPath: out, isDirectory: true)
-            .appendingPathComponent(EditionPackage.fileName(id: input.metadata.id, version: version ?? EditionPackage.version(for: date)))
+            .appendingPathComponent(EditionPackage.fileName(id: input.metadata.id, version: version ?? PackageWriter.version(for: date)))
         let summary = try EditionPackage.build(
             input.content(builtAt: CanonPackage.formatBuiltAt(date), encoding: chapterEncoding!),
             to: destination
         )
-        let width = summary.rowCounts.map(\.table.count).max() ?? 0
-        for (table, rows) in summary.rowCounts {
-            print(table.padding(toLength: width, withPad: " ", startingAt: 0) + "  " + String(rows))
-        }
-        for file in [summary.package, summary.compressed] {
-            print("\(file.url.path)  \(file.bytes) bytes  sha256 \(file.sha256)")
-        }
+        summary.lines.forEach { print($0) }
     }
 }

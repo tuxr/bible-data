@@ -43,3 +43,14 @@ jobs:
             swift run -c release bible-pack build "$edition" --out .build/dist --version 2026.10
             swift run -c release bible-pack validate ".build/dist/$edition-2026.10.bible" --against-source
           done
+      - name: Words and lexicon smoke
+        run: |
+          pack() { swift run -c release bible-pack "$@"; }
+          pack build-words wlc --out .build/dist --version 2026.10
+          pack build-words tcgnt --out .build/dist --version 2026.10
+          pack build-lexicon hebrew --out .build/dist --version 2026.10 --count-from .build/dist/wlc-2026.10.words
+          pack build-lexicon greek --out .build/dist --version 2026.10 --count-from .build/dist/tcgnt-2026.10.words
+          pack validate .build/dist/wlc-2026.10.words --against-source --lexicon .build/dist/lexicon-hebrew-2026.10.lexicon
+          pack validate .build/dist/tcgnt-2026.10.words --against-source --lexicon .build/dist/lexicon-greek-2026.10.lexicon
+          pack validate .build/dist/lexicon-hebrew-2026.10.lexicon --words .build/dist/wlc-2026.10.words
+          pack validate .build/dist/lexicon-greek-2026.10.lexicon --words .build/dist/tcgnt-2026.10.words

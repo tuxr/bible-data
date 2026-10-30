@@ -80,6 +80,10 @@ enum PackageValidator {
         let editionRows = try database.rows("""
             SELECT id, script, direction, versification, chapter_encoding, format_version, built_at, canon FROM edition
             """)
+        let kind = meta[PackageSchema.MetaKey.kind.rawValue]
+        if kind != PackageKind.edition.rawValue {
+            throw PackageValidationError(check: .formatVersion, message: "meta.kind is \(kind ?? "missing"), expected \(PackageKind.edition.rawValue)")
+        }
         let metaVersion = meta[PackageSchema.MetaKey.formatVersion.rawValue]
         let editionVersion = editionRows.first.map { $0[5] }
         try check(.formatVersion, "\(PackageFormat.version)", failure: metaVersion != "\(PackageFormat.version)"
@@ -162,17 +166,10 @@ enum PackageValidator {
         let notes = try database.rows("SELECT book, chapter, number, kind, caller FROM notes")
         try check(.noteCallers, "\(notes.count) notes match their callers", failure: noteCallersFailure(decoded: decoded, notes: notes))
 
-        let compressed = EditionPackage.compressedURL(for: url)
-        if FileManager.default.fileExists(atPath: compressed.path) {
-            let packageHash = sha256Hex(packageBytes)
-            let inflated: Data
-            do {
-                inflated = try EditionPackage.decompress(try Data(contentsOf: compressed))
-            } catch {
-                throw PackageValidationError(check: .compressed, message: "\(compressed.lastPathComponent) does not decompress: \(error)")
-            }
-            try check(.compressed, "\(compressed.lastPathComponent) decompresses to sha256 \(packageHash)", failure: sha256Hex(inflated) == packageHash
-                ? nil : "\(compressed.lastPathComponent) decompresses to sha256 \(sha256Hex(inflated)), expected \(packageHash)")
+        switch PackageWriter.checkCompressed(beside: url, packageBytes: packageBytes) {
+        case .absent: break
+        case .matches(let detail): try check(.compressed, detail, failure: nil)
+        case .fails(let failure): try check(.compressed, "", failure: failure)
         }
 
         if let source {
@@ -272,7 +269,7 @@ enum PackageValidator {
             return try check(.ftsQuery, "", "the package holds none of \(sample.candidates.map(\.description).joined(separator: ", "))")
         }
         let query = SearchText.normalizeQuery(sample.query, script: script)
-        let found = try EditionPackage.count(
+        let found = try PackageWriter.count(
             in: database,
             "SELECT count(*) FROM verses_fts WHERE verses_fts MATCH ? AND rowid = ?",
             [.text(query), .integer(PackageSchema.verseRowID(expected))]

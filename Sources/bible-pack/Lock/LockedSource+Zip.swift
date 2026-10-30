@@ -23,14 +23,13 @@ extension LockedSource {
         let revision = try zip.revisionDate()
         let sha256 = sha256Hex(zipBytes)
         return LockedSource(
-            format: format,
             file: file,
             url: url,
             revision: revision,
             sha256: sha256,
             bytes: zipBytes.count,
-            scriptureSha256: try scriptureSha256(format: format, zip: zip, file: file),
-            archive: SourcesLock.archiveURL(file: file, revision: revision, sha256: sha256)
+            archive: SourcesLock.archiveURL(file: file, revision: revision, sha256: sha256),
+            kind: .zip(format, scriptureSha256: try scriptureSha256(format: format, zip: zip, file: file))
         )
     }
 
