@@ -1,12 +1,25 @@
 import Foundation
 
+/// Why two schemes number a verse differently. Files spell each kind by its raw value, in either direction.
 public enum MappingKind: String, Codable, CaseIterable, Sendable {
+    /// One verse on each side, with different numbers.
+    case renumbered
+    /// A Psalm title that one scheme numbers as a verse and the other leaves unnumbered.
     case superscriptionAsVerse1
-    case chapterBoundarySplit
-    case relocated
+    /// One verse on one side holds the text of several on the other. Each piece is its own pair.
     case splitVerse
-    /// A verse one scheme numbers and the other does not. Files spell it `sourceOnly` or `targetOnly`.
+    /// The same text printed in a different place.
+    case relocated
+    /// A verse that only one scheme has, other than a Psalm title.
     case extraVerse
+
+    /// Whether an entry of this kind names a verse on both sides, or on exactly one.
+    var isPaired: Bool {
+        switch self {
+        case .renumbered, .splitVerse, .relocated: true
+        case .superscriptionAsVerse1, .extraVerse: false
+        }
+    }
 }
 
 public enum MappingEntry: Hashable, Sendable {
@@ -131,23 +144,22 @@ extension VersificationMapping {
 
         var entries: [MappingEntry] = []
         for raw in file.entries {
+            guard let kind = MappingKind(rawValue: raw.kind) else {
+                throw fail("\(raw.book.rawValue) has unknown kind \(raw.kind)")
+            }
             let source = try ref(raw.source, in: raw.book, counts: sourceCounts)
             let target = try ref(raw.target, in: raw.book, counts: targetCounts)
-            switch (raw.kind, source, target) {
-            case ("sourceOnly", let source?, nil):
-                entries.append(.sourceOnly(source, kind: .extraVerse))
-            case ("targetOnly", nil, let target?):
-                entries.append(.targetOnly(target, kind: .extraVerse))
-            case (let name, let source, let target):
-                guard let kind = MappingKind(rawValue: name), kind != .extraVerse else {
-                    throw fail("\(raw.book.rawValue) has unknown or misplaced kind \(name)")
-                }
-                switch (source, target) {
-                case let (source?, target?): entries.append(.pair(source: source, target: target, kind: kind))
-                case let (source?, nil): entries.append(.sourceOnly(source, kind: kind))
-                case let (nil, target?): entries.append(.targetOnly(target, kind: kind))
-                case (nil, nil): throw fail("\(raw.book.rawValue) \(name) entry names neither side")
-                }
+            switch (source, target, kind.isPaired) {
+            case let (source?, target?, true):
+                guard kind != .renumbered || source != target else { throw fail("\(source) is renumbered to itself") }
+                entries.append(.pair(source: source, target: target, kind: kind))
+            case let (source?, nil, false):
+                entries.append(.sourceOnly(source, kind: kind))
+            case let (nil, target?, false):
+                entries.append(.targetOnly(target, kind: kind))
+            default:
+                let sides = kind.isPaired ? "both sides" : "exactly one side"
+                throw fail("\(raw.book.rawValue) \(kind.rawValue) entry must name \(sides)")
             }
         }
 
@@ -169,56 +181,60 @@ extension VersificationMapping {
     }
 }
 
-/// Applies the resolution rule: a pair beats a one-sided entry for the same verse.
+/// On each side a verse is named by pairs that share one kind, or by a single one-sided entry, never both.
 private struct MappingIndex {
-    var forward: [VerseRef: MappedVerse] = [:]
-    var backward: [VerseRef: MappedVerse] = [:]
+    let forward: [VerseRef: MappedVerse]
+    let backward: [VerseRef: MappedVerse]
 
     init(_ entries: [MappingEntry]) throws {
-        var pairs = (forward: [VerseRef: Side](), backward: [VerseRef: Side]())
-        var unpaired = (forward: [VerseRef: MappingKind](), backward: [VerseRef: MappingKind]())
+        var forward = Side()
+        var backward = Side()
         for entry in entries {
             switch entry {
             case .pair(let source, let target, let kind):
-                try pairs.forward[source, default: Side(kind: kind)].add(target, kind: kind, at: source)
-                try pairs.backward[target, default: Side(kind: kind)].add(source, kind: kind, at: target)
+                try forward.pair(source, with: target, kind: kind)
+                try backward.pair(target, with: source, kind: kind)
             case .sourceOnly(let ref, let kind):
-                try Self.record(ref, kind, in: &unpaired.forward)
+                try forward.unpaired(ref, kind: kind)
             case .targetOnly(let ref, let kind):
-                try Self.record(ref, kind, in: &unpaired.backward)
+                try backward.unpaired(ref, kind: kind)
             }
         }
-        forward = unpaired.forward.mapValues(MappedVerse.absent)
-            .merging(pairs.forward.mapValues(\.mapped)) { _, pair in pair }
-        backward = unpaired.backward.mapValues(MappedVerse.absent)
-            .merging(pairs.backward.mapValues(\.mapped)) { _, pair in pair }
-    }
-
-    private static func record(_ ref: VerseRef, _ kind: MappingKind, in table: inout [VerseRef: MappingKind]) throws {
-        if let existing = table[ref], existing != kind {
-            throw MappingIndexError(ref: ref, kinds: [existing, kind])
-        }
-        table[ref] = kind
+        self.forward = try forward.resolved()
+        self.backward = try backward.resolved()
     }
 
     private struct Side {
-        let kind: MappingKind
-        var refs: Set<VerseRef> = []
+        var pairs: [VerseRef: (kind: MappingKind, refs: Set<VerseRef>)] = [:]
+        var absent: [VerseRef: MappingKind] = [:]
 
-        mutating func add(_ ref: VerseRef, kind: MappingKind, at key: VerseRef) throws {
-            guard kind == self.kind else { throw MappingIndexError(ref: key, kinds: [self.kind, kind]) }
-            refs.insert(ref)
+        mutating func pair(_ ref: VerseRef, with counterpart: VerseRef, kind: MappingKind) throws {
+            let existing = pairs[ref, default: (kind, [])]
+            guard existing.kind == kind else {
+                throw MappingIndexError(ref: ref, problem: "has pairs of kinds \(existing.kind.rawValue) and \(kind.rawValue)")
+            }
+            pairs[ref] = (kind, existing.refs.union([counterpart]))
         }
 
-        var mapped: MappedVerse { .mapped(refs.sorted(), kind) }
+        mutating func unpaired(_ ref: VerseRef, kind: MappingKind) throws {
+            guard absent.updateValue(kind, forKey: ref) == nil else {
+                throw MappingIndexError(ref: ref, problem: "is named by more than one one-sided entry")
+            }
+        }
+
+        func resolved() throws -> [VerseRef: MappedVerse] {
+            if let ref = Set(pairs.keys).intersection(absent.keys).min() {
+                throw MappingIndexError(ref: ref, problem: "is named by a pair and a one-sided entry")
+            }
+            return absent.mapValues(MappedVerse.absent)
+                .merging(pairs.mapValues { .mapped($0.refs.sorted(), $0.kind) }) { absent, _ in absent }
+        }
     }
 }
 
 private struct MappingIndexError: Error, CustomStringConvertible {
     let ref: VerseRef
-    let kinds: [MappingKind]
+    let problem: String
 
-    var description: String {
-        "\(ref) has entries of different kinds: \(kinds.map(\.rawValue).joined(separator: ", "))"
-    }
+    var description: String { "\(ref) \(problem)" }
 }

@@ -7,3 +7,5 @@ xcuserdata/
 .sources/
 # Built packages
 dist/
+# Local decision trail for unattended runs
+.audit/

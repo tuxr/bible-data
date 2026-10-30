@@ -1,9 +1,18 @@
-import BibleFormat
+@testable import BibleFormat
+import Foundation
 import Testing
 
 @Suite struct MappingTests {
     private func mapping(_ source: VersificationScheme, _ target: VersificationScheme) throws -> VersificationMapping {
         try #require(try Versification.mapping(from: source, to: target))
+    }
+
+    private func counterparts(_ mapped: MappedVerse?) -> [VerseRef] {
+        switch mapped {
+        case .same(let ref): [ref]
+        case .mapped(let refs, _): refs
+        case .absent, .bookAbsent, nil: []
+        }
     }
 
     @Test(arguments: [(VersificationScheme.heb, VersificationScheme.eng), (.grc, .eng)])
@@ -46,52 +55,117 @@ import Testing
         }
     }
 
+    @Test(arguments: [
+        (VersificationScheme.heb, VersificationScheme.eng),
+        (.eng, .heb),
+        (.grc, .eng),
+        (.eng, .grc),
+    ])
+    func everyVerseRoundTrips(source: VersificationScheme, target: VersificationScheme) throws {
+        let there = try mapping(source, target)
+        let back = there.reversed()
+        for ref in try Versification.counts(for: source).verseRefs {
+            for counterpart in counterparts(there.map(ref)) {
+                #expect(counterparts(back.map(counterpart)).contains(ref), "\(ref) -> \(counterpart) does not lead back")
+            }
+        }
+    }
+
     @Test(arguments: [(VersificationScheme.heb, VersificationScheme.eng), (.grc, .eng)])
-    func eachTargetVerseHasOneSourceUnlessSplit(source: VersificationScheme, target: VersificationScheme) throws {
+    func eachTargetVerseIsReachedOnceUnlessSplit(source: VersificationScheme, target: VersificationScheme) throws {
         let mapping = try mapping(source, target)
         let reverse = mapping.reversed()
-        let targetCounts = try Versification.counts(for: target)
         var sources: [VerseRef: [VerseRef]] = [:]
         for ref in try Versification.counts(for: source).verseRefs {
-            switch mapping.map(ref) {
-            case .same(let same): sources[same, default: []].append(ref)
-            case .mapped(let refs, let kind) where kind != .splitVerse: refs.forEach { sources[$0, default: []].append(ref) }
-            default: break
+            for counterpart in counterparts(mapping.map(ref)) {
+                sources[counterpart, default: []].append(ref)
             }
         }
-        let shared = targetCounts.verseRefs.filter { reverse.map($0) != .bookAbsent }
-        let doubled = sources.filter { $0.value.count > 1 }.keys.sorted()
-        let orphaned = shared.filter { ref in
-            guard sources[ref] == nil else { return false }
+        for ref in try Versification.counts(for: target).verseRefs {
+            let reached = sources[ref, default: []]
             switch reverse.map(ref) {
-            case .absent, .mapped(_, .splitVerse): return false
-            default: return true
+            case .bookAbsent:
+                continue
+            case .absent:
+                #expect(reached.isEmpty, "\(ref) is marked absent but \(reached) reach it")
+            case .mapped(let pieces, .splitVerse):
+                #expect(reached.sorted() == pieces, "\(ref) is split into \(pieces) but reached by \(reached)")
+            default:
+                #expect(reached.count == 1, "\(ref) is reached by \(reached)")
             }
         }
-        withKnownIssue("The heb-eng seed maps only chapter edges, so verses inside a shifted chapter fall back to the same number") {
-            #expect(doubled.isEmpty, "\(doubled.prefix(5))")
-            #expect(orphaned.isEmpty, "\(orphaned.prefix(5))")
-        } when: {
-            source == .heb
+    }
+
+    @Test func hebrewAndEnglishTotalsDifferOnlyWhereTheMappingSaysSo() throws {
+        let expected: [Book: Int] = [
+            .numbers: 1, .firstSamuel: 1, .firstKings: 1, .firstChronicles: 1, .nehemiah: -1, .psalms: 66, .isaiah: -1,
+        ]
+        let heb = try Versification.counts(for: .heb)
+        let eng = try Versification.counts(for: .eng)
+        let hebToEng = try mapping(.heb, .eng)
+        let engToHeb = hebToEng.reversed()
+
+        func unmatched(_ mapped: MappedVerse?) -> Bool {
+            switch mapped {
+            case .absent, .mapped(_, .splitVerse): true
+            default: false
+            }
+        }
+        var net: [Book: Int] = [:]
+        for ref in heb.verseRefs where unmatched(hebToEng.map(ref)) {
+            net[ref.book, default: 0] += 1
+        }
+        for ref in eng.verseRefs where unmatched(engToHeb.map(ref)) {
+            net[ref.book, default: 0] -= 1
+        }
+        #expect(net.filter { $0.value != 0 } == expected)
+
+        func total(_ counts: VerseCounts, _ book: Book) -> Int {
+            (1...(counts.chapters(in: book) ?? 0)).reduce(0) { $0 + (counts.verses(in: book, chapter: $1) ?? 0) }
+        }
+        for book in heb.books {
+            #expect(total(heb, book) - total(eng, book) == expected[book, default: 0], "\(book)")
         }
     }
 
     @Test(arguments: [
-        (VerseRef(.psalms, 3, 2), MappedVerse.mapped([VerseRef(.psalms, 3, 1)], .superscriptionAsVerse1)),
+        (VerseRef(.exodus, 8, 1), MappedVerse.mapped([VerseRef(.exodus, 8, 5)], .renumbered)),
+        (VerseRef(.exodus, 7, 26), .mapped([VerseRef(.exodus, 8, 1)], .renumbered)),
         (VerseRef(.psalms, 3, 1), .absent(.superscriptionAsVerse1)),
-        (VerseRef(.joel, 3, 1), .mapped([VerseRef(.joel, 2, 28)], .chapterBoundarySplit)),
-        (VerseRef(.malachi, 3, 19), .mapped([VerseRef(.malachi, 4, 1)], .chapterBoundarySplit)),
-        (VerseRef(.genesis, 32, 1), .mapped([VerseRef(.genesis, 31, 55)], .chapterBoundarySplit)),
+        (VerseRef(.psalms, 3, 2), .mapped([VerseRef(.psalms, 3, 1)], .renumbered)),
+        (VerseRef(.psalms, 51, 1), .absent(.superscriptionAsVerse1)),
+        (VerseRef(.psalms, 51, 2), .absent(.superscriptionAsVerse1)),
+        (VerseRef(.psalms, 51, 3), .mapped([VerseRef(.psalms, 51, 1)], .renumbered)),
+        (VerseRef(.psalms, 13, 6), .mapped([VerseRef(.psalms, 13, 5), VerseRef(.psalms, 13, 6)], .splitVerse)),
+        (VerseRef(.genesis, 32, 1), .mapped([VerseRef(.genesis, 31, 55)], .renumbered)),
+        (VerseRef(.genesis, 32, 33), .mapped([VerseRef(.genesis, 32, 32)], .renumbered)),
+        (VerseRef(.numbers, 17, 14), .mapped([VerseRef(.numbers, 16, 49)], .renumbered)),
+        (VerseRef(.numbers, 25, 19), .mapped([VerseRef(.numbers, 26, 1)], .splitVerse)),
+        (VerseRef(.firstSamuel, 20, 42), .mapped([VerseRef(.firstSamuel, 20, 42)], .splitVerse)),
+        (VerseRef(.firstSamuel, 21, 1), .mapped([VerseRef(.firstSamuel, 20, 42)], .splitVerse)),
+        (VerseRef(.isaiah, 63, 19), .mapped([VerseRef(.isaiah, 63, 19), VerseRef(.isaiah, 64, 1)], .splitVerse)),
+        (VerseRef(.nehemiah, 7, 68), .mapped([VerseRef(.nehemiah, 7, 69)], .renumbered)),
+        (VerseRef(.joel, 3, 1), .mapped([VerseRef(.joel, 2, 28)], .renumbered)),
+        (VerseRef(.malachi, 3, 19), .mapped([VerseRef(.malachi, 4, 1)], .renumbered)),
+        (VerseRef(.job, 40, 25), .mapped([VerseRef(.job, 41, 1)], .renumbered)),
+        (VerseRef(.daniel, 3, 31), .mapped([VerseRef(.daniel, 4, 1)], .renumbered)),
         (VerseRef(.genesis, 1, 1), .same(VerseRef(.genesis, 1, 1))),
+        (VerseRef(.isaiah, 53, 5), .same(VerseRef(.isaiah, 53, 5))),
+        (VerseRef(.psalms, 1, 1), .same(VerseRef(.psalms, 1, 1))),
+        (VerseRef(.psalms, 23, 1), .same(VerseRef(.psalms, 23, 1))),
     ])
     func hebrewToEnglish(ref: VerseRef, expected: MappedVerse) throws {
         #expect(try mapping(.heb, .eng).map(ref) == expected)
     }
 
     @Test(arguments: [
-        (VerseRef(.genesis, 31, 55), MappedVerse.mapped([VerseRef(.genesis, 32, 1)], .chapterBoundarySplit)),
+        (VerseRef(.genesis, 31, 55), MappedVerse.mapped([VerseRef(.genesis, 32, 1)], .renumbered)),
+        (VerseRef(.psalms, 3, 1), .mapped([VerseRef(.psalms, 3, 2)], .renumbered)),
+        (VerseRef(.firstSamuel, 20, 42), .mapped([VerseRef(.firstSamuel, 20, 42), VerseRef(.firstSamuel, 21, 1)], .splitVerse)),
+        (VerseRef(.isaiah, 64, 1), .mapped([VerseRef(.isaiah, 63, 19)], .splitVerse)),
+        (VerseRef(.nehemiah, 7, 68), .absent(.extraVerse)),
+        (VerseRef(.nehemiah, 7, 69), .mapped([VerseRef(.nehemiah, 7, 68)], .renumbered)),
         (VerseRef(.genesis, 1, 1), .same(VerseRef(.genesis, 1, 1))),
-        (VerseRef(.psalms, 3, 1), .mapped([VerseRef(.psalms, 3, 2)], .superscriptionAsVerse1)),
         (VerseRef(.matthew, 1, 1), .bookAbsent),
     ])
     func englishToHebrew(ref: VerseRef, expected: MappedVerse) throws {
@@ -141,5 +215,22 @@ import Testing
     @Test func schemesWithNoFileHaveNoMapping() throws {
         #expect(try Versification.mapping(from: .heb, to: .grc) == nil)
         #expect(try Versification.mapping(from: .grc, to: .heb) == nil)
+    }
+
+    @Test(arguments: [
+        #"{"book": "PSA", "kind": "chapterBoundarySplit", "source": [3, 2], "target": [3, 1]}"#,
+        #"{"book": "PSA", "kind": "renumbered", "source": [3, 2]}"#,
+        #"{"book": "PSA", "kind": "superscriptionAsVerse1", "source": [3, 1], "target": [3, 1]}"#,
+        #"{"book": "PSA", "kind": "renumbered", "source": [3, 1], "target": [3, 1]}"#,
+        #"{"book": "PSA", "kind": "renumbered", "source": [3, 8], "target": [3, 9]}"#,
+        #"{"book": "PSA", "kind": "extraVerse", "source": [3, 1]}, {"book": "PSA", "kind": "extraVerse", "source": [3, 1]}"#,
+        #"{"book": "PSA", "kind": "renumbered", "source": [3, 2], "target": [3, 1]}, {"book": "PSA", "kind": "superscriptionAsVerse1", "source": [3, 2]}"#,
+        #"{"book": "PSA", "kind": "splitVerse", "source": [3, 2], "target": [3, 1]}, {"book": "PSA", "kind": "relocated", "source": [3, 2], "target": [3, 2]}"#,
+    ])
+    func malformedFilesAreRejected(entries: String) throws {
+        let file = Data(#"{"source": "heb", "target": "eng", "entries": [\#(entries)]}"#.utf8)
+        let heb = try Versification.counts(for: .heb)
+        let eng = try Versification.counts(for: .eng)
+        #expect(throws: VersificationError.self) { try VersificationMapping(decoding: file, from: heb, to: eng) }
     }
 }

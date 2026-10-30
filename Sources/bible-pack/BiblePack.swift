@@ -10,9 +10,9 @@ enum BiblePackVersion {
 struct BiblePack: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "bible-pack",
-        abstract: "Builds scripture packages for the Bible app from locked publisher sources.",
+        abstract: "Builds the Bible app's canon package, and its scripture packages from locked publisher sources.",
         version: BiblePackVersion.current,
-        subcommands: [SourcesCommand.self, Build.self, Validate.self, Manifest.self]
+        subcommands: [SourcesCommand.self, CanonCommand.self, Build.self, Validate.self, Manifest.self]
     )
 }
 

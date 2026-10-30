@@ -91,6 +91,10 @@ extension VerseCounts {
 }
 
 public enum Versification {
+    /// The credit that TVTMS's CC BY 4.0 licence requires wherever the app uses the `heb` to `eng` mapping.
+    public static let attribution =
+        "Versification data derived from TVTMS by STEPBible.org, Tyndale House Cambridge, CC BY 4.0"
+
     public static func counts(for scheme: VersificationScheme) throws -> VerseCounts {
         guard let loaded = loadedCounts[scheme] else { preconditionFailure("every scheme is loaded") }
         return try loaded.get()
