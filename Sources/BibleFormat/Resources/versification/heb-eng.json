@@ -1,0 +1,15516 @@
+{
+ "source": "heb",
+ "target": "eng",
+ "seededFrom": {
+  "repo": "tuxr/bible-api",
+  "commit": "48b459216f935c10a5371234e2bbc3d002cab381",
+  "file": "data/versification-map.json",
+  "generatedAt": "2026-06-19T22:35:02.705Z"
+ },
+ "entries": [
+  {
+   "book": "GEN",
+   "kind": "targetOnly",
+   "target": [
+    31,
+    55
+   ]
+  },
+  {
+   "book": "GEN",
+   "kind": "sourceOnly",
+   "source": [
+    32,
+    33
+   ]
+  },
+  {
+   "book": "GEN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    32,
+    1
+   ],
+   "target": [
+    31,
+    55
+   ]
+  },
+  {
+   "book": "GEN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    32,
+    33
+   ],
+   "target": [
+    33,
+    1
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "sourceOnly",
+   "source": [
+    7,
+    26
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "sourceOnly",
+   "source": [
+    7,
+    27
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "sourceOnly",
+   "source": [
+    7,
+    28
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "sourceOnly",
+   "source": [
+    7,
+    29
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "targetOnly",
+   "target": [
+    8,
+    29
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "targetOnly",
+   "target": [
+    8,
+    30
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "targetOnly",
+   "target": [
+    8,
+    31
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "targetOnly",
+   "target": [
+    8,
+    32
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    37
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "targetOnly",
+   "target": [
+    22,
+    31
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    26
+   ],
+   "target": [
+    8,
+    1
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    27
+   ],
+   "target": [
+    8,
+    2
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    28
+   ],
+   "target": [
+    8,
+    3
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    29
+   ],
+   "target": [
+    8,
+    4
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    9,
+    1
+   ],
+   "target": [
+    8,
+    29
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    9,
+    2
+   ],
+   "target": [
+    8,
+    30
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    9,
+    3
+   ],
+   "target": [
+    8,
+    31
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    9,
+    4
+   ],
+   "target": [
+    8,
+    32
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    37
+   ],
+   "target": [
+    22,
+    1
+   ]
+  },
+  {
+   "book": "EXO",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    23,
+    1
+   ],
+   "target": [
+    22,
+    31
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    20
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    21
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    22
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    23
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    24
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    25
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    26
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    24
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    25
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    26
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    27
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    28
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    29
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    30
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    20
+   ],
+   "target": [
+    6,
+    1
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    21
+   ],
+   "target": [
+    6,
+    2
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    22
+   ],
+   "target": [
+    6,
+    3
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    23
+   ],
+   "target": [
+    6,
+    4
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    24
+   ],
+   "target": [
+    6,
+    5
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    25
+   ],
+   "target": [
+    6,
+    6
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    26
+   ],
+   "target": [
+    6,
+    7
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    1
+   ],
+   "target": [
+    6,
+    24
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    2
+   ],
+   "target": [
+    6,
+    25
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    3
+   ],
+   "target": [
+    6,
+    26
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    4
+   ],
+   "target": [
+    6,
+    27
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    5
+   ],
+   "target": [
+    6,
+    28
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    6
+   ],
+   "target": [
+    6,
+    29
+   ]
+  },
+  {
+   "book": "LEV",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    7
+   ],
+   "target": [
+    6,
+    30
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    36
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    37
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    38
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    39
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    40
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    41
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    42
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    43
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    44
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    45
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    46
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    47
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    48
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    49
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    16,
+    50
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    14
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    15
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    16
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    17
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    18
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    19
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    20
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    21
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    22
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    23
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    24
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    25
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    26
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    27
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    17,
+    28
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    25,
+    19
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "targetOnly",
+   "target": [
+    29,
+    40
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "sourceOnly",
+   "source": [
+    30,
+    17
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    1
+   ],
+   "target": [
+    16,
+    36
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    2
+   ],
+   "target": [
+    16,
+    37
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    3
+   ],
+   "target": [
+    16,
+    38
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    4
+   ],
+   "target": [
+    16,
+    39
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    5
+   ],
+   "target": [
+    16,
+    40
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    6
+   ],
+   "target": [
+    16,
+    41
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    7
+   ],
+   "target": [
+    16,
+    42
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    8
+   ],
+   "target": [
+    16,
+    43
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    9
+   ],
+   "target": [
+    16,
+    44
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    10
+   ],
+   "target": [
+    16,
+    45
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    11
+   ],
+   "target": [
+    16,
+    46
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    12
+   ],
+   "target": [
+    16,
+    47
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    13
+   ],
+   "target": [
+    16,
+    48
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    14
+   ],
+   "target": [
+    16,
+    49
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    15
+   ],
+   "target": [
+    16,
+    50
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    14
+   ],
+   "target": [
+    18,
+    1
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    15
+   ],
+   "target": [
+    18,
+    2
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    16
+   ],
+   "target": [
+    18,
+    3
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    17
+   ],
+   "target": [
+    18,
+    4
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    18
+   ],
+   "target": [
+    18,
+    5
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    19
+   ],
+   "target": [
+    18,
+    6
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    20
+   ],
+   "target": [
+    18,
+    7
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    21
+   ],
+   "target": [
+    18,
+    8
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    22
+   ],
+   "target": [
+    18,
+    9
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    23
+   ],
+   "target": [
+    18,
+    10
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    24
+   ],
+   "target": [
+    18,
+    11
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    25
+   ],
+   "target": [
+    18,
+    12
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    26
+   ],
+   "target": [
+    18,
+    13
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    27
+   ],
+   "target": [
+    18,
+    14
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    17,
+    28
+   ],
+   "target": [
+    18,
+    15
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    25,
+    19
+   ],
+   "target": [
+    26,
+    1
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    30,
+    1
+   ],
+   "target": [
+    29,
+    40
+   ]
+  },
+  {
+   "book": "NUM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    30,
+    17
+   ],
+   "target": [
+    31,
+    1
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "targetOnly",
+   "target": [
+    12,
+    32
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "sourceOnly",
+   "source": [
+    13,
+    19
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "targetOnly",
+   "target": [
+    22,
+    30
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "sourceOnly",
+   "source": [
+    23,
+    26
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "sourceOnly",
+   "source": [
+    28,
+    69
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "targetOnly",
+   "target": [
+    29,
+    29
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    13,
+    1
+   ],
+   "target": [
+    12,
+    32
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    13,
+    19
+   ],
+   "target": [
+    14,
+    1
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    23,
+    1
+   ],
+   "target": [
+    22,
+    30
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    23,
+    26
+   ],
+   "target": [
+    24,
+    1
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    28,
+    69
+   ],
+   "target": [
+    29,
+    1
+   ]
+  },
+  {
+   "book": "DEU",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    30,
+    1
+   ],
+   "target": [
+    29,
+    29
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    16
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "targetOnly",
+   "target": [
+    23,
+    29
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "sourceOnly",
+   "source": [
+    24,
+    23
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    16
+   ],
+   "target": [
+    22,
+    1
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    24,
+    1
+   ],
+   "target": [
+    23,
+    29
+   ]
+  },
+  {
+   "book": "1SA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    24,
+    23
+   ],
+   "target": [
+    25,
+    1
+   ]
+  },
+  {
+   "book": "2SA",
+   "kind": "targetOnly",
+   "target": [
+    18,
+    33
+   ]
+  },
+  {
+   "book": "2SA",
+   "kind": "sourceOnly",
+   "source": [
+    19,
+    44
+   ]
+  },
+  {
+   "book": "2SA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    19,
+    1
+   ],
+   "target": [
+    18,
+    33
+   ]
+  },
+  {
+   "book": "2SA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    19,
+    44
+   ],
+   "target": [
+    20,
+    1
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    21
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    22
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    23
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    24
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    25
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    26
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    27
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    28
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    29
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    30
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    31
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    32
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    33
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    34
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    19
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    20
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    21
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    22
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    23
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    24
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    25
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    26
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    27
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    28
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    29
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    30
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    31
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    32
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "sourceOnly",
+   "source": [
+    22,
+    54
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    1
+   ],
+   "target": [
+    4,
+    21
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    2
+   ],
+   "target": [
+    4,
+    22
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    3
+   ],
+   "target": [
+    4,
+    23
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    4
+   ],
+   "target": [
+    4,
+    24
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    5
+   ],
+   "target": [
+    4,
+    25
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    6
+   ],
+   "target": [
+    4,
+    26
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    7
+   ],
+   "target": [
+    4,
+    27
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    8
+   ],
+   "target": [
+    4,
+    28
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    9
+   ],
+   "target": [
+    4,
+    29
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    10
+   ],
+   "target": [
+    4,
+    30
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    11
+   ],
+   "target": [
+    4,
+    31
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    12
+   ],
+   "target": [
+    4,
+    32
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    13
+   ],
+   "target": [
+    4,
+    33
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    14
+   ],
+   "target": [
+    4,
+    34
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    19
+   ],
+   "target": [
+    6,
+    1
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    20
+   ],
+   "target": [
+    6,
+    2
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    21
+   ],
+   "target": [
+    6,
+    3
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    22
+   ],
+   "target": [
+    6,
+    4
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    23
+   ],
+   "target": [
+    6,
+    5
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    24
+   ],
+   "target": [
+    6,
+    6
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    25
+   ],
+   "target": [
+    6,
+    7
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    26
+   ],
+   "target": [
+    6,
+    8
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    27
+   ],
+   "target": [
+    6,
+    9
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    28
+   ],
+   "target": [
+    6,
+    10
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    29
+   ],
+   "target": [
+    6,
+    11
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    30
+   ],
+   "target": [
+    6,
+    12
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    31
+   ],
+   "target": [
+    6,
+    13
+   ]
+  },
+  {
+   "book": "1KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    32
+   ],
+   "target": [
+    6,
+    14
+   ]
+  },
+  {
+   "book": "2KI",
+   "kind": "targetOnly",
+   "target": [
+    11,
+    21
+   ]
+  },
+  {
+   "book": "2KI",
+   "kind": "sourceOnly",
+   "source": [
+    12,
+    22
+   ]
+  },
+  {
+   "book": "2KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    12,
+    1
+   ],
+   "target": [
+    11,
+    21
+   ]
+  },
+  {
+   "book": "2KI",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    12,
+    22
+   ],
+   "target": [
+    13,
+    1
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    27
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    28
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    29
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    30
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    31
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    32
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    33
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    34
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    35
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    36
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    37
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    38
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    39
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    40
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    5,
+    41
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    67
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    68
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    69
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    70
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    71
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    72
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    73
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    74
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    75
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    76
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    77
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    78
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    79
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    80
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    81
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "sourceOnly",
+   "source": [
+    12,
+    41
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    27
+   ],
+   "target": [
+    6,
+    1
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    28
+   ],
+   "target": [
+    6,
+    2
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    29
+   ],
+   "target": [
+    6,
+    3
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    30
+   ],
+   "target": [
+    6,
+    4
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    31
+   ],
+   "target": [
+    6,
+    5
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    32
+   ],
+   "target": [
+    6,
+    6
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    33
+   ],
+   "target": [
+    6,
+    7
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    34
+   ],
+   "target": [
+    6,
+    8
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    35
+   ],
+   "target": [
+    6,
+    9
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    36
+   ],
+   "target": [
+    6,
+    10
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    37
+   ],
+   "target": [
+    6,
+    11
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    38
+   ],
+   "target": [
+    6,
+    12
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    39
+   ],
+   "target": [
+    6,
+    13
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    40
+   ],
+   "target": [
+    6,
+    14
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    41
+   ],
+   "target": [
+    6,
+    15
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    1
+   ],
+   "target": [
+    6,
+    67
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    2
+   ],
+   "target": [
+    6,
+    68
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    3
+   ],
+   "target": [
+    6,
+    69
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    4
+   ],
+   "target": [
+    6,
+    70
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    5
+   ],
+   "target": [
+    6,
+    71
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    6
+   ],
+   "target": [
+    6,
+    72
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    7
+   ],
+   "target": [
+    6,
+    73
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    8
+   ],
+   "target": [
+    6,
+    74
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    9
+   ],
+   "target": [
+    6,
+    75
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    10
+   ],
+   "target": [
+    6,
+    76
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    11
+   ],
+   "target": [
+    6,
+    77
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    12
+   ],
+   "target": [
+    6,
+    78
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    13
+   ],
+   "target": [
+    6,
+    79
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    14
+   ],
+   "target": [
+    6,
+    80
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    15
+   ],
+   "target": [
+    6,
+    81
+   ]
+  },
+  {
+   "book": "1CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    12,
+    41
+   ],
+   "target": [
+    13,
+    1
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "sourceOnly",
+   "source": [
+    1,
+    18
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    18
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "sourceOnly",
+   "source": [
+    13,
+    23
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "targetOnly",
+   "target": [
+    14,
+    15
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    1,
+    18
+   ],
+   "target": [
+    2,
+    1
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    1
+   ],
+   "target": [
+    2,
+    18
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    13,
+    23
+   ],
+   "target": [
+    14,
+    1
+   ]
+  },
+  {
+   "book": "2CH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    15,
+    1
+   ],
+   "target": [
+    14,
+    15
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    33
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    34
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    35
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    36
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    37
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    38
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    18
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    19
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    20
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    21
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    22
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    23
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    7,
+    73
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "targetOnly",
+   "target": [
+    9,
+    38
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "sourceOnly",
+   "source": [
+    10,
+    40
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    33
+   ],
+   "target": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    34
+   ],
+   "target": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    35
+   ],
+   "target": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    36
+   ],
+   "target": [
+    4,
+    4
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    37
+   ],
+   "target": [
+    4,
+    5
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    38
+   ],
+   "target": [
+    4,
+    6
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    1
+   ],
+   "target": [
+    4,
+    18
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    2
+   ],
+   "target": [
+    4,
+    19
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    3
+   ],
+   "target": [
+    4,
+    20
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    4
+   ],
+   "target": [
+    4,
+    21
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    5
+   ],
+   "target": [
+    4,
+    22
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    6
+   ],
+   "target": [
+    4,
+    23
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    8,
+    1
+   ],
+   "target": [
+    7,
+    73
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    10,
+    1
+   ],
+   "target": [
+    9,
+    38
+   ]
+  },
+  {
+   "book": "NEH",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    10,
+    40
+   ],
+   "target": [
+    11,
+    1
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    25
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    26
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    27
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    28
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    29
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    30
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    31
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "sourceOnly",
+   "source": [
+    40,
+    32
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    27
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    28
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    29
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    30
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    31
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    32
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    33
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "targetOnly",
+   "target": [
+    41,
+    34
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    25
+   ],
+   "target": [
+    41,
+    1
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    26
+   ],
+   "target": [
+    41,
+    2
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    27
+   ],
+   "target": [
+    41,
+    3
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    28
+   ],
+   "target": [
+    41,
+    4
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    29
+   ],
+   "target": [
+    41,
+    5
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    30
+   ],
+   "target": [
+    41,
+    6
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    31
+   ],
+   "target": [
+    41,
+    7
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    40,
+    32
+   ],
+   "target": [
+    41,
+    8
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    1
+   ],
+   "target": [
+    41,
+    27
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    2
+   ],
+   "target": [
+    41,
+    28
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    3
+   ],
+   "target": [
+    41,
+    29
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    4
+   ],
+   "target": [
+    41,
+    30
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    5
+   ],
+   "target": [
+    41,
+    31
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    6
+   ],
+   "target": [
+    41,
+    32
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    7
+   ],
+   "target": [
+    41,
+    33
+   ]
+  },
+  {
+   "book": "JOB",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    42,
+    8
+   ],
+   "target": [
+    41,
+    34
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    2
+   ],
+   "target": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    3
+   ],
+   "target": [
+    3,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    4
+   ],
+   "target": [
+    3,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    5
+   ],
+   "target": [
+    3,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    6
+   ],
+   "target": [
+    3,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    7
+   ],
+   "target": [
+    3,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    8
+   ],
+   "target": [
+    3,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    3,
+    9
+   ],
+   "target": [
+    3,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    2
+   ],
+   "target": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    3
+   ],
+   "target": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    4
+   ],
+   "target": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    5
+   ],
+   "target": [
+    4,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    6
+   ],
+   "target": [
+    4,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    7
+   ],
+   "target": [
+    4,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    8
+   ],
+   "target": [
+    4,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    4,
+    9
+   ],
+   "target": [
+    4,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    2
+   ],
+   "target": [
+    5,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    3
+   ],
+   "target": [
+    5,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    4
+   ],
+   "target": [
+    5,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    5
+   ],
+   "target": [
+    5,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    6
+   ],
+   "target": [
+    5,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    7
+   ],
+   "target": [
+    5,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    8
+   ],
+   "target": [
+    5,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    9
+   ],
+   "target": [
+    5,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    10
+   ],
+   "target": [
+    5,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    11
+   ],
+   "target": [
+    5,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    12
+   ],
+   "target": [
+    5,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    5,
+    13
+   ],
+   "target": [
+    5,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    2
+   ],
+   "target": [
+    6,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    3
+   ],
+   "target": [
+    6,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    4
+   ],
+   "target": [
+    6,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    5
+   ],
+   "target": [
+    6,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    6
+   ],
+   "target": [
+    6,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    7
+   ],
+   "target": [
+    6,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    8
+   ],
+   "target": [
+    6,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    9
+   ],
+   "target": [
+    6,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    10
+   ],
+   "target": [
+    6,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    6,
+    11
+   ],
+   "target": [
+    6,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    2
+   ],
+   "target": [
+    7,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    3
+   ],
+   "target": [
+    7,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    4
+   ],
+   "target": [
+    7,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    5
+   ],
+   "target": [
+    7,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    6
+   ],
+   "target": [
+    7,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    7
+   ],
+   "target": [
+    7,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    8
+   ],
+   "target": [
+    7,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    9
+   ],
+   "target": [
+    7,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    10
+   ],
+   "target": [
+    7,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    11
+   ],
+   "target": [
+    7,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    12
+   ],
+   "target": [
+    7,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    13
+   ],
+   "target": [
+    7,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    14
+   ],
+   "target": [
+    7,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    15
+   ],
+   "target": [
+    7,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    16
+   ],
+   "target": [
+    7,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    17
+   ],
+   "target": [
+    7,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    7,
+    18
+   ],
+   "target": [
+    7,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    2
+   ],
+   "target": [
+    8,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    3
+   ],
+   "target": [
+    8,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    4
+   ],
+   "target": [
+    8,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    5
+   ],
+   "target": [
+    8,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    6
+   ],
+   "target": [
+    8,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    7
+   ],
+   "target": [
+    8,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    8
+   ],
+   "target": [
+    8,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    9
+   ],
+   "target": [
+    8,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    8,
+    10
+   ],
+   "target": [
+    8,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    2
+   ],
+   "target": [
+    9,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    3
+   ],
+   "target": [
+    9,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    4
+   ],
+   "target": [
+    9,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    5
+   ],
+   "target": [
+    9,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    6
+   ],
+   "target": [
+    9,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    7
+   ],
+   "target": [
+    9,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    8
+   ],
+   "target": [
+    9,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    9
+   ],
+   "target": [
+    9,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    10
+   ],
+   "target": [
+    9,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    11
+   ],
+   "target": [
+    9,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    12
+   ],
+   "target": [
+    9,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    13
+   ],
+   "target": [
+    9,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    14
+   ],
+   "target": [
+    9,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    15
+   ],
+   "target": [
+    9,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    16
+   ],
+   "target": [
+    9,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    17
+   ],
+   "target": [
+    9,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    18
+   ],
+   "target": [
+    9,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    19
+   ],
+   "target": [
+    9,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    20
+   ],
+   "target": [
+    9,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    9,
+    21
+   ],
+   "target": [
+    9,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    2
+   ],
+   "target": [
+    12,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    3
+   ],
+   "target": [
+    12,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    4
+   ],
+   "target": [
+    12,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    5
+   ],
+   "target": [
+    12,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    6
+   ],
+   "target": [
+    12,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    7
+   ],
+   "target": [
+    12,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    8
+   ],
+   "target": [
+    12,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    12,
+    9
+   ],
+   "target": [
+    12,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "sourceOnly",
+   "source": [
+    18,
+    51
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    2
+   ],
+   "target": [
+    19,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    3
+   ],
+   "target": [
+    19,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    4
+   ],
+   "target": [
+    19,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    5
+   ],
+   "target": [
+    19,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    6
+   ],
+   "target": [
+    19,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    7
+   ],
+   "target": [
+    19,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    8
+   ],
+   "target": [
+    19,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    9
+   ],
+   "target": [
+    19,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    10
+   ],
+   "target": [
+    19,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    11
+   ],
+   "target": [
+    19,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    12
+   ],
+   "target": [
+    19,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    13
+   ],
+   "target": [
+    19,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    14
+   ],
+   "target": [
+    19,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    19,
+    15
+   ],
+   "target": [
+    19,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    2
+   ],
+   "target": [
+    20,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    3
+   ],
+   "target": [
+    20,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    4
+   ],
+   "target": [
+    20,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    5
+   ],
+   "target": [
+    20,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    6
+   ],
+   "target": [
+    20,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    7
+   ],
+   "target": [
+    20,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    8
+   ],
+   "target": [
+    20,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    9
+   ],
+   "target": [
+    20,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    20,
+    10
+   ],
+   "target": [
+    20,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    2
+   ],
+   "target": [
+    21,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    3
+   ],
+   "target": [
+    21,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    4
+   ],
+   "target": [
+    21,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    5
+   ],
+   "target": [
+    21,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    6
+   ],
+   "target": [
+    21,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    7
+   ],
+   "target": [
+    21,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    8
+   ],
+   "target": [
+    21,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    9
+   ],
+   "target": [
+    21,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    10
+   ],
+   "target": [
+    21,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    11
+   ],
+   "target": [
+    21,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    12
+   ],
+   "target": [
+    21,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    13
+   ],
+   "target": [
+    21,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    21,
+    14
+   ],
+   "target": [
+    21,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    2
+   ],
+   "target": [
+    22,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    3
+   ],
+   "target": [
+    22,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    4
+   ],
+   "target": [
+    22,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    5
+   ],
+   "target": [
+    22,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    6
+   ],
+   "target": [
+    22,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    7
+   ],
+   "target": [
+    22,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    8
+   ],
+   "target": [
+    22,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    9
+   ],
+   "target": [
+    22,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    10
+   ],
+   "target": [
+    22,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    11
+   ],
+   "target": [
+    22,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    12
+   ],
+   "target": [
+    22,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    13
+   ],
+   "target": [
+    22,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    14
+   ],
+   "target": [
+    22,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    15
+   ],
+   "target": [
+    22,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    16
+   ],
+   "target": [
+    22,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    17
+   ],
+   "target": [
+    22,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    18
+   ],
+   "target": [
+    22,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    19
+   ],
+   "target": [
+    22,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    20
+   ],
+   "target": [
+    22,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    21
+   ],
+   "target": [
+    22,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    22
+   ],
+   "target": [
+    22,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    23
+   ],
+   "target": [
+    22,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    24
+   ],
+   "target": [
+    22,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    25
+   ],
+   "target": [
+    22,
+    24
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    26
+   ],
+   "target": [
+    22,
+    25
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    27
+   ],
+   "target": [
+    22,
+    26
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    28
+   ],
+   "target": [
+    22,
+    27
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    29
+   ],
+   "target": [
+    22,
+    28
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    30
+   ],
+   "target": [
+    22,
+    29
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    31
+   ],
+   "target": [
+    22,
+    30
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    22,
+    32
+   ],
+   "target": [
+    22,
+    31
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    2
+   ],
+   "target": [
+    30,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    3
+   ],
+   "target": [
+    30,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    4
+   ],
+   "target": [
+    30,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    5
+   ],
+   "target": [
+    30,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    6
+   ],
+   "target": [
+    30,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    7
+   ],
+   "target": [
+    30,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    8
+   ],
+   "target": [
+    30,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    9
+   ],
+   "target": [
+    30,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    10
+   ],
+   "target": [
+    30,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    11
+   ],
+   "target": [
+    30,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    12
+   ],
+   "target": [
+    30,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    30,
+    13
+   ],
+   "target": [
+    30,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    2
+   ],
+   "target": [
+    31,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    3
+   ],
+   "target": [
+    31,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    4
+   ],
+   "target": [
+    31,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    5
+   ],
+   "target": [
+    31,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    6
+   ],
+   "target": [
+    31,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    7
+   ],
+   "target": [
+    31,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    8
+   ],
+   "target": [
+    31,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    9
+   ],
+   "target": [
+    31,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    10
+   ],
+   "target": [
+    31,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    11
+   ],
+   "target": [
+    31,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    12
+   ],
+   "target": [
+    31,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    13
+   ],
+   "target": [
+    31,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    14
+   ],
+   "target": [
+    31,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    15
+   ],
+   "target": [
+    31,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    16
+   ],
+   "target": [
+    31,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    17
+   ],
+   "target": [
+    31,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    18
+   ],
+   "target": [
+    31,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    19
+   ],
+   "target": [
+    31,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    20
+   ],
+   "target": [
+    31,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    21
+   ],
+   "target": [
+    31,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    22
+   ],
+   "target": [
+    31,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    23
+   ],
+   "target": [
+    31,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    24
+   ],
+   "target": [
+    31,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    31,
+    25
+   ],
+   "target": [
+    31,
+    24
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    2
+   ],
+   "target": [
+    34,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    3
+   ],
+   "target": [
+    34,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    4
+   ],
+   "target": [
+    34,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    5
+   ],
+   "target": [
+    34,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    6
+   ],
+   "target": [
+    34,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    7
+   ],
+   "target": [
+    34,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    8
+   ],
+   "target": [
+    34,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    9
+   ],
+   "target": [
+    34,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    10
+   ],
+   "target": [
+    34,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    11
+   ],
+   "target": [
+    34,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    12
+   ],
+   "target": [
+    34,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    13
+   ],
+   "target": [
+    34,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    14
+   ],
+   "target": [
+    34,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    15
+   ],
+   "target": [
+    34,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    16
+   ],
+   "target": [
+    34,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    17
+   ],
+   "target": [
+    34,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    18
+   ],
+   "target": [
+    34,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    19
+   ],
+   "target": [
+    34,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    20
+   ],
+   "target": [
+    34,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    21
+   ],
+   "target": [
+    34,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    22
+   ],
+   "target": [
+    34,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    34,
+    23
+   ],
+   "target": [
+    34,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    2
+   ],
+   "target": [
+    36,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    3
+   ],
+   "target": [
+    36,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    4
+   ],
+   "target": [
+    36,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    5
+   ],
+   "target": [
+    36,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    6
+   ],
+   "target": [
+    36,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    7
+   ],
+   "target": [
+    36,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    8
+   ],
+   "target": [
+    36,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    9
+   ],
+   "target": [
+    36,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    10
+   ],
+   "target": [
+    36,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    11
+   ],
+   "target": [
+    36,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    12
+   ],
+   "target": [
+    36,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    36,
+    13
+   ],
+   "target": [
+    36,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    2
+   ],
+   "target": [
+    38,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    3
+   ],
+   "target": [
+    38,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    4
+   ],
+   "target": [
+    38,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    5
+   ],
+   "target": [
+    38,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    6
+   ],
+   "target": [
+    38,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    7
+   ],
+   "target": [
+    38,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    8
+   ],
+   "target": [
+    38,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    9
+   ],
+   "target": [
+    38,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    10
+   ],
+   "target": [
+    38,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    11
+   ],
+   "target": [
+    38,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    12
+   ],
+   "target": [
+    38,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    13
+   ],
+   "target": [
+    38,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    14
+   ],
+   "target": [
+    38,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    15
+   ],
+   "target": [
+    38,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    16
+   ],
+   "target": [
+    38,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    17
+   ],
+   "target": [
+    38,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    18
+   ],
+   "target": [
+    38,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    19
+   ],
+   "target": [
+    38,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    20
+   ],
+   "target": [
+    38,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    21
+   ],
+   "target": [
+    38,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    22
+   ],
+   "target": [
+    38,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    38,
+    23
+   ],
+   "target": [
+    38,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    2
+   ],
+   "target": [
+    39,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    3
+   ],
+   "target": [
+    39,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    4
+   ],
+   "target": [
+    39,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    5
+   ],
+   "target": [
+    39,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    6
+   ],
+   "target": [
+    39,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    7
+   ],
+   "target": [
+    39,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    8
+   ],
+   "target": [
+    39,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    9
+   ],
+   "target": [
+    39,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    10
+   ],
+   "target": [
+    39,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    11
+   ],
+   "target": [
+    39,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    12
+   ],
+   "target": [
+    39,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    13
+   ],
+   "target": [
+    39,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    39,
+    14
+   ],
+   "target": [
+    39,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    2
+   ],
+   "target": [
+    40,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    3
+   ],
+   "target": [
+    40,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    4
+   ],
+   "target": [
+    40,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    5
+   ],
+   "target": [
+    40,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    6
+   ],
+   "target": [
+    40,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    7
+   ],
+   "target": [
+    40,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    8
+   ],
+   "target": [
+    40,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    9
+   ],
+   "target": [
+    40,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    10
+   ],
+   "target": [
+    40,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    11
+   ],
+   "target": [
+    40,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    12
+   ],
+   "target": [
+    40,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    13
+   ],
+   "target": [
+    40,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    14
+   ],
+   "target": [
+    40,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    15
+   ],
+   "target": [
+    40,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    16
+   ],
+   "target": [
+    40,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    17
+   ],
+   "target": [
+    40,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    40,
+    18
+   ],
+   "target": [
+    40,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    2
+   ],
+   "target": [
+    41,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    3
+   ],
+   "target": [
+    41,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    4
+   ],
+   "target": [
+    41,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    5
+   ],
+   "target": [
+    41,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    6
+   ],
+   "target": [
+    41,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    7
+   ],
+   "target": [
+    41,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    8
+   ],
+   "target": [
+    41,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    9
+   ],
+   "target": [
+    41,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    10
+   ],
+   "target": [
+    41,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    11
+   ],
+   "target": [
+    41,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    12
+   ],
+   "target": [
+    41,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    13
+   ],
+   "target": [
+    41,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    41,
+    14
+   ],
+   "target": [
+    41,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "sourceOnly",
+   "source": [
+    42,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "sourceOnly",
+   "source": [
+    44,
+    27
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    2
+   ],
+   "target": [
+    45,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    3
+   ],
+   "target": [
+    45,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    4
+   ],
+   "target": [
+    45,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    5
+   ],
+   "target": [
+    45,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    6
+   ],
+   "target": [
+    45,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    7
+   ],
+   "target": [
+    45,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    8
+   ],
+   "target": [
+    45,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    9
+   ],
+   "target": [
+    45,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    10
+   ],
+   "target": [
+    45,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    11
+   ],
+   "target": [
+    45,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    12
+   ],
+   "target": [
+    45,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    13
+   ],
+   "target": [
+    45,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    14
+   ],
+   "target": [
+    45,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    15
+   ],
+   "target": [
+    45,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    16
+   ],
+   "target": [
+    45,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    17
+   ],
+   "target": [
+    45,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    45,
+    18
+   ],
+   "target": [
+    45,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    2
+   ],
+   "target": [
+    46,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    3
+   ],
+   "target": [
+    46,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    4
+   ],
+   "target": [
+    46,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    5
+   ],
+   "target": [
+    46,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    6
+   ],
+   "target": [
+    46,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    7
+   ],
+   "target": [
+    46,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    8
+   ],
+   "target": [
+    46,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    9
+   ],
+   "target": [
+    46,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    10
+   ],
+   "target": [
+    46,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    11
+   ],
+   "target": [
+    46,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    46,
+    12
+   ],
+   "target": [
+    46,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    2
+   ],
+   "target": [
+    47,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    3
+   ],
+   "target": [
+    47,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    4
+   ],
+   "target": [
+    47,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    5
+   ],
+   "target": [
+    47,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    6
+   ],
+   "target": [
+    47,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    7
+   ],
+   "target": [
+    47,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    8
+   ],
+   "target": [
+    47,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    9
+   ],
+   "target": [
+    47,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    47,
+    10
+   ],
+   "target": [
+    47,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    2
+   ],
+   "target": [
+    48,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    3
+   ],
+   "target": [
+    48,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    4
+   ],
+   "target": [
+    48,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    5
+   ],
+   "target": [
+    48,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    6
+   ],
+   "target": [
+    48,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    7
+   ],
+   "target": [
+    48,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    8
+   ],
+   "target": [
+    48,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    9
+   ],
+   "target": [
+    48,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    10
+   ],
+   "target": [
+    48,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    11
+   ],
+   "target": [
+    48,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    12
+   ],
+   "target": [
+    48,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    13
+   ],
+   "target": [
+    48,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    14
+   ],
+   "target": [
+    48,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    48,
+    15
+   ],
+   "target": [
+    48,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    2
+   ],
+   "target": [
+    49,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    3
+   ],
+   "target": [
+    49,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    4
+   ],
+   "target": [
+    49,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    5
+   ],
+   "target": [
+    49,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    6
+   ],
+   "target": [
+    49,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    7
+   ],
+   "target": [
+    49,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    8
+   ],
+   "target": [
+    49,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    9
+   ],
+   "target": [
+    49,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    10
+   ],
+   "target": [
+    49,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    11
+   ],
+   "target": [
+    49,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    12
+   ],
+   "target": [
+    49,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    13
+   ],
+   "target": [
+    49,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    14
+   ],
+   "target": [
+    49,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    15
+   ],
+   "target": [
+    49,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    16
+   ],
+   "target": [
+    49,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    17
+   ],
+   "target": [
+    49,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    18
+   ],
+   "target": [
+    49,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    19
+   ],
+   "target": [
+    49,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    20
+   ],
+   "target": [
+    49,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    49,
+    21
+   ],
+   "target": [
+    49,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    3
+   ],
+   "target": [
+    51,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    4
+   ],
+   "target": [
+    51,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    5
+   ],
+   "target": [
+    51,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    6
+   ],
+   "target": [
+    51,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    7
+   ],
+   "target": [
+    51,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    8
+   ],
+   "target": [
+    51,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    9
+   ],
+   "target": [
+    51,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    10
+   ],
+   "target": [
+    51,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    11
+   ],
+   "target": [
+    51,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    12
+   ],
+   "target": [
+    51,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    13
+   ],
+   "target": [
+    51,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    14
+   ],
+   "target": [
+    51,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    15
+   ],
+   "target": [
+    51,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    16
+   ],
+   "target": [
+    51,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    17
+   ],
+   "target": [
+    51,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    18
+   ],
+   "target": [
+    51,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    19
+   ],
+   "target": [
+    51,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    20
+   ],
+   "target": [
+    51,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    51,
+    21
+   ],
+   "target": [
+    51,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    3
+   ],
+   "target": [
+    52,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    4
+   ],
+   "target": [
+    52,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    5
+   ],
+   "target": [
+    52,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    6
+   ],
+   "target": [
+    52,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    7
+   ],
+   "target": [
+    52,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    8
+   ],
+   "target": [
+    52,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    9
+   ],
+   "target": [
+    52,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    10
+   ],
+   "target": [
+    52,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    52,
+    11
+   ],
+   "target": [
+    52,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    2
+   ],
+   "target": [
+    53,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    3
+   ],
+   "target": [
+    53,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    4
+   ],
+   "target": [
+    53,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    5
+   ],
+   "target": [
+    53,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    6
+   ],
+   "target": [
+    53,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    53,
+    7
+   ],
+   "target": [
+    53,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    3
+   ],
+   "target": [
+    54,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    4
+   ],
+   "target": [
+    54,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    5
+   ],
+   "target": [
+    54,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    6
+   ],
+   "target": [
+    54,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    7
+   ],
+   "target": [
+    54,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    8
+   ],
+   "target": [
+    54,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    54,
+    9
+   ],
+   "target": [
+    54,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    2
+   ],
+   "target": [
+    55,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    3
+   ],
+   "target": [
+    55,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    4
+   ],
+   "target": [
+    55,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    5
+   ],
+   "target": [
+    55,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    6
+   ],
+   "target": [
+    55,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    7
+   ],
+   "target": [
+    55,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    8
+   ],
+   "target": [
+    55,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    9
+   ],
+   "target": [
+    55,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    10
+   ],
+   "target": [
+    55,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    11
+   ],
+   "target": [
+    55,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    12
+   ],
+   "target": [
+    55,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    13
+   ],
+   "target": [
+    55,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    14
+   ],
+   "target": [
+    55,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    15
+   ],
+   "target": [
+    55,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    16
+   ],
+   "target": [
+    55,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    17
+   ],
+   "target": [
+    55,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    18
+   ],
+   "target": [
+    55,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    19
+   ],
+   "target": [
+    55,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    20
+   ],
+   "target": [
+    55,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    21
+   ],
+   "target": [
+    55,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    22
+   ],
+   "target": [
+    55,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    23
+   ],
+   "target": [
+    55,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    55,
+    24
+   ],
+   "target": [
+    55,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    2
+   ],
+   "target": [
+    56,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    3
+   ],
+   "target": [
+    56,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    4
+   ],
+   "target": [
+    56,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    5
+   ],
+   "target": [
+    56,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    6
+   ],
+   "target": [
+    56,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    7
+   ],
+   "target": [
+    56,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    8
+   ],
+   "target": [
+    56,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    9
+   ],
+   "target": [
+    56,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    10
+   ],
+   "target": [
+    56,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    11
+   ],
+   "target": [
+    56,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    12
+   ],
+   "target": [
+    56,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    13
+   ],
+   "target": [
+    56,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    56,
+    14
+   ],
+   "target": [
+    56,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    2
+   ],
+   "target": [
+    57,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    3
+   ],
+   "target": [
+    57,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    4
+   ],
+   "target": [
+    57,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    5
+   ],
+   "target": [
+    57,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    6
+   ],
+   "target": [
+    57,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    7
+   ],
+   "target": [
+    57,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    8
+   ],
+   "target": [
+    57,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    9
+   ],
+   "target": [
+    57,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    10
+   ],
+   "target": [
+    57,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    11
+   ],
+   "target": [
+    57,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    57,
+    12
+   ],
+   "target": [
+    57,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    2
+   ],
+   "target": [
+    58,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    3
+   ],
+   "target": [
+    58,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    4
+   ],
+   "target": [
+    58,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    5
+   ],
+   "target": [
+    58,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    6
+   ],
+   "target": [
+    58,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    7
+   ],
+   "target": [
+    58,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    8
+   ],
+   "target": [
+    58,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    9
+   ],
+   "target": [
+    58,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    10
+   ],
+   "target": [
+    58,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    11
+   ],
+   "target": [
+    58,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    58,
+    12
+   ],
+   "target": [
+    58,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    2
+   ],
+   "target": [
+    59,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    3
+   ],
+   "target": [
+    59,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    4
+   ],
+   "target": [
+    59,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    5
+   ],
+   "target": [
+    59,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    6
+   ],
+   "target": [
+    59,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    7
+   ],
+   "target": [
+    59,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    8
+   ],
+   "target": [
+    59,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    9
+   ],
+   "target": [
+    59,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    10
+   ],
+   "target": [
+    59,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    11
+   ],
+   "target": [
+    59,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    12
+   ],
+   "target": [
+    59,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    13
+   ],
+   "target": [
+    59,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    14
+   ],
+   "target": [
+    59,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    15
+   ],
+   "target": [
+    59,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    16
+   ],
+   "target": [
+    59,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    17
+   ],
+   "target": [
+    59,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    59,
+    18
+   ],
+   "target": [
+    59,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    3
+   ],
+   "target": [
+    60,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    4
+   ],
+   "target": [
+    60,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    5
+   ],
+   "target": [
+    60,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    6
+   ],
+   "target": [
+    60,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    7
+   ],
+   "target": [
+    60,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    8
+   ],
+   "target": [
+    60,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    9
+   ],
+   "target": [
+    60,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    10
+   ],
+   "target": [
+    60,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    11
+   ],
+   "target": [
+    60,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    12
+   ],
+   "target": [
+    60,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    13
+   ],
+   "target": [
+    60,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    60,
+    14
+   ],
+   "target": [
+    60,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    2
+   ],
+   "target": [
+    61,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    3
+   ],
+   "target": [
+    61,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    4
+   ],
+   "target": [
+    61,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    5
+   ],
+   "target": [
+    61,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    6
+   ],
+   "target": [
+    61,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    7
+   ],
+   "target": [
+    61,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    8
+   ],
+   "target": [
+    61,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    61,
+    9
+   ],
+   "target": [
+    61,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    2
+   ],
+   "target": [
+    62,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    3
+   ],
+   "target": [
+    62,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    4
+   ],
+   "target": [
+    62,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    5
+   ],
+   "target": [
+    62,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    6
+   ],
+   "target": [
+    62,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    7
+   ],
+   "target": [
+    62,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    8
+   ],
+   "target": [
+    62,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    9
+   ],
+   "target": [
+    62,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    10
+   ],
+   "target": [
+    62,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    11
+   ],
+   "target": [
+    62,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    12
+   ],
+   "target": [
+    62,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    62,
+    13
+   ],
+   "target": [
+    62,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    2
+   ],
+   "target": [
+    63,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    3
+   ],
+   "target": [
+    63,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    4
+   ],
+   "target": [
+    63,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    5
+   ],
+   "target": [
+    63,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    6
+   ],
+   "target": [
+    63,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    7
+   ],
+   "target": [
+    63,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    8
+   ],
+   "target": [
+    63,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    9
+   ],
+   "target": [
+    63,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    10
+   ],
+   "target": [
+    63,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    11
+   ],
+   "target": [
+    63,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    63,
+    12
+   ],
+   "target": [
+    63,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    2
+   ],
+   "target": [
+    64,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    3
+   ],
+   "target": [
+    64,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    4
+   ],
+   "target": [
+    64,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    5
+   ],
+   "target": [
+    64,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    6
+   ],
+   "target": [
+    64,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    7
+   ],
+   "target": [
+    64,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    8
+   ],
+   "target": [
+    64,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    9
+   ],
+   "target": [
+    64,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    10
+   ],
+   "target": [
+    64,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    64,
+    11
+   ],
+   "target": [
+    64,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    2
+   ],
+   "target": [
+    65,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    3
+   ],
+   "target": [
+    65,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    4
+   ],
+   "target": [
+    65,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    5
+   ],
+   "target": [
+    65,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    6
+   ],
+   "target": [
+    65,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    7
+   ],
+   "target": [
+    65,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    8
+   ],
+   "target": [
+    65,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    9
+   ],
+   "target": [
+    65,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    10
+   ],
+   "target": [
+    65,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    11
+   ],
+   "target": [
+    65,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    12
+   ],
+   "target": [
+    65,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    13
+   ],
+   "target": [
+    65,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    65,
+    14
+   ],
+   "target": [
+    65,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    2
+   ],
+   "target": [
+    67,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    3
+   ],
+   "target": [
+    67,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    4
+   ],
+   "target": [
+    67,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    5
+   ],
+   "target": [
+    67,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    6
+   ],
+   "target": [
+    67,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    7
+   ],
+   "target": [
+    67,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    67,
+    8
+   ],
+   "target": [
+    67,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    2
+   ],
+   "target": [
+    68,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    3
+   ],
+   "target": [
+    68,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    4
+   ],
+   "target": [
+    68,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    5
+   ],
+   "target": [
+    68,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    6
+   ],
+   "target": [
+    68,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    7
+   ],
+   "target": [
+    68,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    8
+   ],
+   "target": [
+    68,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    9
+   ],
+   "target": [
+    68,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    10
+   ],
+   "target": [
+    68,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    11
+   ],
+   "target": [
+    68,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    12
+   ],
+   "target": [
+    68,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    13
+   ],
+   "target": [
+    68,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    14
+   ],
+   "target": [
+    68,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    15
+   ],
+   "target": [
+    68,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    16
+   ],
+   "target": [
+    68,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    17
+   ],
+   "target": [
+    68,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    18
+   ],
+   "target": [
+    68,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    19
+   ],
+   "target": [
+    68,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    20
+   ],
+   "target": [
+    68,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    21
+   ],
+   "target": [
+    68,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    22
+   ],
+   "target": [
+    68,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    23
+   ],
+   "target": [
+    68,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    24
+   ],
+   "target": [
+    68,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    25
+   ],
+   "target": [
+    68,
+    24
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    26
+   ],
+   "target": [
+    68,
+    25
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    27
+   ],
+   "target": [
+    68,
+    26
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    28
+   ],
+   "target": [
+    68,
+    27
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    29
+   ],
+   "target": [
+    68,
+    28
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    30
+   ],
+   "target": [
+    68,
+    29
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    31
+   ],
+   "target": [
+    68,
+    30
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    32
+   ],
+   "target": [
+    68,
+    31
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    33
+   ],
+   "target": [
+    68,
+    32
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    34
+   ],
+   "target": [
+    68,
+    33
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    35
+   ],
+   "target": [
+    68,
+    34
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    68,
+    36
+   ],
+   "target": [
+    68,
+    35
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    2
+   ],
+   "target": [
+    69,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    3
+   ],
+   "target": [
+    69,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    4
+   ],
+   "target": [
+    69,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    5
+   ],
+   "target": [
+    69,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    6
+   ],
+   "target": [
+    69,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    7
+   ],
+   "target": [
+    69,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    8
+   ],
+   "target": [
+    69,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    9
+   ],
+   "target": [
+    69,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    10
+   ],
+   "target": [
+    69,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    11
+   ],
+   "target": [
+    69,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    12
+   ],
+   "target": [
+    69,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    13
+   ],
+   "target": [
+    69,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    14
+   ],
+   "target": [
+    69,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    15
+   ],
+   "target": [
+    69,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    16
+   ],
+   "target": [
+    69,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    17
+   ],
+   "target": [
+    69,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    18
+   ],
+   "target": [
+    69,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    19
+   ],
+   "target": [
+    69,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    20
+   ],
+   "target": [
+    69,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    21
+   ],
+   "target": [
+    69,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    22
+   ],
+   "target": [
+    69,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    23
+   ],
+   "target": [
+    69,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    24
+   ],
+   "target": [
+    69,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    25
+   ],
+   "target": [
+    69,
+    24
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    26
+   ],
+   "target": [
+    69,
+    25
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    27
+   ],
+   "target": [
+    69,
+    26
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    28
+   ],
+   "target": [
+    69,
+    27
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    29
+   ],
+   "target": [
+    69,
+    28
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    30
+   ],
+   "target": [
+    69,
+    29
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    31
+   ],
+   "target": [
+    69,
+    30
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    32
+   ],
+   "target": [
+    69,
+    31
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    33
+   ],
+   "target": [
+    69,
+    32
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    34
+   ],
+   "target": [
+    69,
+    33
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    35
+   ],
+   "target": [
+    69,
+    34
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    36
+   ],
+   "target": [
+    69,
+    35
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    69,
+    37
+   ],
+   "target": [
+    69,
+    36
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    2
+   ],
+   "target": [
+    70,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    3
+   ],
+   "target": [
+    70,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    4
+   ],
+   "target": [
+    70,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    5
+   ],
+   "target": [
+    70,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    70,
+    6
+   ],
+   "target": [
+    70,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    2
+   ],
+   "target": [
+    75,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    3
+   ],
+   "target": [
+    75,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    4
+   ],
+   "target": [
+    75,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    5
+   ],
+   "target": [
+    75,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    6
+   ],
+   "target": [
+    75,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    7
+   ],
+   "target": [
+    75,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    8
+   ],
+   "target": [
+    75,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    9
+   ],
+   "target": [
+    75,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    10
+   ],
+   "target": [
+    75,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    75,
+    11
+   ],
+   "target": [
+    75,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    2
+   ],
+   "target": [
+    76,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    3
+   ],
+   "target": [
+    76,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    4
+   ],
+   "target": [
+    76,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    5
+   ],
+   "target": [
+    76,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    6
+   ],
+   "target": [
+    76,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    7
+   ],
+   "target": [
+    76,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    8
+   ],
+   "target": [
+    76,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    9
+   ],
+   "target": [
+    76,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    10
+   ],
+   "target": [
+    76,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    11
+   ],
+   "target": [
+    76,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    12
+   ],
+   "target": [
+    76,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    76,
+    13
+   ],
+   "target": [
+    76,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    2
+   ],
+   "target": [
+    77,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    3
+   ],
+   "target": [
+    77,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    4
+   ],
+   "target": [
+    77,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    5
+   ],
+   "target": [
+    77,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    6
+   ],
+   "target": [
+    77,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    7
+   ],
+   "target": [
+    77,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    8
+   ],
+   "target": [
+    77,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    9
+   ],
+   "target": [
+    77,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    10
+   ],
+   "target": [
+    77,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    11
+   ],
+   "target": [
+    77,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    12
+   ],
+   "target": [
+    77,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    13
+   ],
+   "target": [
+    77,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    14
+   ],
+   "target": [
+    77,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    15
+   ],
+   "target": [
+    77,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    16
+   ],
+   "target": [
+    77,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    17
+   ],
+   "target": [
+    77,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    18
+   ],
+   "target": [
+    77,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    19
+   ],
+   "target": [
+    77,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    20
+   ],
+   "target": [
+    77,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    77,
+    21
+   ],
+   "target": [
+    77,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    2
+   ],
+   "target": [
+    80,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    3
+   ],
+   "target": [
+    80,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    4
+   ],
+   "target": [
+    80,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    5
+   ],
+   "target": [
+    80,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    6
+   ],
+   "target": [
+    80,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    7
+   ],
+   "target": [
+    80,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    8
+   ],
+   "target": [
+    80,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    9
+   ],
+   "target": [
+    80,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    10
+   ],
+   "target": [
+    80,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    11
+   ],
+   "target": [
+    80,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    12
+   ],
+   "target": [
+    80,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    13
+   ],
+   "target": [
+    80,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    14
+   ],
+   "target": [
+    80,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    15
+   ],
+   "target": [
+    80,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    16
+   ],
+   "target": [
+    80,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    17
+   ],
+   "target": [
+    80,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    18
+   ],
+   "target": [
+    80,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    19
+   ],
+   "target": [
+    80,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    80,
+    20
+   ],
+   "target": [
+    80,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "sourceOnly",
+   "source": [
+    81,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    2
+   ],
+   "target": [
+    83,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    3
+   ],
+   "target": [
+    83,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    4
+   ],
+   "target": [
+    83,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    5
+   ],
+   "target": [
+    83,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    6
+   ],
+   "target": [
+    83,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    7
+   ],
+   "target": [
+    83,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    8
+   ],
+   "target": [
+    83,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    9
+   ],
+   "target": [
+    83,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    10
+   ],
+   "target": [
+    83,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    11
+   ],
+   "target": [
+    83,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    12
+   ],
+   "target": [
+    83,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    13
+   ],
+   "target": [
+    83,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    14
+   ],
+   "target": [
+    83,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    15
+   ],
+   "target": [
+    83,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    16
+   ],
+   "target": [
+    83,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    17
+   ],
+   "target": [
+    83,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    18
+   ],
+   "target": [
+    83,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    83,
+    19
+   ],
+   "target": [
+    83,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    2
+   ],
+   "target": [
+    84,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    3
+   ],
+   "target": [
+    84,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    4
+   ],
+   "target": [
+    84,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    5
+   ],
+   "target": [
+    84,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    6
+   ],
+   "target": [
+    84,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    7
+   ],
+   "target": [
+    84,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    8
+   ],
+   "target": [
+    84,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    9
+   ],
+   "target": [
+    84,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    10
+   ],
+   "target": [
+    84,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    11
+   ],
+   "target": [
+    84,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    12
+   ],
+   "target": [
+    84,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    84,
+    13
+   ],
+   "target": [
+    84,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    2
+   ],
+   "target": [
+    85,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    3
+   ],
+   "target": [
+    85,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    4
+   ],
+   "target": [
+    85,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    5
+   ],
+   "target": [
+    85,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    6
+   ],
+   "target": [
+    85,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    7
+   ],
+   "target": [
+    85,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    8
+   ],
+   "target": [
+    85,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    9
+   ],
+   "target": [
+    85,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    10
+   ],
+   "target": [
+    85,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    11
+   ],
+   "target": [
+    85,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    12
+   ],
+   "target": [
+    85,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    13
+   ],
+   "target": [
+    85,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    85,
+    14
+   ],
+   "target": [
+    85,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    2
+   ],
+   "target": [
+    88,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    3
+   ],
+   "target": [
+    88,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    4
+   ],
+   "target": [
+    88,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    5
+   ],
+   "target": [
+    88,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    6
+   ],
+   "target": [
+    88,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    7
+   ],
+   "target": [
+    88,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    8
+   ],
+   "target": [
+    88,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    9
+   ],
+   "target": [
+    88,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    10
+   ],
+   "target": [
+    88,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    11
+   ],
+   "target": [
+    88,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    12
+   ],
+   "target": [
+    88,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    13
+   ],
+   "target": [
+    88,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    14
+   ],
+   "target": [
+    88,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    15
+   ],
+   "target": [
+    88,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    16
+   ],
+   "target": [
+    88,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    17
+   ],
+   "target": [
+    88,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    18
+   ],
+   "target": [
+    88,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    88,
+    19
+   ],
+   "target": [
+    88,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "sourceOnly",
+   "source": [
+    89,
+    53
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    2
+   ],
+   "target": [
+    92,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    3
+   ],
+   "target": [
+    92,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    4
+   ],
+   "target": [
+    92,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    5
+   ],
+   "target": [
+    92,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    6
+   ],
+   "target": [
+    92,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    7
+   ],
+   "target": [
+    92,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    8
+   ],
+   "target": [
+    92,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    9
+   ],
+   "target": [
+    92,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    10
+   ],
+   "target": [
+    92,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    11
+   ],
+   "target": [
+    92,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    12
+   ],
+   "target": [
+    92,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    13
+   ],
+   "target": [
+    92,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    14
+   ],
+   "target": [
+    92,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    15
+   ],
+   "target": [
+    92,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    92,
+    16
+   ],
+   "target": [
+    92,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    2
+   ],
+   "target": [
+    102,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    3
+   ],
+   "target": [
+    102,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    4
+   ],
+   "target": [
+    102,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    5
+   ],
+   "target": [
+    102,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    6
+   ],
+   "target": [
+    102,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    7
+   ],
+   "target": [
+    102,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    8
+   ],
+   "target": [
+    102,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    9
+   ],
+   "target": [
+    102,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    10
+   ],
+   "target": [
+    102,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    11
+   ],
+   "target": [
+    102,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    12
+   ],
+   "target": [
+    102,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    13
+   ],
+   "target": [
+    102,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    14
+   ],
+   "target": [
+    102,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    15
+   ],
+   "target": [
+    102,
+    14
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    16
+   ],
+   "target": [
+    102,
+    15
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    17
+   ],
+   "target": [
+    102,
+    16
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    18
+   ],
+   "target": [
+    102,
+    17
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    19
+   ],
+   "target": [
+    102,
+    18
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    20
+   ],
+   "target": [
+    102,
+    19
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    21
+   ],
+   "target": [
+    102,
+    20
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    22
+   ],
+   "target": [
+    102,
+    21
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    23
+   ],
+   "target": [
+    102,
+    22
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    24
+   ],
+   "target": [
+    102,
+    23
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    25
+   ],
+   "target": [
+    102,
+    24
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    26
+   ],
+   "target": [
+    102,
+    25
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    27
+   ],
+   "target": [
+    102,
+    26
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    28
+   ],
+   "target": [
+    102,
+    27
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    102,
+    29
+   ],
+   "target": [
+    102,
+    28
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    2
+   ],
+   "target": [
+    108,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    3
+   ],
+   "target": [
+    108,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    4
+   ],
+   "target": [
+    108,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    5
+   ],
+   "target": [
+    108,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    6
+   ],
+   "target": [
+    108,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    7
+   ],
+   "target": [
+    108,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    8
+   ],
+   "target": [
+    108,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    9
+   ],
+   "target": [
+    108,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    10
+   ],
+   "target": [
+    108,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    11
+   ],
+   "target": [
+    108,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    12
+   ],
+   "target": [
+    108,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    13
+   ],
+   "target": [
+    108,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    108,
+    14
+   ],
+   "target": [
+    108,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    2
+   ],
+   "target": [
+    140,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    3
+   ],
+   "target": [
+    140,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    4
+   ],
+   "target": [
+    140,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    5
+   ],
+   "target": [
+    140,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    6
+   ],
+   "target": [
+    140,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    7
+   ],
+   "target": [
+    140,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    8
+   ],
+   "target": [
+    140,
+    7
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    9
+   ],
+   "target": [
+    140,
+    8
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    10
+   ],
+   "target": [
+    140,
+    9
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    11
+   ],
+   "target": [
+    140,
+    10
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    12
+   ],
+   "target": [
+    140,
+    11
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    13
+   ],
+   "target": [
+    140,
+    12
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    140,
+    14
+   ],
+   "target": [
+    140,
+    13
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    2
+   ],
+   "target": [
+    142,
+    1
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    3
+   ],
+   "target": [
+    142,
+    2
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    4
+   ],
+   "target": [
+    142,
+    3
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    5
+   ],
+   "target": [
+    142,
+    4
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    6
+   ],
+   "target": [
+    142,
+    5
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    7
+   ],
+   "target": [
+    142,
+    6
+   ]
+  },
+  {
+   "book": "PSA",
+   "kind": "superscriptionAsVerse1",
+   "source": [
+    142,
+    8
+   ],
+   "target": [
+    142,
+    7
+   ]
+  },
+  {
+   "book": "ECC",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    17
+   ]
+  },
+  {
+   "book": "ECC",
+   "kind": "targetOnly",
+   "target": [
+    5,
+    20
+   ]
+  },
+  {
+   "book": "ECC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    17
+   ],
+   "target": [
+    5,
+    1
+   ]
+  },
+  {
+   "book": "ECC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    6,
+    1
+   ],
+   "target": [
+    5,
+    20
+   ]
+  },
+  {
+   "book": "SNG",
+   "kind": "targetOnly",
+   "target": [
+    6,
+    13
+   ]
+  },
+  {
+   "book": "SNG",
+   "kind": "sourceOnly",
+   "source": [
+    7,
+    14
+   ]
+  },
+  {
+   "book": "SNG",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    7,
+    14
+   ],
+   "target": [
+    8,
+    1
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "sourceOnly",
+   "source": [
+    8,
+    23
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "targetOnly",
+   "target": [
+    9,
+    21
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "targetOnly",
+   "target": [
+    64,
+    12
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    8,
+    23
+   ],
+   "target": [
+    9,
+    1
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    10,
+    1
+   ],
+   "target": [
+    9,
+    21
+   ]
+  },
+  {
+   "book": "ISA",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    65,
+    1
+   ],
+   "target": [
+    64,
+    12
+   ]
+  },
+  {
+   "book": "JER",
+   "kind": "sourceOnly",
+   "source": [
+    8,
+    23
+   ]
+  },
+  {
+   "book": "JER",
+   "kind": "targetOnly",
+   "target": [
+    9,
+    26
+   ]
+  },
+  {
+   "book": "JER",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    8,
+    23
+   ],
+   "target": [
+    9,
+    1
+   ]
+  },
+  {
+   "book": "JER",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    10,
+    1
+   ],
+   "target": [
+    9,
+    26
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "targetOnly",
+   "target": [
+    20,
+    45
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "targetOnly",
+   "target": [
+    20,
+    46
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "targetOnly",
+   "target": [
+    20,
+    47
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "targetOnly",
+   "target": [
+    20,
+    48
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "targetOnly",
+   "target": [
+    20,
+    49
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    33
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    34
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    35
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    36
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "sourceOnly",
+   "source": [
+    21,
+    37
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    1
+   ],
+   "target": [
+    20,
+    45
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    2
+   ],
+   "target": [
+    20,
+    46
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    3
+   ],
+   "target": [
+    20,
+    47
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    4
+   ],
+   "target": [
+    20,
+    48
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    5
+   ],
+   "target": [
+    20,
+    49
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    33
+   ],
+   "target": [
+    22,
+    1
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    34
+   ],
+   "target": [
+    22,
+    2
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    35
+   ],
+   "target": [
+    22,
+    3
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    36
+   ],
+   "target": [
+    22,
+    4
+   ]
+  },
+  {
+   "book": "EZK",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    21,
+    37
+   ],
+   "target": [
+    22,
+    5
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    31
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    32
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    33
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    35
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    36
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    37
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "targetOnly",
+   "target": [
+    5,
+    31
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "sourceOnly",
+   "source": [
+    6,
+    29
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    31
+   ],
+   "target": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    32
+   ],
+   "target": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    33
+   ],
+   "target": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    1
+   ],
+   "target": [
+    4,
+    35
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    2
+   ],
+   "target": [
+    4,
+    36
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    5,
+    3
+   ],
+   "target": [
+    4,
+    37
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    6,
+    1
+   ],
+   "target": [
+    5,
+    31
+   ]
+  },
+  {
+   "book": "DAN",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    6,
+    29
+   ],
+   "target": [
+    7,
+    1
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    10
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    11
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    24
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    25
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "targetOnly",
+   "target": [
+    11,
+    12
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "sourceOnly",
+   "source": [
+    12,
+    15
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "targetOnly",
+   "target": [
+    13,
+    16
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "sourceOnly",
+   "source": [
+    14,
+    10
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    1
+   ],
+   "target": [
+    1,
+    10
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    2
+   ],
+   "target": [
+    1,
+    11
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    24
+   ],
+   "target": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    25
+   ],
+   "target": [
+    3,
+    2
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    12,
+    1
+   ],
+   "target": [
+    11,
+    12
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    12,
+    15
+   ],
+   "target": [
+    13,
+    1
+   ]
+  },
+  {
+   "book": "HOS",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    14,
+    1
+   ],
+   "target": [
+    13,
+    16
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    28
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    29
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    30
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    31
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    2,
+    32
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    6
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    7
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    8
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    9
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    10
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    11
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    12
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    13
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    14
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    15
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    16
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    17
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    18
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    19
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    20
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "targetOnly",
+   "target": [
+    3,
+    21
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    4
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    5
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    6
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    7
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    8
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    9
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    10
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    11
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    12
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    13
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    14
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    15
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    16
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    17
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    18
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    19
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    20
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    21
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    1
+   ],
+   "target": [
+    2,
+    28
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    2
+   ],
+   "target": [
+    2,
+    29
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    3
+   ],
+   "target": [
+    2,
+    30
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    4
+   ],
+   "target": [
+    2,
+    31
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    5
+   ],
+   "target": [
+    2,
+    32
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    1
+   ],
+   "target": [
+    3,
+    6
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    2
+   ],
+   "target": [
+    3,
+    7
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    3
+   ],
+   "target": [
+    3,
+    8
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    4
+   ],
+   "target": [
+    3,
+    9
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    5
+   ],
+   "target": [
+    3,
+    10
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    6
+   ],
+   "target": [
+    3,
+    11
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    7
+   ],
+   "target": [
+    3,
+    12
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    8
+   ],
+   "target": [
+    3,
+    13
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    9
+   ],
+   "target": [
+    3,
+    14
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    10
+   ],
+   "target": [
+    3,
+    15
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    11
+   ],
+   "target": [
+    3,
+    16
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    12
+   ],
+   "target": [
+    3,
+    17
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    13
+   ],
+   "target": [
+    3,
+    18
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    14
+   ],
+   "target": [
+    3,
+    19
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    15
+   ],
+   "target": [
+    3,
+    20
+   ]
+  },
+  {
+   "book": "JOL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    16
+   ],
+   "target": [
+    3,
+    21
+   ]
+  },
+  {
+   "book": "JON",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    17
+   ]
+  },
+  {
+   "book": "JON",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    11
+   ]
+  },
+  {
+   "book": "JON",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    1
+   ],
+   "target": [
+    1,
+    17
+   ]
+  },
+  {
+   "book": "JON",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    11
+   ],
+   "target": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "MIC",
+   "kind": "sourceOnly",
+   "source": [
+    4,
+    14
+   ]
+  },
+  {
+   "book": "MIC",
+   "kind": "targetOnly",
+   "target": [
+    5,
+    15
+   ]
+  },
+  {
+   "book": "MIC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    4,
+    14
+   ],
+   "target": [
+    5,
+    1
+   ]
+  },
+  {
+   "book": "MIC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    6,
+    1
+   ],
+   "target": [
+    5,
+    15
+   ]
+  },
+  {
+   "book": "NAM",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    15
+   ]
+  },
+  {
+   "book": "NAM",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    14
+   ]
+  },
+  {
+   "book": "NAM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    1
+   ],
+   "target": [
+    1,
+    15
+   ]
+  },
+  {
+   "book": "NAM",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    14
+   ],
+   "target": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    18
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    19
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    20
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "targetOnly",
+   "target": [
+    1,
+    21
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    14
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    15
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    16
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "sourceOnly",
+   "source": [
+    2,
+    17
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    1
+   ],
+   "target": [
+    1,
+    18
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    2
+   ],
+   "target": [
+    1,
+    19
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    3
+   ],
+   "target": [
+    1,
+    20
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    4
+   ],
+   "target": [
+    1,
+    21
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    14
+   ],
+   "target": [
+    3,
+    1
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    15
+   ],
+   "target": [
+    3,
+    2
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    16
+   ],
+   "target": [
+    3,
+    3
+   ]
+  },
+  {
+   "book": "ZEC",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    2,
+    17
+   ],
+   "target": [
+    3,
+    4
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    19
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    20
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    21
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    22
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    23
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "sourceOnly",
+   "source": [
+    3,
+    24
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    4
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    5
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "targetOnly",
+   "target": [
+    4,
+    6
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    19
+   ],
+   "target": [
+    4,
+    1
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    20
+   ],
+   "target": [
+    4,
+    2
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    21
+   ],
+   "target": [
+    4,
+    3
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    22
+   ],
+   "target": [
+    4,
+    4
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    23
+   ],
+   "target": [
+    4,
+    5
+   ]
+  },
+  {
+   "book": "MAL",
+   "kind": "chapterBoundarySplit",
+   "source": [
+    3,
+    24
+   ],
+   "target": [
+    4,
+    6
+   ]
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "source": "grc",
+ "target": "eng",
+ "seededFrom": {
+  "note": "Hand-verified on 2026-10-29 against grctcgnt_usfx.zip (sha256 90ab404f) and eng-kjv_usfx.zip (sha256 72cffd70). TCGNT places the Romans doxology at 14:24-26 where English prints 16:25-27, and splits 3 John 14 into 14-15."
+ },
+ "entries": [
+  {"book": "ROM", "kind": "relocated", "source": [14, 24], "target": [16, 25]},
+  {"book": "ROM", "kind": "relocated", "source": [14, 25], "target": [16, 26]},
+  {"book": "ROM", "kind": "relocated", "source": [14, 26], "target": [16, 27]},
+  {"book": "3JN", "kind": "splitVerse", "source": [1, 14], "target": [1, 14]},
+  {"book": "3JN", "kind": "splitVerse", "source": [1, 15], "target": [1, 14]}
+ ]
+}
