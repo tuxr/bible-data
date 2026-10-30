@@ -59,37 +59,27 @@ enum PackageWriter {
             try database.pragma("journal_mode", "DELETE")
         }
 
-        let compressed = compressedURL(for: destination)
-        let bytes = try Data(contentsOf: destination)
-        try writeAtomically(to: compressed) { try compress(bytes).write(to: $0) }
+        let compressed = try writeCompressed(beside: destination)
 
         let database = try SQLiteDatabase(path: destination.path, mode: .readOnly)
         let rowCounts = try tables.map { table in
             (table.name, try count(in: database, "SELECT count(*) FROM \(table.name)"))
         }
-        return PackageBuildSummary(rowCounts: rowCounts, package: try PackageFile(destination), compressed: try PackageFile(compressed))
+        return PackageBuildSummary(rowCounts: rowCounts, package: try PackageFile(destination), compressed: compressed)
+    }
+
+    /// Writes the `.xz` download beside a finished package and renames it into place.
+    static func writeCompressed(beside package: URL) throws -> PackageFile {
+        let compressed = compressedURL(for: package)
+        let bytes = try Data(contentsOf: package)
+        try writeAtomically(to: compressed) { try compress(bytes).write(to: $0) }
+        return try PackageFile(compressed)
     }
 
     /// The download artifact beside a package. Apple's `COMPRESSION_LZMA` writes an xz container, which
     /// `xz -t` accepts, so the name says xz.
     static func compressedURL(for package: URL) -> URL {
         package.deletingLastPathComponent().appendingPathComponent(package.lastPathComponent + ".xz")
-    }
-
-    /// `yyyy.mm` in UTC, such as `2026.10`.
-    static func version(for date: Date) -> String {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        let parts = calendar.dateComponents([.year, .month], from: date)
-        return String(format: "%04d.%02d", parts.year!, parts.month!)
-    }
-
-    static func isValidVersion(_ version: String) -> Bool {
-        let parts = version.split(separator: ".", omittingEmptySubsequences: false)
-        guard parts.count == 2, parts[0].count == 4, parts[1].count == 2,
-              parts.allSatisfy({ $0.allSatisfy(\.isASCII) && $0.allSatisfy(\.isNumber) }),
-              let month = Int(parts[1]) else { return false }
-        return (1...12).contains(month)
     }
 
     static func compress(_ data: Data) throws -> Data {

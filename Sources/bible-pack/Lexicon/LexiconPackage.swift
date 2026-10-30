@@ -129,8 +129,9 @@ struct LexiconBuild {
         return build
     }
 
-    func tables(builtAt: String) -> [PackageTable] {
+    func tables(version: PackageVersion, builtAt: String) -> [PackageTable] {
         let meta: [(LexiconSchema.MetaKey, String)] = [
+            (.version, version.description),
             (.builtAt, builtAt),
             (.builderVersion, BiblePackVersion.current),
             (.language, language.code),

@@ -1,0 +1,102 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "An existing release tag to build and publish again, such as v2026.10"
+        required: true
+
+# One release at a time, because each merges the manifest the one before it published.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+
+jobs:
+  build:
+    name: Build and validate every package
+    runs-on: macos-latest
+    steps:
+      - name: Version from the tag
+        id: version
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]{4}\.[0-9]{2}(\.[1-9][0-9]{0,2})?$ ]]; then
+            echo "::error::tag $TAG is not v<yyyy.mm> or v<yyyy.mm.n>"
+            exit 1
+          fi
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Select newest Xcode
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+          swift --version
+      - uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-release-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-release-${{ runner.os }}-
+      - name: Build, validate, and write the manifest
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          RELEASE_BASE_URL: ${{ vars.DATA_BASE_URL }}
+        # The tag's commit time stamps every package, so building the same tag again gives the same bytes.
+        run: Tools/release-build.sh "$VERSION" "$(TZ=UTC git show -s --date=format-local:%Y-%m-%dT%H:%M:%SZ --format=%cd HEAD)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  provenance:
+    name: Attach the packages to the GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Create or update the release
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --verify-tag --title "$TAG" \
+              --notes "Packages, downloads, manifest.json, and SHA256SUMS built from $TAG. The source zips are in the source-archive release."
+          fi
+
+  publish:
+    name: Publish to R2
+    needs: [build, provenance]
+    if: ${{ vars.R2_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+          sparse-checkout: Tools
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Upload new packages, then the manifest
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: Tools/publish-r2.sh dist

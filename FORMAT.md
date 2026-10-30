@@ -23,16 +23,17 @@ These rules hold for every file.
 
 ## File names
 
-An edition package is named `<id>-<yyyy.mm>.bible`.
+An edition package is named `<id>-<version>.bible`.
 
 - `<id>` is the edition id, a lowercase short code such as `bsb`, `wlc`, or `tcgnt`.
-- `<yyyy.mm>` is the package version, the year and month of the build.
+- `<version>` is the package version, `<yyyy.mm>[.<n>]`: the year and month of the build, then `.n` for the nth rebuild released in the same month, as in `2026.10`, `2026.10.1`, and `2026.10.2`. `n` runs from 1 to 999 with no leading zero. Versions order by year, month, then `n`, with no `n` first. `PackageVersion` parses and orders them, and `meta.version` holds the same value, so a renamed file is caught.
+- A release tag is `v<version>`, and every package of the release carries that version. A published package never changes, so a second release in a month takes the next `n`.
 
 The download is `<id>-<yyyy.mm>.bible.xz`, the package compressed with Apple's `COMPRESSION_LZMA`. That algorithm writes an xz stream with no integrity check field, which `xz -t` accepts. The app decompresses it with the same framework and accepts the result only if its SHA-256 matches the manifest.
 
-A words package is named `<id>-<yyyy.mm>.words`, after the edition it tags, such as `wlc-2026.10.words`. A lexicon package is named `lexicon-<greek|hebrew>-<yyyy.mm>.lexicon`. Each has an `.xz` download beside it, made the same way.
+A words package is named `<id>-<version>.words`, after the edition it tags, such as `wlc-2026.10.words`. A lexicon package is named `lexicon-<greek|hebrew>-<version>.lexicon`. Each has an `.xz` download beside it, made the same way.
 
-The canon package is named `canon.sqlite`.
+The canon package is published as `canon-<version>.sqlite`, with an `.xz` beside it. The app bundles a copy as `canon.sqlite`.
 
 ### `meta.kind`
 
@@ -61,6 +62,7 @@ Every package's schema inserts a `kind` row into `meta`: `edition`, `words`, `le
 | `format_version` | The format version as a decimal integer. The schema inserts it. |
 | `format_minor` | The additive revision within the format version. The schema inserts it. |
 | `kind` | `edition`. The schema inserts it. |
+| `version` | The package version, as in the file name. |
 | `built_at` | The build time, ISO 8601 in UTC. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
 | `source_lock` | The `sources.lock.json` entry for the edition's source, as JSON with sorted keys. |
@@ -286,7 +288,7 @@ CREATE TABLE notes (
 
 1. `PRAGMA integrity_check` and `PRAGMA foreign_key_check`.
 2. `meta.format_version` and `edition.format_version` equal `PackageFormat.version`.
-3. `edition` has one row, with a known script, a direction that matches it, a known versification, a known chapter encoding, and the `meta.built_at` time.
+3. `edition` has one row, with a known script, a direction that matches it, a known versification, a known chapter encoding, and the `meta.built_at` time, and `meta.version` is a package version.
 4. Every book is defined, its `canon_order` is the canon's, and its chapter count is the scheme's. `edition.canon` lists the books.
 5. `chapters` has every chapter of every book present, and every blob decodes with the named encoding.
 6. Each chapter's `PlainText.verses` equals its `verses` rows, and the verses it prints are the scheme's minus `meta.absent_verses`.
@@ -584,17 +586,18 @@ A book's short name is its SBL Handbook of Style abbreviation, such as `Gen`, `1
 |---|---|
 | `format_version` | `CanonSchema.version` as a decimal integer. The schema inserts it. |
 | `kind` | `canon`. The schema inserts it. |
+| `version` | The package version, as in the published file name. |
 | `built_at` | The build time, ISO 8601 in UTC, such as `2026-10-29T00:00:00Z`. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
 | `versification_attribution` | The STEPBible credit, `Versification.attribution`. The app shows it in About. |
 
 ### Building and accepting
 
-`bible-pack canon build` writes the package. It applies `CanonSchema.ddl` to a fresh file with a 4096-byte page size, inserts every row in one transaction, runs `VACUUM`, and leaves the file in rollback journal mode, so the result is one self-contained file. It writes beside the destination and renames into place, so the destination is never a partial file.
+`bible-pack canon build` writes the package. It applies `CanonSchema.ddl` to a fresh file with a 4096-byte page size, inserts every row in one transaction, runs `VACUUM`, and leaves the file in rollback journal mode, so the result is one self-contained file. It writes beside the destination and renames into place, so the destination is never a partial file, then writes the `.xz` download beside it the same way as an edition package's.
 
-The build is deterministic. Rows go in a fixed order: sections in `Section` order, books in canonical order, aliases by book and then by `lookupNames` order, verse counts by scheme, book, and chapter, and mappings by file and then by entry order. Two builds from the same tables with the same `--built-at` are byte-identical.
+The build is deterministic. Rows go in a fixed order: sections in `Section` order, books in canonical order, aliases by book and then by `lookupNames` order, verse counts by scheme, book, and chapter, and mappings by file and then by entry order. Two builds from the same tables with the same `--version` and `--built-at` are byte-identical, and so are their `.xz` files.
 
-`bible-pack canon validate <path>` is the acceptance check. It opens the file read-only and runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`. It checks `meta`, including `kind`, then compares every table to the `Canon` and `Versification` types row by row. It checks that every verse count is from 1 to 999 and that each scheme's totals match `Versification.counts(for:)`. It exits 1 on the first failure and names the table and the first differing row. A canon package ships only if it passes.
+`bible-pack canon validate <path>` is the acceptance check. It opens the file read-only and runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`. It checks `meta`, including `kind`, then compares every table to the `Canon` and `Versification` types row by row. It checks that every verse count is from 1 to 999 and that each scheme's totals match `Versification.counts(for:)`, and that the `.xz` beside it, when present, decompresses to its bytes. It exits 1 on the first failure and names the table and the first differing row. A canon package ships only if it passes.
 
 `CanonSchema.ddl` holds the schema. A test checks that this block matches it.
 
@@ -668,6 +671,7 @@ A words package carries the word tags of one tagged edition, the WLC or the TCGN
 |---|---|
 | `format_version`, `format_minor` | As in the edition package. The schema inserts them. |
 | `kind` | `words`. The schema inserts it. |
+| `version` | The package version, as in the file name. |
 | `built_at` | The build time, ISO 8601 in UTC. |
 | `builder_version` | The `bible-pack` version that wrote the file. |
 | `edition` | The edition id, such as `wlc`. |
@@ -754,7 +758,7 @@ The build is deterministic. Rows go in by verse id and position, and two builds 
 `bible-pack validate <file>` on a words package runs these checks in order and exits 1 on the first failure.
 
 1. `PRAGMA integrity_check`.
-2. `meta`: `kind` is `words`, the format version, `built_at`, a known tagged `edition`, a 64-hex `edition_source_sha256`, and nonempty `attribution` and `sources` arrays.
+2. `meta`: `kind` is `words`, the format version, `version`, `built_at`, a known tagged `edition`, a 64-hex `edition_source_sha256`, and nonempty `attribution` and `sources` arrays.
 3. Every `verse_id` decodes to a verse of the edition's scheme.
 4. Positions run 1 to n in every verse.
 5. Every `strong` is a stored id of the edition's language.
@@ -830,7 +834,7 @@ The entries are every id in Strong's dictionary, 5,523 Greek and 8,674 Hebrew, p
 ### Validating a lexicon
 
 1. `PRAGMA integrity_check`.
-2. `meta`: `kind` is `lexicon`, the format version, `built_at`, `language` `grc` or `hbo`, and nonempty `attribution` and `sources`.
+2. `meta`: `kind` is `lexicon`, the format version, `version`, `built_at`, `language` `grc` or `hbo`, and nonempty `attribution` and `sources`.
 3. Every `strong` is a stored id of the language.
 4. The ids' text order, the table's order, is their numeric order.
 5. Every `lemma` is nonempty.
@@ -940,7 +944,107 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 
 ## Manifest
 
-`manifest.json` lists every package. Phase 0 step 6 defines it. Its fields are `id`, `kind`, `name`, `language`, `format_version`, `min_app_version`, `size`, `compressed_size`, `sha256`, `url`, and `released`.
+`manifest.json` lists every published package version. The app's Library reads it to list the editions, words packages, and lexicons with their sizes. To install one, the app downloads the entry's `url`, decompresses it, and keeps the result only if its SHA-256 is the entry's `sha256`. `Manifest` decodes and checks the file, and `bible-pack manifest build` writes it. Like the sources lock, it is JSON with sorted keys, two-space indents, and a trailing newline, so one manifest has one byte form.
+
+| Field | Holds |
+|---|---|
+| `manifest_version` | `1`. |
+| `generated_at` | When the manifest was written, ISO 8601 in UTC. A release uses its tag's commit time. |
+| `base_url` | An absolute `https` URL ending in `/`, `https://bible.dws-cloud.com/data/`. |
+| `packages` | One entry per package version. |
+
+Every entry has these fields.
+
+| Field | Holds | From |
+|---|---|---|
+| `id` | `canon`, the edition id, `<edition>-words`, or `lexicon-<greek\|hebrew>`. | `meta` and `edition` |
+| `kind` | `canon`, `edition`, `words`, or `lexicon`. | `meta.kind` |
+| `version` | The package version. | `meta.version` |
+| `format_version` | The package's format version. | `meta.format_version` |
+| `min_app_version` | The oldest app version that opens the package, such as `1.0`. | `manifest/policy.json` |
+| `file` | The package file name. See File names. | `kind`, `id`, and `version` |
+| `url` | The download, `<file>.xz`, relative to `base_url`. | `file` |
+| `size`, `sha256` | The package's size in bytes and SHA-256, lowercase hex. | The package file |
+| `compressed_size`, `compressed_sha256` | The same for the download. | The `.xz` file |
+| `released` | The UTC date of `meta.built_at`, `yyyy-mm-dd`. | `meta.built_at` |
+| `attribution` | The credit lines the app shows, a nonempty array. | `edition.attribution`, `meta.attribution`, or the canon's `meta.versification_attribution` |
+
+An entry carries its kind's fields at the same level.
+
+| Kind | Fields | From |
+|---|---|---|
+| `edition` | `name`, `abbreviation`, `language`, `script`, `direction`, `versification`, `license`, `publisher`, and `source`: `{url, revision, sha256}` | The `edition` row |
+| `words` | `edition`, `language` (`hbo` or `grc`), `edition_source_sha256`, and `sources` | `meta`. `language` is the tagged edition's. |
+| `lexicon` | `language` (`grc` or `hbo`) and `sources` | `meta` |
+| `canon` | None | |
+
+The app installs a words package only beside the edition whose `source.sha256` is the words entry's `edition_source_sha256`, since a words file belongs to exactly the text it was aligned to.
+
+The BSB entry of the 2026.10 build:
+
+```json
+{
+  "abbreviation": "BSB",
+  "attribution": [
+    "Berean Standard Bible, Public Domain, bereanbible.com"
+  ],
+  "compressed_sha256": "256c670477356911c5c2243208983f6117bb40faed020e75ae049072910c908d",
+  "compressed_size": 3249208,
+  "direction": "ltr",
+  "file": "bsb-2026.10.bible",
+  "format_version": 1,
+  "id": "bsb",
+  "kind": "edition",
+  "language": "en",
+  "license": "Public domain",
+  "min_app_version": "1.0",
+  "name": "Berean Standard Bible",
+  "publisher": "Bible Hub",
+  "released": "2026-10-30",
+  "script": "Latn",
+  "sha256": "579b0cc761321417b1f50df869b03511997741804a27bb71e74890e3935934de",
+  "size": 14184448,
+  "source": {
+    "revision": "2026-10-02",
+    "sha256": "f0c56438eb89c98e8f62c5c00461e25cc35b098ad5b179bc350cede759ee5f87",
+    "url": "https://bereanbible.com/bsb_usfm.zip"
+  },
+  "url": "bsb-2026.10.bible.xz",
+  "versification": "eng",
+  "version": "2026.10"
+}
+```
+
+### Rules
+
+- Every field but `min_app_version` comes from the package file: its `meta` and `edition` rows, its bytes, and its `.xz`. Nothing is typed by hand, so the manifest cannot disagree with the files. `manifest build` refuses a file whose name is not the one its `meta` gives.
+- `min_app_version` comes from `manifest/policy.json`, `{"min_app_version": {<kind>: {<format version>: <app version>}}}`. An app version is one to three dot-separated numbers. `ManifestPolicy` parses it, and a package of a kind and format version the policy does not name is refused.
+- Entries go by kind, canon first, then edition, words, and lexicon, then by id, then newest version first. Several versions of one id coexist. The app takes the first entry of an id whose `format_version` it supports and whose `min_app_version` is at most its own version.
+- A published package never changes, and old versions stay published. `manifest build --merge <published manifest>` keeps every published entry whose file is not being built, and replaces the entry of a file that is, which must have the published `sha256`. A rebuilt file with other bytes is refused: the change ships under a new version.
+- A reader ignores fields it does not know and skips an entry whose `kind` it does not know, so an older app keeps reading a newer manifest. `Manifest.unknownKinds` lists what was skipped.
+
+### Validating a manifest
+
+`bible-pack manifest validate <manifest.json>` runs these checks in order. It exits 1 on the first failure and names the check.
+
+1. `schema`: every field the entry's kind requires, with its JSON type, and a `version` that parses.
+2. `manifest_version` is 1, `generated_at` is an ISO 8601 UTC time, and `base_url` is an absolute `https` URL ending in `/`.
+3. `ids`: each id is the one its kind gives, with a valid edition id or a lexicon language.
+4. `files`: each `file` is the name its kind, id, and version give, and each `url` is `<file>.xz`.
+5. `released` is a `yyyy-mm-dd` date, `size` and `compressed_size` are positive, every hash is 64 lowercase hex digits, `attribution` is nonempty, and `min_app_version` is an app version.
+6. `unique`: one entry per id and version. `order`: the order above.
+7. `format_version`: the newest version of each id has a format version from 1 to the kind's current one, `PackageFormat.version` or, for the canon, `CanonSchema.version`.
+
+With `--dist <dir>` it then checks the files in that directory.
+
+1. Every package in the directory is listed.
+2. Each entry has both its package and its download in the directory, or neither. An entry with neither, such as an earlier release's, is skipped.
+3. Each present file's size and SHA-256 are the entry's, for the package and then the download.
+4. Each download decompresses to bytes with the entry's `sha256`.
+
+### Delivery
+
+A release publishes every package and download under `data/` in the R2 bucket `bible-data`, with `Cache-Control: public, max-age=31536000, immutable`, then `manifest.json` with `Cache-Control: public, max-age=300`. An object already at a package's key is skipped when its SHA-256 matches and fails the release when it does not. The same files, the manifest, and `SHA256SUMS` are attached to the release's GitHub release as the provenance archive. [docs/hosting.md](docs/hosting.md) sets up the bucket and its route.
 
 ## Change log
 
@@ -955,3 +1059,4 @@ A reader supports a set of format versions. It opens a package only if `meta.for
 - The sources lock, with file set entries for word and lexicon sources. A file set can be `"redistributable": false` with no archive.
 - `meta.kind` in every package: `edition`, `words`, `lexicon`, and `canon`.
 - The words package and the lexicon package, the `StrongID` stored form, and the alignment rules that build them.
+- `meta.version` in every package, package versions `yyyy.mm.n` for a rebuild in the same month, the published canon name `canon-<version>.sqlite` with an `.xz`, and `manifest.json` with `manifest/policy.json`.

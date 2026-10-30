@@ -54,3 +54,5 @@ jobs:
           pack validate .build/dist/tcgnt-2026.10.words --against-source --lexicon .build/dist/lexicon-greek-2026.10.lexicon
           pack validate .build/dist/lexicon-hebrew-2026.10.lexicon --words .build/dist/wlc-2026.10.words
           pack validate .build/dist/lexicon-greek-2026.10.lexicon --words .build/dist/tcgnt-2026.10.words
+          pack manifest build --dist .build/dist --generated-at 2026-10-30T00:00:00Z
+          pack manifest validate .build/dist/manifest.json --dist .build/dist

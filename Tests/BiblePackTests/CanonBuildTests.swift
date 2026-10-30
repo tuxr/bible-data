@@ -62,7 +62,9 @@ private func scalar(_ database: SQLiteDatabase, _ sql: String, _ values: [SQLite
         let second = try Data(contentsOf: build(in: directory, name: "second.sqlite"))
         #expect(first == second)
         let contents = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
-        #expect(contents == ["first.sqlite", "second.sqlite"])
+        #expect(contents == ["first.sqlite", "first.sqlite.xz", "second.sqlite", "second.sqlite.xz"])
+        #expect(try Data(contentsOf: directory.appending(path: "first.sqlite.xz")) == Data(contentsOf: directory.appending(path: "second.sqlite.xz")))
+        #expect(try PackageWriter.decompress(Data(contentsOf: directory.appending(path: "first.sqlite.xz"))) == first)
     }
 
     @Test func validatePassesAFreshBuildAndNamesATamperedTable() throws {

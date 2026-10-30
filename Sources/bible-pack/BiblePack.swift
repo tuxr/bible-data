@@ -14,7 +14,7 @@ struct BiblePack: AsyncParsableCommand {
         version: BiblePackVersion.current,
         subcommands: [
             SourcesCommand.self, CanonCommand.self, ParseCommand.self, Build.self, BuildWords.self, BuildLexicon.self, Validate.self,
-            Manifest.self,
+            ManifestCommand.self,
         ]
     )
 }

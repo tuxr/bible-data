@@ -1,6 +1,9 @@
 public enum CanonSchema {
     public static let version = 1
 
+    /// The published name. The app bundles the same file as `canon.sqlite`.
+    public static func fileName(version: String) -> String { "canon-\(version).sqlite" }
+
     public static let ddl = """
         CREATE TABLE meta (
           key TEXT PRIMARY KEY NOT NULL,

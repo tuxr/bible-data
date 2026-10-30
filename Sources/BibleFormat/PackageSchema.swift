@@ -22,11 +22,14 @@ public enum PackageSchema {
         case formatVersion = "format_version"
         case formatMinor = "format_minor"
         case kind
+        case version
         case builtAt = "built_at"
         case builderVersion = "builder_version"
         case sourceLock = "source_lock"
         case absentVerses = "absent_verses"
     }
+
+    public static func fileName(id: String, version: String) -> String { "\(id)-\(version).bible" }
 
     /// Every chapter and verse number is below this, so the parts of a verse row id never overlap.
     public static let rowIDPartLimit = 1000
