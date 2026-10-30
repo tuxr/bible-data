@@ -33,6 +33,7 @@ public enum LexiconSchema {
         case formatVersion = "format_version"
         case formatMinor = "format_minor"
         case kind
+        case version
         case builtAt = "built_at"
         case builderVersion = "builder_version"
         case language
