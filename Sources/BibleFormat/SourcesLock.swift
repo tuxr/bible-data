@@ -38,12 +38,23 @@ public struct LockedSource: Codable, Sendable, Hashable {
 
 public enum SourcesLockError: Error, Equatable, CustomStringConvertible {
     case unsupportedVersion(Int)
+    case invalidFileName(String)
 
     public var description: String {
         switch self {
         case .unsupportedVersion(let version):
             "sources lock version \(version) is not supported (expected \(SourcesLock.currentVersion))"
+        case .invalidFileName(let file):
+            "source file name \(file) must be a plain .zip name with letters, digits, '.', '_', or '-'"
         }
+    }
+}
+
+extension LockedSource {
+    // The lock names the path the cache writes to, so a name is one component with a safe alphabet, never a path.
+    public static func isValidFileName(_ file: String) -> Bool {
+        let allowed = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
+        return file.hasSuffix(".zip") && file.count > 4 && !file.hasPrefix(".") && file.allSatisfy(allowed.contains)
     }
 }
 
@@ -63,6 +74,9 @@ public struct SourcesLock: Codable, Sendable, Hashable {
         let lock = try JSONDecoder().decode(SourcesLock.self, from: jsonData)
         guard lock.version == Self.currentVersion else {
             throw SourcesLockError.unsupportedVersion(lock.version)
+        }
+        if let bad = lock.sources.values.map(\.file).first(where: { !LockedSource.isValidFileName($0) }) {
+            throw SourcesLockError.invalidFileName(bad)
         }
         self = lock
     }

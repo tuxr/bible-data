@@ -60,6 +60,21 @@ import Testing
         }
     }
 
+    @Test(arguments: ["../escape.zip", "dir/x.zip", ".hidden.zip", "x.txt", ".zip"])
+    func rejectsFileNamesThatAreNotOnePlainZipName(file: String) {
+        let json = """
+        {"sources": {"x": {"archive": "https://a/x.zip", "bytes": 1, "file": "\(file)", "format": "usfx", "revision": "2026-01-01", "scriptureSha256": "00", "sha256": "00", "url": "https://a/x.zip"}}, "version": 1}
+        """
+        #expect(throws: SourcesLockError.invalidFileName(file)) {
+            try SourcesLock(jsonData: Data(json.utf8))
+        }
+    }
+
+    @Test func acceptsPlainZipNames() {
+        #expect(LockedSource.isValidFileName("hboWLC_usfx.zip"))
+        #expect(LockedSource.isValidFileName("eng-kjv_usfx.zip"))
+    }
+
     @Test func archiveNameCarriesRevisionAndShaPrefix() {
         #expect(SourcesLock.archiveFileName(
             file: "engwebp_usfx.zip",

@@ -109,8 +109,8 @@ extension SourceRequest {
             let formats = SourceFormat.allCases.map(\.rawValue).joined(separator: ", ")
             throw ValidationError("format \(formatName) is not one of \(formats)")
         }
-        guard let url = URL(string: urlString), url.scheme == "https", url.lastPathComponent.hasSuffix(".zip") else {
-            throw ValidationError("source url \(urlString) must be an https URL ending in a .zip file name")
+        guard let url = URL(string: urlString), url.scheme == "https", LockedSource.isValidFileName(url.lastPathComponent) else {
+            throw ValidationError("source url \(urlString) must be an https URL ending in a plain .zip file name")
         }
         return SourceRequest(id: id, format: format, url: url)
     }
