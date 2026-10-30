@@ -12,7 +12,7 @@ struct BiblePack: AsyncParsableCommand {
         commandName: "bible-pack",
         abstract: "Builds the Bible app's canon package, and its scripture packages from locked publisher sources.",
         version: BiblePackVersion.current,
-        subcommands: [SourcesCommand.self, CanonCommand.self, Build.self, Validate.self, Manifest.self]
+        subcommands: [SourcesCommand.self, CanonCommand.self, ParseCommand.self, Build.self, Validate.self, Manifest.self]
     )
 }
 
