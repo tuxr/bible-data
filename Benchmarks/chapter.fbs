@@ -1,0 +1,61 @@
+// The FlatBuffers side of the Phase 0 step 4 chapter codec benchmark. Not a shipped format.
+//
+// The reader walks a chapter front to back, so the items are one vector of fixed-size structs: no vtable
+// lookup and no offset hop per item, which a vector of unions of tables would cost. Strings are spans of
+// one UTF-8 blob, so a run costs no per-string length prefix, terminator, or padding.
+
+namespace BibleBench;
+
+enum ItemKind : ubyte {
+  Block,
+  Heading,
+  Title,
+  Speaker,
+  Verse,
+  Text,
+  NoteCaller,
+  // One of the `a` runs that follow a heading, title, or speaker.
+  LabelRun,
+}
+
+enum BlockKind : ubyte {
+  Paragraph,
+  Flush,
+  Indented,
+  Poetry,
+  RightAligned,
+  Centered,
+  List,
+  BlankLine,
+}
+
+enum NoteKind : ubyte {
+  Footnote,
+  CrossReference,
+  TranslatorNote,
+}
+
+// Field use by kind:
+//   Block       variant = BlockKind, a = level for Poetry and List
+//   Heading     a = run count, b = level
+//   Title       a = run count
+//   Speaker     a = run count
+//   Verse       a = number, b = through or 0
+//   Text        style, a = text offset, b = text length, c = word or 0
+//   LabelRun    as Text
+//   NoteCaller  variant = NoteKind, a = number, b = glyph offset, c = glyph length
+struct Item {
+  kind: ItemKind;
+  variant: ubyte;
+  style: ushort;
+  a: uint;
+  b: uint;
+  c: uint;
+}
+
+table Chapter {
+  items: [Item];
+  text: [ubyte];
+}
+
+root_type Chapter;

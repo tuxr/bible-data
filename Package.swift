@@ -10,6 +10,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
+        // The chapter codec benchmark only; `flatc` 25.12.19 generated Tests/CodecBenchTests/Generated.
+        .package(url: "https://github.com/google/flatbuffers.git", exact: "25.12.19"),
     ],
     targets: [
         .target(
@@ -25,6 +27,10 @@ let package = Package(
         ),
         .testTarget(name: "BibleFormatTests", dependencies: ["BibleFormat"]),
         .testTarget(name: "BiblePackTests", dependencies: ["bible-pack", "BibleFormat"]),
+        .testTarget(
+            name: "CodecBenchTests",
+            dependencies: ["bible-pack", "BibleFormat", .product(name: "FlatBuffers", package: "flatbuffers")]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
