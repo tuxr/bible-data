@@ -565,23 +565,23 @@
       "url": "https://github.com/STEPBible/STEPBible-Data/tree/be4191f0082aeedddb0eff0c02c966292b2bd641"
     },
     "tcgnt": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/grctcgnt_usfx-2026-10-28-90ab404f.zip",
-      "bytes": 966437,
+      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/grctcgnt_usfx-2026-10-31-b8971b0c.zip",
+      "bytes": 995096,
       "file": "grctcgnt_usfx.zip",
       "format": "usfx",
-      "revision": "2026-10-28",
-      "scriptureSha256": "c01295c8ad64e525f7b6d423065f5c9a354826a3a51ebac4d5334521ab13f2f6",
-      "sha256": "90ab404f9cd2e6da8aa4dd67904860569d89727ad5e8c1cbd35ca7077a365b88",
+      "revision": "2026-10-31",
+      "scriptureSha256": "de57c13ebdfcc3c7629c88e32ed45a14e9ed47f643ced37a52fc13eae5744a04",
+      "sha256": "b8971b0c843805463bd27ba6eec9852e77ef0703226a682e0dcf42091f6891f6",
       "url": "https://ebible.org/Scriptures/grctcgnt_usfx.zip"
     },
     "wlc": {
-      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/hboWLC_usfx-2026-10-20-ee9a3f71.zip",
-      "bytes": 2201357,
+      "archive": "https://github.com/tuxr/bible-data/releases/download/source-archive/hboWLC_usfx-2026-10-30-7c7ed8d0.zip",
+      "bytes": 2201363,
       "file": "hboWLC_usfx.zip",
       "format": "usfx",
-      "revision": "2026-10-20",
+      "revision": "2026-10-30",
       "scriptureSha256": "cb4b589cb8b49fb1e8f7932c1f31f3d3470c5717b7e63107a0f30d714a80de1d",
-      "sha256": "ee9a3f713368636ff7417ed23abc1a724706c1e9b84d2d5d8044c8e7f60cf5f0",
+      "sha256": "7c7ed8d01c21ffe2093e477331dc2570b012a2d63f042fb05326e0812f9c6d1b",
       "url": "https://ebible.org/Scriptures/hboWLC_usfx.zip"
     }
   },
